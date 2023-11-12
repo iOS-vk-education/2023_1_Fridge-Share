@@ -13,11 +13,12 @@ final class TabBarController : UITabBarController {
         
         let floorViewController = FloorViewController()
         let floorTabBarItem = UITabBarItem()
-        floorTabBarItem.title = "Dormitory"
         floorTabBarItem.image = UIImage(systemName: "house")
         floorViewController.tabBarItem = floorTabBarItem
         
+        
         let vc1 = UINavigationController(rootViewController: floorViewController)
+//        let vc2 = UINavigationController(rootViewController: OneFloorController())
 
         
         viewControllers = [vc1]
