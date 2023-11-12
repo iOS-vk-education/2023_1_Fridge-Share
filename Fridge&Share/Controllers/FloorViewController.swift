@@ -56,7 +56,7 @@ extension FloorViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = "Floor \(indexPath)"
+        cell.textLabel?.text = "Floor \(indexPath.row)"
         
         return cell
     }
@@ -66,7 +66,7 @@ extension FloorViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destination = OneFloorController()
         navigationController?.pushViewController(destination, animated: true)
-        destination.title = "Floor \(indexPath)"
+        destination.title = "Floor \(indexPath.row)"
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

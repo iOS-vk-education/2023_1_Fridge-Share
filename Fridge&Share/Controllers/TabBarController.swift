@@ -11,7 +11,13 @@ final class TabBarController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vc1 = UINavigationController(rootViewController: FloorViewController())
+        let floorViewController = FloorViewController()
+        let floorTabBarItem = UITabBarItem()
+        floorTabBarItem.title = "Dormitory"
+        floorTabBarItem.image = UIImage(systemName: "house")
+        floorViewController.tabBarItem = floorTabBarItem
+        
+        let vc1 = UINavigationController(rootViewController: floorViewController)
 
         
         viewControllers = [vc1]
