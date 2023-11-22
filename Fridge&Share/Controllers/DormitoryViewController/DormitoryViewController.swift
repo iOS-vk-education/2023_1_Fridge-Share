@@ -7,16 +7,20 @@
 
 import UIKit
 
-final class FloorViewController: UIViewController, UITableViewDelegate {
+final class DormitoryViewController: UIViewController, UITableViewDelegate {
+    private enum Constants {
+        static let title = "Dormitory"
+        static let tableViewCornerRadius: CGFloat = 16
+    }
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Dormitory"
+        title = Constants.title
         
-        view.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.95, alpha: 1.0)
+        view.backgroundColor = .FASBackgroundColor
         
         setTableView()
         
@@ -31,10 +35,10 @@ final class FloorViewController: UIViewController, UITableViewDelegate {
     }
     
     private func setTableView() {
-        tableView.layer.cornerRadius = 16
+        tableView.layer.cornerRadius = Constants.tableViewCornerRadius
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.isScrollEnabled = true
-        tableView.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.95, alpha: 1.0)
+        tableView.backgroundColor = .FASBackgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
@@ -44,7 +48,7 @@ final class FloorViewController: UIViewController, UITableViewDelegate {
     
 }
 
-extension FloorViewController: UITableViewDataSource {
+extension DormitoryViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

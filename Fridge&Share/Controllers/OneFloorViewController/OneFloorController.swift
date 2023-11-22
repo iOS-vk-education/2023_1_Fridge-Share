@@ -8,18 +8,30 @@
 import UIKit
 
 final class OneFloorController: UIViewController {
+    private enum Constants {
+        static let collectionViewInsetTop: CGFloat = 70
+        static let collectionViewInsetLeft: CGFloat = 35
+        static let collectionViewInsetBottom: CGFloat = 10
+        static let collectionViewInsetRight: CGFloat = 35
+        static let collectionViewWidth: CGFloat = 151
+        static let collectionViewHeight: CGFloat = 244
+    }
     private var collectionView: UICollectionView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        view.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.95, alpha: 1.0)
+        view.backgroundColor = .FASBackgroundColor
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 70, left: 35, bottom: 10, right: 35)
-        layout.itemSize = CGSize(width: 151, height: 244)
+        layout.sectionInset = UIEdgeInsets(top: Constants.collectionViewInsetTop,
+                                           left: Constants.collectionViewInsetLeft,
+                                           bottom: Constants.collectionViewInsetBottom,
+                                           right: Constants.collectionViewInsetRight)
+        layout.itemSize = CGSize(width: Constants.collectionViewWidth,
+                                 height: Constants.collectionViewHeight)
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-        collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: "MyCell")
+        collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.getReuseIdentifier())
         view.addSubview(collectionView ?? UICollectionView())
         collectionView?.dataSource = self
         collectionView?.delegate = self
