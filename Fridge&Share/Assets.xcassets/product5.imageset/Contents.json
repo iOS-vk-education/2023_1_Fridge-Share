@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "three-fresh-organic-raw-eggs-isolated-on-white-surface.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "three-fresh-organic-raw-eggs-isolated-on-white-surface-1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "three-fresh-organic-raw-eggs-isolated-on-white-surface-2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

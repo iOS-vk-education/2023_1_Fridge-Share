@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "1691072011_grizly-club-p-kartinki-butilka-vodi-bez-fona-15.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "1691072011_grizly-club-p-kartinki-butilka-vodi-bez-fona-16.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "1691072011_grizly-club-p-kartinki-butilka-vodi-bez-fona-17.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

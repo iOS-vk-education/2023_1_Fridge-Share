@@ -70,7 +70,6 @@ extension DormitoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destination = OneFloorController()
         navigationController?.pushViewController(destination, animated: true)
-        destination.title = "Floor \(indexPath.row)"
-        tableView.deselectRow(at: indexPath, animated: true)
+        destination.title = "Frige \(indexPath.row)"
     }
 }

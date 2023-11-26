@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */; };
+		CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC780122B13D7700032ABF9 /* FridgeViewController.swift */; };
 		DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */; };
 		DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */; };
 		DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewContoller.swift; sourceTree = "<group>"; };
+		CEC780122B13D7700032ABF9 /* FridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FridgeViewController.swift; sourceTree = "<group>"; };
 		DF58E6442AE7E55000FE5ED8 /* Fridge&Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fridge&Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CEC780112B13D74A0032ABF9 /* FridgeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CEC780122B13D7700032ABF9 /* FridgeViewController.swift */,
+				CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */,
+			);
+			path = FridgeViewController;
+			sourceTree = "<group>";
+		};
 		DF58E63B2AE7E55000FE5ED8 = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +155,7 @@
 		DFD7145E2B00F56100B55550 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CEC780112B13D74A0032ABF9 /* FridgeViewController */,
 				DFD7146C2B0E8DFA00B55550 /* TabBarController */,
 				DFD7146A2B0E8DAC00B55550 /* OneFloorViewController */,
 				DFD714692B0E8D9200B55550 /* DormitoryViewController */,
@@ -324,11 +338,13 @@
 				DFD714602B00F59A00B55550 /* DormitoryViewController.swift in Sources */,
 				DFD7146F2B0EA02600B55550 /* Colors.swift in Sources */,
 				DFD714662B01612400B55550 /* OneFloorController.swift in Sources */,
+				CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */,
 				DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */,
 				DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */,
 				DFD714682B01773900B55550 /* ItemCell.swift in Sources */,
 				DFD714622B01585400B55550 /* TabBarController.swift in Sources */,
 				DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */,
+				CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
