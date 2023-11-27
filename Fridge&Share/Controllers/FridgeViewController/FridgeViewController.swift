@@ -7,10 +7,12 @@
 
 import UIKit
 
-final class FridgeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource  {
     
     let products = ["product1", "product2", "product3", "product4", "product5", "product6", "product7", "product8", "product9", "product10", "product11", "product12", "product13", "product14", "product15", "product16", "product17"]
     
+    let productName = ["Печенье овсяное с шоколадом", "Помидоры", "Огурцы", "Молоко", "Яйца", "Яблочный пирог","Бананы","Вода","Клубника","Яблочный пирог","Ананас","Пицца","Вишневый пирог","Сыр", "Творог", "Куриное филе", "Название продукта"]
+    let productExplorationDate = ["13.12.23", "03.12.23", "05.12.23", "30.11.23", "07.01.24", "06.12.23", "30.11.23", "12.11.24", "03.12.23", "05.12.23", "07.01.24", "03.12.23", "05.12.23", "03.12.23", "30.11.23", "13.12.23", "дд.мм.гг"]
     var collectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -31,7 +33,7 @@ final class FridgeViewController: UIViewController, UICollectionViewDataSource, 
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "cell")
-       view.backgroundColor = .FASBackgroundColor
+        view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
 
         
@@ -44,7 +46,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
         return UICollectionViewCell()
         
     }
-    cell.productImageView.image = UIImage(named: products[indexPath.row])
+    cell.productImageView.image = UIImage(named: products[indexPath.item])
     return cell
     }
     
@@ -55,6 +57,13 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width / 3 - 15
         return CGSize(width: width, height: width)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+            let productVC = ProductViewController()
+            productVC.selectedImage = UIImage(named: products[indexPath.row]) // передача выбранной картинки в ProductViewController
+            productVC.caption = productName[indexPath.row] // передача подписи к картинке в ProductViewController
+            productVC.explorationDate = productExplorationDate[indexPath.row]
+            self.navigationController?.pushViewController(productVC, animated: true) // открытие ProductViewController
     }
     
 class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
@@ -77,11 +86,4 @@ class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
 }
-}
-extension FridgeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("User tapped on item \(indexPath.row)")
-        let destination = ProductViewController()
-        navigationController?.pushViewController(destination, animated: true)
-    }
 }
