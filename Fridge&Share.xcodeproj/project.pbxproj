@@ -25,6 +25,11 @@
 		DFD714662B01612400B55550 /* OneFloorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714652B01612400B55550 /* OneFloorController.swift */; };
 		DFD714682B01773900B55550 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714672B01773900B55550 /* ItemCell.swift */; };
 		DFD7146F2B0EA02600B55550 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD7146E2B0EA02600B55550 /* Colors.swift */; };
+		DFD714712B14BC2B00B55550 /* ReusableIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714702B14BC2B00B55550 /* ReusableIdentifier.swift */; };
+		DFD714732B14BE2E00B55550 /* OneFloorC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714722B14BE2E00B55550 /* OneFloorC+Extensions.swift */; };
+		DFD714762B15173C00B55550 /* ProductItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714752B15173C00B55550 /* ProductItem.swift */; };
+		DFD714782B15186200B55550 /* FrigeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714772B15186200B55550 /* FrigeItem.swift */; };
+		DFD7147B2B151AC700B55550 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD7147A2B151AC700B55550 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +72,11 @@
 		DFD714652B01612400B55550 /* OneFloorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneFloorController.swift; sourceTree = "<group>"; };
 		DFD714672B01773900B55550 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		DFD7146E2B0EA02600B55550 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		DFD714702B14BC2B00B55550 /* ReusableIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableIdentifier.swift; sourceTree = "<group>"; };
+		DFD714722B14BE2E00B55550 /* OneFloorC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OneFloorC+Extensions.swift"; sourceTree = "<group>"; };
+		DFD714752B15173C00B55550 /* ProductItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItem.swift; sourceTree = "<group>"; };
+		DFD714772B15186200B55550 /* FrigeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrigeItem.swift; sourceTree = "<group>"; };
+		DFD7147A2B151AC700B55550 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +138,7 @@
 		DF58E6462AE7E55000FE5ED8 /* Fridge&Share */ = {
 			isa = PBXGroup;
 			children = (
+				DFD714742B15172000B55550 /* Model */,
 				DFD7146D2B0E9FC200B55550 /* Extensions */,
 				DFD7145E2B00F56100B55550 /* Controllers */,
 				DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */,
@@ -162,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				CEC780112B13D74A0032ABF9 /* FridgeViewController */,
+				DFD714792B151A8300B55550 /* ProfileViewController */,
 				DFD7146C2B0E8DFA00B55550 /* TabBarController */,
 				DFD7146A2B0E8DAC00B55550 /* OneFloorViewController */,
 				DFD714692B0E8D9200B55550 /* DormitoryViewController */,
@@ -206,8 +218,27 @@
 			isa = PBXGroup;
 			children = (
 				DFD7146E2B0EA02600B55550 /* Colors.swift */,
+				DFD714702B14BC2B00B55550 /* ReusableIdentifier.swift */,
+				DFD714722B14BE2E00B55550 /* OneFloorC+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DFD714742B15172000B55550 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DFD714752B15173C00B55550 /* ProductItem.swift */,
+				DFD714772B15186200B55550 /* FrigeItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DFD714792B151A8300B55550 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DFD7147A2B151AC700B55550 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,6 +373,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFD714602B00F59A00B55550 /* DormitoryViewController.swift in Sources */,
+				DFD714732B14BE2E00B55550 /* OneFloorC+Extensions.swift in Sources */,
+				DFD714712B14BC2B00B55550 /* ReusableIdentifier.swift in Sources */,
 				DFD7146F2B0EA02600B55550 /* Colors.swift in Sources */,
 				DFD714662B01612400B55550 /* OneFloorController.swift in Sources */,
 				CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */,
@@ -353,6 +386,9 @@
 				DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */,
 				CEE6F6712B152BBA0005FF39 /* ProductCellViewController.swift in Sources */,
 				CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */,
+				DFD7147B2B151AC700B55550 /* ProfileViewController.swift in Sources */,
+				DFD714782B15186200B55550 /* FrigeItem.swift in Sources */,
+				DFD714762B15173C00B55550 /* ProductItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
