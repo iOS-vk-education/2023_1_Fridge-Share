@@ -8,9 +8,9 @@
 import Foundation
 
 struct Product {
-    private let name: String
-    private let image: String
-    private let explorationDate: String
+    let name: String
+    let image: String
+    let explorationDate: String
     
     init(name: String, image: String, explorationDate: String) {
         self.name = name

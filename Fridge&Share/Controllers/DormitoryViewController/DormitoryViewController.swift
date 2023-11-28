@@ -60,7 +60,7 @@ extension DormitoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = "Floor \(indexPath.row)"
+        cell.textLabel?.text = "Floor \(indexPath.row + 1)"
         
         return cell
     }
@@ -70,6 +70,7 @@ extension DormitoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destination = OneFloorController()
         navigationController?.pushViewController(destination, animated: true)
-        destination.title = "Frige \(indexPath.row)"
+        destination.title = "Floor \(indexPath.row + 1)"
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

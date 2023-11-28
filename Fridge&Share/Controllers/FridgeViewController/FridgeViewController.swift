@@ -9,10 +9,10 @@ import UIKit
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    let products = ["product17", "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
+    let products = ["product1", "product2", "product3", "product4", "product5", "product6", "product7", "product8", "product9", "product10", "product11", "product12", "product13", "product14", "product15", "product16", "product17"]
     
-    let productName = ["Название продукта", "Хлеб", "Огурцы", "Пельмени", "Рыба", "Масло", "Колбаса", "Молоко", "Салат", "Помидоры", "Молоко"]
-    let productExplorationDate = ["дд.мм.гг", "26.12.23", "28.12.23", "05.02.24", "30.12.23", "07.01.24", "28.12.23", "30.12.23", "29.12.23", "07.01.24", "03.02.24"]
+    let productName = ["Печенье овсяное с шоколадом", "Помидоры", "Огурцы", "Молоко", "Яйца", "Яблочный пирог","Бананы","Вода","Клубника","Яблочный пирог","Ананас","Пицца","Вишневый пирог","Сыр", "Творог", "Куриное филе", "Название продукта"]
+    let productExplorationDate = ["13.12.23", "03.12.23", "05.12.23", "30.11.23", "07.01.24", "06.12.23", "30.11.23", "12.11.24", "03.12.23", "05.12.23", "07.01.24", "03.12.23", "05.12.23", "03.12.23", "30.11.23", "13.12.23", "дд.мм.гг"]
     var collectionView: UICollectionView!
     var searchButton: UIButton!
 
@@ -62,23 +62,28 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(for: ProductCell.self)
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
     }
-
-func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ProductCell
-    else {
-        return UICollectionViewCell()
-        
-    }
-    cell.productImageView.image = UIImage(named: products[indexPath.item])
-    return cell
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reusableIdentifier, for: indexPath) as? ProductCell
+        else {
+            return UICollectionViewCell()
+            
+        }
+        if indexPath.item != listOfProducts.count {
+            cell.productImageView.image = UIImage(named: listOfProducts[indexPath.item].image)
+        } else {
+            cell.productImageView.image = UIImage(named: "product17")
+        }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        return listOfProducts.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -91,12 +96,36 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
             let productVC = ProductViewController()
-        guard let selectedImage = UIImage(named: productName[indexPath.row]) else { return }
-        let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage,caption: productName[indexPath.row],explorationDate: productExplorationDate[indexPath.row])
+            productVC.selectedImage = UIImage(named: products[indexPath.row]) // передача выбранной картинки в ProductViewController
+            productVC.caption = productName[indexPath.row] // передача подписи к картинке в ProductViewController
+            productVC.explorationDate = productExplorationDate[indexPath.row]
+            self.navigationController?.pushViewController(productVC, animated: true) // открытие ProductViewController
+    }
+    
+class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
+   let productImageView = UIImageView(frame: .zero)
+   override init(frame: CGRect){
+        super.init(frame: frame)
+        addSubview(productImageView)
+        productImageView.translatesAutoresizingMaskIntoConstraints = false
+        productImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        productImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        productImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        productImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        productImageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        productImageView.layer.cornerRadius = 20
+        productImageView.layer.masksToBounds = true
+        productImageView.backgroundColor = .white
+    }
 
-           productVC.setModel(viewModel)
-
-           self.navigationController?.pushViewController(productVC, animated: true)// открытие ProductViewController
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
+}
 
+extension FridgeViewController: ProductViewControllerDelegate {
+    func reloadDataForCollection() {
+        collectionView.reloadData()
+    }
+}
