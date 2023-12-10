@@ -16,8 +16,8 @@ final class TabBarController : UITabBarController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tabBarController?.delegate = self
+
+        delegate = self
         
         let dormitoryViewController = DormitoryViewController()
         let dormitoryTabBarItem = UITabBarItem()
@@ -41,11 +41,10 @@ final class TabBarController : UITabBarController {
 }
 
 
-// попытка при нажатии на домик возвращаться именно к общаге и экрану этажей
 extension TabBarController: UITabBarControllerDelegate {
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.title == Constants.titleDormitory {
-            self.navigationController?.popToRootViewController(animated: true)
-        }
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let vc = viewController as? UINavigationController
+        vc?.popToRootViewController(animated: true)
+          return true
     }
 }
