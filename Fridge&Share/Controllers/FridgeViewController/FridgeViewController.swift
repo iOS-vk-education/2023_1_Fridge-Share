@@ -55,8 +55,8 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchButton.bottomAnchor, constant: 20),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
@@ -80,19 +80,23 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
     }
-  
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewSize = collectionView.frame.width - 10
-        let cellSize = collectionViewSize / 3
-        return CGSize(width: cellSize, height: cellSize)
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 50
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
             let productVC = ProductViewController()
-            productVC.setSelectedImage(UIImage(named: products[indexPath.row])!)
-            productVC.setCaption(productName[indexPath.row])
-            productVC.setExplorationDate(productExplorationDate[indexPath.row])
-            self.navigationController?.pushViewController(productVC, animated: true) // открытие ProductViewController
+        guard let selectedImage = UIImage(named: productName[indexPath.row]) else { return }
+        let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage,caption: productName[indexPath.row],explorationDate: productExplorationDate[indexPath.row])
+
+           productVC.setModel(viewModel)
+
+           self.navigationController?.pushViewController(productVC, animated: true)// открытие ProductViewController
     }
 }
 

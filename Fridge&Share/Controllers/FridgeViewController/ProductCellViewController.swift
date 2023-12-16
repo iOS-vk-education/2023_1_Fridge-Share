@@ -22,7 +22,8 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         productImageView.layer.cornerRadius = Constants.cornerRadius
         productImageView.layer.masksToBounds = true
-        productImageView.backgroundColor = .white
+        productImageView.backgroundColor = .lightGray
+
     
         NSLayoutConstraint.activate([
             productImageView.topAnchor.constraint(equalTo: topAnchor),

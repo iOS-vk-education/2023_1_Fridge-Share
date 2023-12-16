@@ -2,10 +2,13 @@ import UIKit
 
 final class ProductViewController: UIViewController, UITextFieldDelegate {
         
+        private let firstTextField = UITextField()
+        private let secondTextField = UITextField()
+        private let imageView = UIImageView()
+        private let commentField = UITextField()
+        private let button = UIButton ()
+    
         private enum Constants {
-            static var selectedImage: UIImage?
-            static var caption: String?
-            static var explorationDate: String? 
             static let title = "Попросить"
             static let placeholder = "Добавить комментарий"
             static let profileCornerRadius: CGFloat = 35
@@ -16,19 +19,24 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             static let width: CGFloat = 100
             static let height: CGFloat = 20
         }
+    struct ProductViewModel {
+        let selectedImage: UIImage
+        let caption: String
+        let explorationDate: String
+    }
             
-        func setSelectedImage(_ image: UIImage) {
-            Constants.selectedImage = image
-        }
-
-        func setCaption(_ caption: String) {
-            Constants.caption = caption
-        }
-
-        func setExplorationDate(_ date: String) {
-            Constants.explorationDate = date
-        }
+    func setModel(_ viewModel: ProductViewModel) {
+        firstTextField.placeholder = viewModel.caption
+        secondTextField.placeholder = viewModel.explorationDate
+        imageView.image = viewModel.selectedImage
+    }
+    
+    private func setupUI(){
         
+        let viewModel = ProductViewModel(selectedImage: imageView.image!, caption: firstTextField.placeholder!, explorationDate: secondTextField.placeholder!)
+        setupViews(viewModel: viewModel)
+        setupConstraints()
+    }
         // Создание основного контейнера для изображения и текстовых полей
         let containerView: UIView = {
             let container = UIView()
@@ -37,58 +45,79 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         }()
         
         // Создание и добавление изображения сверху экрана
-        let imageContainerView:UIImageView = {
-            let img = UIImageView(image: Constants.selectedImage)
-            img.contentMode = .scaleAspectFill
-            img.clipsToBounds = true
-            img.translatesAutoresizingMaskIntoConstraints = false
-            return img
-        }()
+        private func setupViews(viewModel: ProductViewModel) {
+            //imageView = UIImageView(image: viewModel.selectedImage)
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
         
         // Создание текстовых полей
-        let firstTextField:UITextField = {
-            let firstTF = UITextField()
-            firstTF.placeholder = Constants.caption
-            firstTF.textColor = UIColor.systemGray6
-            firstTF.translatesAutoresizingMaskIntoConstraints = false
-            return firstTF
-        }()
-        
-        let secondTextField:UITextField = {
-            let secondTF = UITextField()
-            secondTF.placeholder = Constants.explorationDate
-            secondTF.layer.borderWidth = Constants.borderWidth
-            secondTF.layer.cornerRadius = Constants.cornerRadius
-            secondTF.layer.borderColor = UIColor.green.cgColor
-            secondTF.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-            secondTF.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
-            secondTF.layer.masksToBounds = true
-            secondTF.translatesAutoresizingMaskIntoConstraints = false
-            return secondTF
-        }()
-        
+            //let firstTextField = UITextField()
+            firstTextField.placeholder = viewModel.caption
+            firstTextField.textColor = UIColor.systemGray6
+            
+            //let secondTextField = UITextField()
+            secondTextField.placeholder = viewModel.explorationDate
+            secondTextField.layer.borderWidth = Constants.borderWidth
+            secondTextField.layer.cornerRadius = Constants.cornerRadius
+            secondTextField.layer.borderColor = UIColor.green.cgColor
+            secondTextField.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+            secondTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
+            secondTextField.layer.masksToBounds = true
+            
         // Создание поля для комментария
-        let commentField:UITextField = {
-            let comment = UITextField()
-            comment.placeholder = Constants.placeholder
-            comment.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-            comment.layer.cornerRadius = Constants.cornerRadius
-            comment.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
-            comment.translatesAutoresizingMaskIntoConstraints = false
-            return comment
-        }()
-        
+        //let commentField = UITextField()
+            commentField.placeholder = Constants.placeholder
+            commentField.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+            commentField.layer.cornerRadius = Constants.cornerRadius
+            commentField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
+            
         // Создание и настройка кнопки
-        let button:UIButton = {
-            let but = UIButton(type: .system)
-            but.setTitle(Constants.title, for: .normal)
-            but.setTitleColor(.white, for: .normal)
-            but.backgroundColor = .blue
-            but.frame.size = CGSize(width: Constants.width, height: Constants.height)
-            but.layer.cornerRadius = Constants.cornerRadius
-            but.translatesAutoresizingMaskIntoConstraints = false
-            return but
-        }()
+        //let button = UIButton ()
+            button.setTitle(Constants.title, for: .normal)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = .blue
+            button.frame.size = CGSize(width: Constants.width, height: Constants.height)
+            button.layer.cornerRadius = Constants.cornerRadius
+        }
+    
+        private func setupConstraints(){
+            imageView.translatesAutoresizingMaskIntoConstraints = false;
+            firstTextField.translatesAutoresizingMaskIntoConstraints = false;
+            button.translatesAutoresizingMaskIntoConstraints = false;
+            secondTextField.translatesAutoresizingMaskIntoConstraints = false;
+            commentField.translatesAutoresizingMaskIntoConstraints = false;
+
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 1/2),
+            
+            button.topAnchor.constraint(equalTo: commentField.bottomAnchor, constant: 20),
+            button.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 105),
+            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -105),
+            button.heightAnchor.constraint(equalToConstant: 30),
+            
+            commentField.topAnchor.constraint(equalTo: secondTextField.bottomAnchor, constant: 10),
+            commentField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            commentField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            commentField.heightAnchor.constraint(equalToConstant: 40),
+            
+            firstTextField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            firstTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            firstTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            secondTextField.topAnchor.constraint(equalTo: firstTextField.bottomAnchor, constant: 10),
+            secondTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            secondTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -310),
+            ])
+            
+        }
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -96,7 +125,7 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
                 view.backgroundColor = .FASBackgroundColor
             
                 view.addSubview(containerView)
-                containerView.addSubview(imageContainerView)
+                containerView.addSubview(imageView)
                 containerView.addSubview(firstTextField)
                 containerView.addSubview(secondTextField)
                 containerView.addSubview(commentField)
@@ -104,30 +133,6 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             
                 view.endEditing(true)
             
-            NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: view.topAnchor),
-                containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                imageContainerView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                imageContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                imageContainerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-                imageContainerView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 1/2),
-                button.topAnchor.constraint(equalTo: commentField.bottomAnchor, constant: 20),
-                button.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 105),
-                button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -105),
-                button.heightAnchor.constraint(equalToConstant: 30),
-                commentField.topAnchor.constraint(equalTo: secondTextField.bottomAnchor, constant: 10),
-                commentField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                commentField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                commentField.heightAnchor.constraint(equalToConstant: 40),
-                firstTextField.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: 20),
-                firstTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                firstTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                secondTextField.topAnchor.constraint(equalTo: firstTextField.bottomAnchor, constant: 10),
-                secondTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                secondTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -210)
-            ])
+        }
             
     }
-}
