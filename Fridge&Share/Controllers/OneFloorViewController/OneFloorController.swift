@@ -54,5 +54,7 @@ extension OneFloorController: UICollectionViewDataSource {
 extension OneFloorController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("User tapped on item \(indexPath.row)")
+        let destination = FridgeViewController()
+        navigationController?.pushViewController(destination, animated: true)
     }
 }
