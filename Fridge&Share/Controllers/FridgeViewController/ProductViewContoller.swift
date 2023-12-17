@@ -8,9 +8,28 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         private let commentField = UITextField()
         private let button = UIButton ()
     
-    let button = UIButton(type: .system)
-    let firstTextField = UITextField()
-    let secondTextField = UITextField()
+        private enum Constants {
+            static let title = "Попросить"
+            static let placeholder = "Добавить комментарий"
+            static let profileCornerRadius: CGFloat = 35
+            static let cornerRadius: CGFloat = 10
+            static let borderWidth: CGFloat = 2.0
+            static let screenHeight = UIScreen.main.bounds.height
+            static let imageHeight = screenHeight/3
+            static let width: CGFloat = 100
+            static let height: CGFloat = 20
+        }
+    struct ProductViewModel {
+        let selectedImage: UIImage
+        let caption: String
+        let explorationDate: String
+    }
+            
+    func setModel(_ viewModel: ProductViewModel) {
+        firstTextField.placeholder = viewModel.caption
+        secondTextField.placeholder = viewModel.explorationDate
+        imageView.image = viewModel.selectedImage
+    }
     
     private func setupUI(){
         
@@ -114,13 +133,6 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             
                 view.endEditing(true)
             
-            listOfProducts.append(product)
-            let dialogMessage = UIAlertController(title: "Внимание!", message: "Вы добавили продукт!", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                self.navigationController?.popViewController(animated: true)
-            })
-            dialogMessage.addAction(ok)
-            self.present(dialogMessage, animated: true, completion: nil)
         }
             
     }

@@ -7,8 +7,7 @@
 
 import UIKit
 
-final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
-    
+final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout, ReusableCollectionCell {
     private enum Constants {
         static let cornerRadius: CGFloat = 10.0
     }
