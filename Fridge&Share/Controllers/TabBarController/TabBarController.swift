@@ -17,10 +17,13 @@ final class TabBarController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.delegate = self
+        
         let dormitoryViewController = DormitoryViewController()
         let dormitoryTabBarItem = UITabBarItem()
         dormitoryTabBarItem.image = UIImage(systemName: Constants.iconHouse)
         dormitoryTabBarItem.title = Constants.titleDormitory
+        
         dormitoryViewController.tabBarItem = dormitoryTabBarItem
         
         let profileViewController = ProfileViewController()
@@ -34,5 +37,15 @@ final class TabBarController : UITabBarController {
         
         viewControllers = [vc1, vc2]
         
+    }
+}
+
+
+// попытка при нажатии на домик возвращаться именно к общаге и экрану этажей
+extension TabBarController: UITabBarControllerDelegate {
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item.title == Constants.titleDormitory {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
 }

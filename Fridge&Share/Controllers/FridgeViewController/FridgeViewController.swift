@@ -124,8 +124,9 @@ class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout {
 }
 }
 
-extension FridgeViewController: ProductViewControllerDelegate {
+extension FridgeViewController {
     func reloadDataForCollection() {
+        
         collectionView.reloadData()
     }
 }
