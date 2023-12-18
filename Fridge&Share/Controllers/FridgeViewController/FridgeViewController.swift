@@ -7,12 +7,13 @@
 
 import UIKit
 
-final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     let products = ["product17", "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
     
     let productName = ["Название продукта", "Хлеб", "Огурцы", "Пельмени", "Рыба", "Масло", "Колбаса", "Молоко", "Салат", "Помидоры", "Молоко"]
     let productExplorationDate = ["дд.мм.гг", "26.12.23", "28.12.23", "05.02.24", "30.12.23", "07.01.24", "28.12.23", "30.12.23", "29.12.23", "07.01.24", "03.02.24"]
+    let productOwner = ["ava1", "ava2", "ava3", "ava4"]
     var collectionView: UICollectionView!
     var searchButton: UIButton!
 
@@ -20,14 +21,16 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         setupSearchButton()
         setCollectionView()
+        setCollectionViewLayout()
     }
 
     func setupSearchButton() {
         searchButton = UIButton(type: .system)
         searchButton.setTitle("поиск продуктов по категориям ->", for: .normal)
         searchButton.setTitleColor(.white, for: .normal)
-        searchButton.backgroundColor = .gray
-        searchButton.layer.cornerRadius = 10
+        searchButton.setTitleColor(.black, for: .normal)
+        searchButton.backgroundColor = .systemGray4
+        searchButton.layer.cornerRadius = 15
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         view.addSubview(searchButton)
 
@@ -35,15 +38,15 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         
         NSLayoutConstraint.activate([
             searchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            searchButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 3/4),
-            searchButton.heightAnchor.constraint(equalToConstant: 40),
-            searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
+            searchButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 5/7),
+            searchButton.heightAnchor.constraint(equalToConstant: 50),
+            searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 120)
         ])
     }
     
     @objc func searchButtonTapped() {
     let categoryViewController = CategoriesViewController()
-    present(categoryViewController, animated: true, completion: nil)
+    self.navigationController?.pushViewController(categoryViewController, animated: true)
     }
 
     func setCollectionView() {
@@ -68,26 +71,63 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
 
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ProductCell
-    else {
-        return UICollectionViewCell()
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ProductCell else {
+            return UICollectionViewCell()
+        }
+    if indexPath.item != 0 {
+        let roundViewTag = 100 // произвольный идентификатор для roundView
+        let radius = cell.bounds.size.width / 4
+        if  let roundView = cell.contentView.viewWithTag(roundViewTag) {
+            roundView.frame = CGRect(x: cell.bounds.size.width / 2 - radius,
+                                     y: cell.bounds.size.height - radius,
+                                                   width: 2 * radius,
+                                                   height: 2 * radius)
+        }
+        else {
+            let roundView = UIImageView(frame: CGRect(x: cell.bounds.size.width / 2 - radius,
+                                                    y: cell.bounds.size.height - radius,
+                                                    width: 2 * radius,
+                                                    height: 2 * radius))
+            roundView.backgroundColor = .white
+            roundView.tag = roundViewTag 
+            let imageName = self.productOwner[indexPath.item % self.productOwner.count]
+            roundView.image = UIImage(named: imageName)
+            roundView.layer.cornerRadius = radius
+            roundView.layer.borderWidth = 1.0
+            roundView.layer.borderColor = UIColor.lightGray.cgColor
+            roundView.layer.masksToBounds = true
+            cell.contentView.addSubview(roundView)
+        }
     }
     cell.productImageView.image = UIImage(named: products[indexPath.item])
-    return cell
-    }
+       
+       return cell
+   }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 50
-    }
+    func setCollectionViewLayout() {
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+            let padding: CGFloat = 15 // Отступы между ячейками и от работы к краям.
+            // Используем три отступа между элементами (2 между ячейками и по одному с каждого края).
+            let availableWidth = view.frame.size.width - padding * 4
+            let cellWidth = availableWidth / 4 // ширина для каждой ячейки
+            
+            // Установить размер каждой ячейки
+            layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
+            // Установить минимальные отступы для секций и интервалы между элементами
+            layout.minimumInteritemSpacing = padding
+            layout.minimumLineSpacing = padding*4
+            
+            // Установить отступы секции
+            layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+
+            // Обновить collectionView с новыми параметрами компоновки
+            collectionView.collectionViewLayout = layout
+        }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
             let productVC = ProductViewController()
@@ -95,8 +135,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
         let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage,caption: productName[indexPath.row],explorationDate: productExplorationDate[indexPath.row])
 
            productVC.setModel(viewModel)
-
-           self.navigationController?.pushViewController(productVC, animated: true)// открытие ProductViewController
+        self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
 
