@@ -30,6 +30,11 @@
 		DFD714762B15173C00B55550 /* ProductItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714752B15173C00B55550 /* ProductItem.swift */; };
 		DFD714782B15186200B55550 /* FrigeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714772B15186200B55550 /* FrigeItem.swift */; };
 		DFD7147B2B151AC700B55550 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD7147A2B151AC700B55550 /* ProfileViewController.swift */; };
+		DFD714912B3753A300B55550 /* MyProductsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714902B3753A300B55550 /* MyProductsController.swift */; };
+		DFD714942B37584200B55550 /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714932B37584200B55550 /* RequestsViewController.swift */; };
+		DFD714962B375B8200B55550 /* OneProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714952B375B8200B55550 /* OneProductCell.swift */; };
+		DFD714982B37846300B55550 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714972B37846300B55550 /* RequestCell.swift */; };
+		DFD7149A2B37847200B55550 /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD714992B37847200B55550 /* AnswerCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +82,11 @@
 		DFD714752B15173C00B55550 /* ProductItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItem.swift; sourceTree = "<group>"; };
 		DFD714772B15186200B55550 /* FrigeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrigeItem.swift; sourceTree = "<group>"; };
 		DFD7147A2B151AC700B55550 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		DFD714902B3753A300B55550 /* MyProductsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProductsController.swift; sourceTree = "<group>"; };
+		DFD714932B37584200B55550 /* RequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
+		DFD714952B375B8200B55550 /* OneProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneProductCell.swift; sourceTree = "<group>"; };
+		DFD714972B37846300B55550 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
+		DFD714992B37847200B55550 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +182,8 @@
 		DFD7145E2B00F56100B55550 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DFD714922B37580200B55550 /* RequestsViewController */,
+				DFD7148F2B37537800B55550 /* ListOfMyProductsController */,
 				CEC780112B13D74A0032ABF9 /* FridgeViewController */,
 				DFD714792B151A8300B55550 /* ProfileViewController */,
 				DFD7146C2B0E8DFA00B55550 /* TabBarController */,
@@ -239,6 +251,25 @@
 				DFD7147A2B151AC700B55550 /* ProfileViewController.swift */,
 			);
 			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
+		DFD7148F2B37537800B55550 /* ListOfMyProductsController */ = {
+			isa = PBXGroup;
+			children = (
+				DFD714902B3753A300B55550 /* MyProductsController.swift */,
+				DFD714952B375B8200B55550 /* OneProductCell.swift */,
+			);
+			path = ListOfMyProductsController;
+			sourceTree = "<group>";
+		};
+		DFD714922B37580200B55550 /* RequestsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DFD714932B37584200B55550 /* RequestsViewController.swift */,
+				DFD714972B37846300B55550 /* RequestCell.swift */,
+				DFD714992B37847200B55550 /* AnswerCell.swift */,
+			);
+			path = RequestsViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -373,10 +404,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFD714602B00F59A00B55550 /* DormitoryViewController.swift in Sources */,
+				DFD714982B37846300B55550 /* RequestCell.swift in Sources */,
 				DFD714732B14BE2E00B55550 /* OneFloorC+Extensions.swift in Sources */,
+				DFD7149A2B37847200B55550 /* AnswerCell.swift in Sources */,
+				DFD714962B375B8200B55550 /* OneProductCell.swift in Sources */,
 				DFD714712B14BC2B00B55550 /* ReusableIdentifier.swift in Sources */,
 				DFD7146F2B0EA02600B55550 /* Colors.swift in Sources */,
 				DFD714662B01612400B55550 /* OneFloorController.swift in Sources */,
+				DFD714912B3753A300B55550 /* MyProductsController.swift in Sources */,
 				CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */,
 				DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */,
 				DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */,
@@ -386,6 +421,7 @@
 				DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */,
 				CEE6F6712B152BBA0005FF39 /* ProductCellViewController.swift in Sources */,
 				CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */,
+				DFD714942B37584200B55550 /* RequestsViewController.swift in Sources */,
 				DFD7147B2B151AC700B55550 /* ProfileViewController.swift in Sources */,
 				DFD714782B15186200B55550 /* FrigeItem.swift in Sources */,
 				DFD714762B15173C00B55550 /* ProductItem.swift in Sources */,

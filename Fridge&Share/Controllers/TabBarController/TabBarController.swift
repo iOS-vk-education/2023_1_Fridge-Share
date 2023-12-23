@@ -11,6 +11,7 @@ final class TabBarController : UITabBarController {
     private enum Constants {
         static let iconHouse = "house"
         static let iconPerson = "person"
+        static let iconGlass = "magnifyingglass"
         static let titleDormitory = "Dormitory"
         static let titleProfile = "Profile"
     }
@@ -23,8 +24,9 @@ final class TabBarController : UITabBarController {
         let dormitoryTabBarItem = UITabBarItem()
         dormitoryTabBarItem.image = UIImage(systemName: Constants.iconHouse)
         dormitoryTabBarItem.title = Constants.titleDormitory
-        
         dormitoryViewController.tabBarItem = dormitoryTabBarItem
+        
+        
         
         let profileViewController = ProfileViewController()
         let profileTabBarItem = UITabBarItem()
