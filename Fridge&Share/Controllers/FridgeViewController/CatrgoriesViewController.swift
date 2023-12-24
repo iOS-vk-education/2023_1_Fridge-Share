@@ -78,9 +78,9 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
                 view.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+            headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -90,7 +90,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: - UICollectionViewDataSource
 
     extension CategoriesViewController: UICollectionViewDataSource {
-
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return images.count
         }
@@ -103,14 +102,14 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: - UICollectionViewDelegateFlowLayout
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let padding: CGFloat = 30
+            let padding: CGFloat = 40
             let collectionViewSize = collectionView.frame.size.width - padding
             let cellSize = collectionViewSize / 2
             return CGSize(width: cellSize, height: cellSize)
         }
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 50
+            return 40
         }
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

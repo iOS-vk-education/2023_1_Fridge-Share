@@ -11,11 +11,11 @@
 		CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */; };
 		CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC780122B13D7700032ABF9 /* FridgeViewController.swift */; };
 		CEE6F6712B152BBA0005FF39 /* ProductCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */; };
+		CEFAE49B2B2DE04E0007DF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */; };
 		DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */; };
 		DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */; };
 		DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */; };
 		DF58E64F2AE7E55000FE5ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF58E64D2AE7E55000FE5ED8 /* Main.storyboard */; };
-		DF58E6512AE7E55300FE5ED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF58E6502AE7E55300FE5ED8 /* Assets.xcassets */; };
 		DF58E6542AE7E55300FE5ED8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF58E6522AE7E55300FE5ED8 /* LaunchScreen.storyboard */; };
 		DF58E65F2AE7E55300FE5ED8 /* Fridge_ShareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E65E2AE7E55300FE5ED8 /* Fridge_ShareTests.swift */; };
 		DF58E6692AE7E55300FE5ED8 /* Fridge_ShareUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6682AE7E55300FE5ED8 /* Fridge_ShareUITests.swift */; };
@@ -54,12 +54,12 @@
 		CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewContoller.swift; sourceTree = "<group>"; };
 		CEC780122B13D7700032ABF9 /* FridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FridgeViewController.swift; sourceTree = "<group>"; };
 		CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCellViewController.swift; sourceTree = "<group>"; };
+		CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF58E6442AE7E55000FE5ED8 /* Fridge&Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fridge&Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DF58E64E2AE7E55000FE5ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DF58E6502AE7E55300FE5ED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF58E6532AE7E55300FE5ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF58E6552AE7E55300FE5ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF58E65A2AE7E55300FE5ED8 /* Fridge&ShareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fridge&ShareTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +138,7 @@
 		DF58E6462AE7E55000FE5ED8 /* Fridge&Share */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */,
 				DFD714742B15172000B55550 /* Model */,
 				DFD7146D2B0E9FC200B55550 /* Extensions */,
 				DFD7145E2B00F56100B55550 /* Controllers */,
@@ -145,7 +146,6 @@
 				DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */,
 				DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */,
 				DF58E64D2AE7E55000FE5ED8 /* Main.storyboard */,
-				DF58E6502AE7E55300FE5ED8 /* Assets.xcassets */,
 				DF58E6522AE7E55300FE5ED8 /* LaunchScreen.storyboard */,
 				DF58E6552AE7E55300FE5ED8 /* Info.plist */,
 			);
@@ -346,7 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF58E6542AE7E55300FE5ED8 /* LaunchScreen.storyboard in Resources */,
-				DF58E6512AE7E55300FE5ED8 /* Assets.xcassets in Resources */,
+				CEFAE49B2B2DE04E0007DF17 /* Assets.xcassets in Resources */,
 				DF58E64F2AE7E55000FE5ED8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
