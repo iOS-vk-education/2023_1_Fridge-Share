@@ -90,7 +90,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: - UICollectionViewDataSource
 
     extension CategoriesViewController: UICollectionViewDataSource {
-
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return images.count
         }

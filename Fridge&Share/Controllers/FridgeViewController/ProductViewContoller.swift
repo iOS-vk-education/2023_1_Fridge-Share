@@ -51,11 +51,9 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             imageView.clipsToBounds = true
         
         // Создание текстовых полей
-            //let firstTextField = UITextField()
             firstTextField.placeholder = viewModel.caption
             firstTextField.textColor = UIColor.systemGray6
-            
-            //let secondTextField = UITextField()
+
             secondTextField.placeholder = viewModel.explorationDate
             secondTextField.layer.borderWidth = Constants.borderWidth
             secondTextField.layer.cornerRadius = Constants.cornerRadius
@@ -65,14 +63,12 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             secondTextField.layer.masksToBounds = true
             
         // Создание поля для комментария
-        //let commentField = UITextField()
             commentField.placeholder = Constants.placeholder
             commentField.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
             commentField.layer.cornerRadius = Constants.cornerRadius
             commentField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
             
         // Создание и настройка кнопки
-        //let button = UIButton ()
             button.setTitle(Constants.title, for: .normal)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = .blue

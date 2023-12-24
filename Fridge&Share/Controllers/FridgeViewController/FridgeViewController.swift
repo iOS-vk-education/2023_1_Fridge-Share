@@ -9,6 +9,7 @@ import UIKit
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    
     let products = ["product17", "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
     
     let productName = ["Название продукта", "Хлеб", "Огурцы", "Пельмени", "Рыба", "Масло", "Колбаса", "Молоко", "Салат", "Помидоры", "Молоко"]
@@ -22,6 +23,8 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         setupSearchButton()
         setCollectionView()
         setCollectionViewLayout()
+        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "ProductCell")
+
     }
 
     func setupSearchButton() {
@@ -70,39 +73,15 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         collectionView.backgroundColor = .FASBackgroundColor
     }
 
-func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ProductCell else {
-            return UICollectionViewCell()
-        }
-    if indexPath.item != 0 {
-        let roundViewTag = 100 // произвольный идентификатор для roundView
-        let radius = cell.bounds.size.width / 4
-        if  let roundView = cell.contentView.viewWithTag(roundViewTag) {
-            roundView.frame = CGRect(x: cell.bounds.size.width / 2 - radius,
-                                     y: cell.bounds.size.height - radius,
-                                                   width: 2 * radius,
-                                                   height: 2 * radius)
-        }
-        else {
-            let roundView = UIImageView(frame: CGRect(x: cell.bounds.size.width / 2 - radius,
-                                                    y: cell.bounds.size.height - radius,
-                                                    width: 2 * radius,
-                                                    height: 2 * radius))
-            roundView.backgroundColor = .white
-            roundView.tag = roundViewTag 
-            let imageName = self.productOwner[indexPath.item % self.productOwner.count]
-            roundView.image = UIImage(named: imageName)
-            roundView.layer.cornerRadius = radius
-            roundView.layer.borderWidth = 1.0
-            roundView.layer.borderColor = UIColor.lightGray.cgColor
-            roundView.layer.masksToBounds = true
-            cell.contentView.addSubview(roundView)
-        }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductCell
+        let productImageName = products[indexPath.row]
+        let productOwnerImageName = productOwner[indexPath.row % productOwner.count]
+        let viewModel = ProductCell.ProductCellModel(productImageName: productImageName, productOwnerImageName: productOwnerImageName)
+        cell.setModel(viewModel)
+        
+        return cell
     }
-    cell.productImageView.image = UIImage(named: products[indexPath.item])
-       
-       return cell
-   }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
@@ -113,21 +92,19 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
             let padding: CGFloat = 15 // Отступы между ячейками и от работы к краям.
             // Используем три отступа между элементами (2 между ячейками и по одному с каждого края).
             let availableWidth = view.frame.size.width - padding * 4
-            let cellWidth = availableWidth / 4 // ширина для каждой ячейки
-            
-            // Установить размер каждой ячейки
+            let cellWidth = availableWidth / 4
+        
             layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
 
-            // Установить минимальные отступы для секций и интервалы между элементами
+            // Минимальные отступы для секций и интервалы между элементами
             layout.minimumInteritemSpacing = padding
             layout.minimumLineSpacing = padding*4
-            
-            // Установить отступы секции
+
             layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
 
-            // Обновить collectionView с новыми параметрами компоновки
             collectionView.collectionViewLayout = layout
         }
+        
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
             let productVC = ProductViewController()
