@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class ItemCell: UICollectionViewCell {
+final class ItemCell: UICollectionViewCell, ReusableCollectionCell {
     private enum Constants {
-        static let reuseIdentifier = "MyCell"
         static let frigeIcon = "refrigerator"
     }
+    
     private let fridge: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: Constants.frigeIcon)
@@ -35,9 +35,5 @@ final class ItemCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    static func getReuseIdentifier() -> String {
-        return Constants.reuseIdentifier
     }
 }

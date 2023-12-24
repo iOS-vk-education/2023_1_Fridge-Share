@@ -7,8 +7,27 @@
 
 import UIKit
 
+var listOfProducts : [Product] = [
+    .init(name: "Печенье овсяное с шоколадом", image: "product1", explorationDate: "13.12.23"),
+    .init(name: "Помидоры", image: "product2", explorationDate: "03.12.23"),
+    .init(name: "Огурцы", image: "product3", explorationDate: "05.12.23"),
+    .init(name: "Молоко", image: "product4", explorationDate: "30.11.23"),
+    .init(name: "Яйца", image: "product5", explorationDate: "07.01.24"),
+    .init(name: "Яблочный пирог", image: "product6", explorationDate: "06.12.23"),
+    .init(name: "Бананы", image: "product7", explorationDate: "30.11.23"),
+    .init(name: "Вода", image: "product8", explorationDate: "12.11.24"),
+    .init(name: "Клубника", image: "product9", explorationDate: "03.12.23"),
+    .init(name: "Яблочный пирог", image: "product10", explorationDate: "05.12.23"),
+    .init(name: "Ананас", image: "product11", explorationDate: "07.01.24"),
+    .init(name: "Пицца", image: "product12", explorationDate: "03.12.23"),
+    .init(name: "Вишневый пирог", image: "product13", explorationDate: "05.12.23"),
+    .init(name: "Сыр", image: "product14", explorationDate: "03.12.23"),
+    .init(name: "Творог", image: "product15", explorationDate: "30.11.23"),
+    .init(name: "Куриное филе", image: "product16", explorationDate: "13.12.23"),
+    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
+]
+
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     
     let products = ["product17", "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
     
@@ -68,7 +87,7 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView?.register(for: ProductCell.self)
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
     }
@@ -107,7 +126,7 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-            let productVC = ProductViewController()
+        let productVC = ProductViewController()
         guard let selectedImage = UIImage(named: productName[indexPath.row]) else { return }
         let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage,caption: productName[indexPath.row],explorationDate: productExplorationDate[indexPath.row])
 
@@ -115,4 +134,3 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
-

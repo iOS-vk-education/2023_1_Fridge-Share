@@ -1,11 +1,10 @@
 import UIKit
 
-final class ProductCell: UICollectionViewCell {
-    
+final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayout, ReusableCollectionCell {
     private enum Constants {
         static let cornerRadius: CGFloat = 10.0
-        static let ownerImageSize: CGFloat = 40.0 // Пример размера для изображения владельца
-        static let ownerImageOverlap: CGFloat = 20.0 // Изображение владельца насколько наложится поверх productImageView
+        static let ownerImageSize: CGFloat = 40.0
+        static let ownerImageOverlap: CGFloat = 20.0 
     }
     
     struct ProductCellModel {
