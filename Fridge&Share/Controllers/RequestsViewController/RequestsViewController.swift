@@ -12,6 +12,8 @@ final class RequestsViewController: UIViewController {
         static let myRequestsLabel = "Мои запросы"
         static let myAnswersLabel = "Мои ответы"
         static let tableViewCornerRadius: CGFloat = 16
+        static let requestTableTag = 101
+        static let answerTableTag = 102
     }
     
     private let devider = UIView()
@@ -26,6 +28,18 @@ final class RequestsViewController: UIViewController {
         
         view.backgroundColor = .FASBackgroundColor
         
+        setupUI()
+        
+        view.addSubview(devider)
+        view.addSubview(requestsLabel)
+        view.addSubview(answersLabel)
+        view.addSubview(requestTableView)
+        view.addSubview(answerTableView)
+        
+        setupConstraints()
+    }
+    
+    private func setupUI() {
         requestsLabel.text = Constants.myRequestsLabel
         requestsLabel.textColor = .black
         requestsLabel.font = UIFont(name: "normal", size: 20)
@@ -44,7 +58,7 @@ final class RequestsViewController: UIViewController {
         requestTableView.register(RequestCell.self, forCellReuseIdentifier: "\(RequestCell.self)")
         requestTableView.dataSource = self
         requestTableView.delegate = self
-        requestTableView.tag = 101
+        requestTableView.tag = Constants.requestTableTag
         requestTableView.rowHeight = UITableView.automaticDimension
         
         answerTableView.layer.cornerRadius = Constants.tableViewCornerRadius
@@ -55,18 +69,14 @@ final class RequestsViewController: UIViewController {
         answerTableView.register(AnswerCell.self, forCellReuseIdentifier: "\(AnswerCell.self)")
         answerTableView.dataSource = self
         answerTableView.delegate = self
-        answerTableView.tag = 102
+        answerTableView.tag = Constants.answerTableTag
         answerTableView.rowHeight = UITableView.automaticDimension
 
         devider.backgroundColor = .systemGray
         devider.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(devider)
-        view.addSubview(requestsLabel)
-        view.addSubview(answersLabel)
-        view.addSubview(requestTableView)
-        view.addSubview(answerTableView)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             devider.heightAnchor.constraint(equalToConstant: 1/UIScreen.main.scale),
             devider.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -95,7 +105,7 @@ final class RequestsViewController: UIViewController {
 
 extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.tag == 101 {
+        if tableView.tag == Constants.requestTableTag {
             return 10
         } else {
             return 10
@@ -104,7 +114,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView.tag == 101 {
+        if tableView.tag == Constants.requestTableTag {
             guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
                 return UITableViewCell()
             }

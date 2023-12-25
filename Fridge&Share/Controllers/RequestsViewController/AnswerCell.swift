@@ -11,6 +11,8 @@ final class AnswerCell: UITableViewCell {
     private enum Constants {
         static let iconCheckmark = "checkmark"
         static let iconXmark = "xmark"
+        static let imageCornerRadius: CGFloat = 16
+        static let nameLabelNumberOfLines = 3
     }
     
     var name = UILabel()
@@ -30,12 +32,22 @@ final class AnswerCell: UITableViewCell {
         backgroundColor = .lightGray
         translatesAutoresizingMaskIntoConstraints = false
         
-        image.layer.cornerRadius = 16
+        setupUI()
+        
+        contentView.addSubview(image)
+        contentView.addSubview(stackNameAndDate)
+        contentView.addSubview(buttonStack)
+        
+        setupConstraints()
+    }
+    
+    private func setupUI() {
+        image.layer.cornerRadius = Constants.imageCornerRadius
         image.translatesAutoresizingMaskIntoConstraints = false
         
         name.textColor = .black
         name.font = UIFont(name: "normal", size: 17)
-        name.numberOfLines = 3
+        name.numberOfLines = Constants.nameLabelNumberOfLines
         name.translatesAutoresizingMaskIntoConstraints = false
         
         date.textColor = .lightGray
@@ -43,7 +55,7 @@ final class AnswerCell: UITableViewCell {
         date.translatesAutoresizingMaskIntoConstraints = false
         
         stackNameAndDate.axis = .vertical
-        stackNameAndDate.layer.cornerRadius = 16
+        stackNameAndDate.layer.cornerRadius = Constants.imageCornerRadius
         stackNameAndDate.translatesAutoresizingMaskIntoConstraints = false
         
         stackNameAndDate.addArrangedSubview(name)
@@ -51,26 +63,24 @@ final class AnswerCell: UITableViewCell {
         
         agreeButton.backgroundColor = .lightGreen
         agreeButton.tintColor = .backgroundGreen
-        agreeButton.layer.cornerRadius = 16
+        agreeButton.layer.cornerRadius = Constants.imageCornerRadius
         agreeButton.setImage(UIImage(systemName: Constants.iconCheckmark), for: .normal)
         agreeButton.translatesAutoresizingMaskIntoConstraints = false
         
         disagreeButton.backgroundColor = .lightRed
         disagreeButton.tintColor = .backgroundRed
-        disagreeButton.layer.cornerRadius = 16
+        disagreeButton.layer.cornerRadius = Constants.imageCornerRadius
         disagreeButton.setImage(UIImage(systemName: Constants.iconXmark), for: .normal)
         disagreeButton.translatesAutoresizingMaskIntoConstraints = false
         
         buttonStack.axis = .horizontal
         buttonStack.addArrangedSubview(disagreeButton)
         buttonStack.addArrangedSubview(agreeButton)
-        buttonStack.layer.cornerRadius = 16
+        buttonStack.layer.cornerRadius = Constants.imageCornerRadius
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(image)
-        contentView.addSubview(stackNameAndDate)
-        contentView.addSubview(buttonStack)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             image.widthAnchor.constraint(equalToConstant: 80),
             image.heightAnchor.constraint(equalToConstant: 80),

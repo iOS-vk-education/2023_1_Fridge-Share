@@ -13,6 +13,8 @@ final class ListOfMyProductsController: UIViewController {
     private enum Constants {
         static let tableViewCornerRadius: CGFloat = 16
         static let reusableIdentifier = "OneProductCell"
+        static let buttonCornerRadius: CGFloat = 8
+        static let edgeInsets: CGFloat = 10
     }
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -24,8 +26,11 @@ final class ListOfMyProductsController: UIViewController {
         
         addButton.setTitle("Добавить продукт", for: .normal)
         addButton.backgroundColor = .systemBlue
-        addButton.layer.cornerRadius = 8
-        addButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        addButton.layer.cornerRadius = Constants.buttonCornerRadius
+        addButton.titleEdgeInsets = UIEdgeInsets(top: Constants.edgeInsets,
+                                                 left: Constants.edgeInsets,
+                                                 bottom: Constants.edgeInsets,
+                                                 right: Constants.edgeInsets)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         setTableView()
@@ -70,7 +75,6 @@ extension ListOfMyProductsController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(OneProductCell.self)", for: indexPath) as? OneProductCell else {
-            print("blinb(")
             return UITableViewCell()
         }
         

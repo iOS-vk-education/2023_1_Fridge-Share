@@ -80,14 +80,10 @@ final class ProfileViewController: UIViewController {
     }()
     
     let floorLabel: UILabel = {
-//        let label = PaddingLabel()
         let label = UILabel()
         label.text = "floor 23"
         label.textColor = .black
         label.font = UIFont(name: "normal", size: 17)
-//        label.layer.borderWidth = Constants.borderWidth
-//        label.layer.cornerRadius = Constants.cornerRadius
-//        label.edgeInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -113,7 +109,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(profileAddPhotoButton)
         view.addSubview(nameLabel)
         view.addSubview(floorLabel)
-//        view.addSubview(changeButton)
         view.addSubview(tableView)
         
         setTableView()
@@ -127,15 +122,10 @@ final class ProfileViewController: UIViewController {
             nameLabel.topAnchor.constraint(equalTo: profileAddPhotoButton.bottomAnchor, constant: 20),
             floorLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
             floorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            floorLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-//            floorLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: floorLabel.bottomAnchor, constant: 40),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//            changeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
-//            changeButton.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-//            changeButton.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor)
         ])
     }
     

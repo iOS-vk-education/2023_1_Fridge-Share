@@ -8,6 +8,10 @@
 import UIKit
 
 final class RequestCell: UITableViewCell {
+    private enum Constants {
+        static let imageCornerRadius: CGFloat = 16
+        static let nameLabelNumberOfLines = 3
+    }
     var name = UILabel()
     var image = UIImageView(frame: .zero)
     var date = UILabel()
@@ -19,12 +23,21 @@ final class RequestCell: UITableViewCell {
         
         translatesAutoresizingMaskIntoConstraints = false
         
-        image.layer.cornerRadius = 16
+        setupUI()
+        
+        contentView.addSubview(image)
+        contentView.addSubview(stack)
+        
+        setupConstraints()
+    }
+    
+    private func setupUI() {
+        image.layer.cornerRadius = Constants.imageCornerRadius
         image.translatesAutoresizingMaskIntoConstraints = false
         
         name.textColor = .black
         name.font = UIFont(name: "normal", size: 17)
-        name.numberOfLines = 3
+        name.numberOfLines = Constants.nameLabelNumberOfLines
         name.translatesAutoresizingMaskIntoConstraints = false
         
         date.textColor = .lightGray
@@ -32,15 +45,14 @@ final class RequestCell: UITableViewCell {
         date.translatesAutoresizingMaskIntoConstraints = false
         
         stack.axis = .vertical
-        stack.layer.cornerRadius = 16
+        stack.layer.cornerRadius = Constants.imageCornerRadius
         stack.translatesAutoresizingMaskIntoConstraints = false
         
         stack.addArrangedSubview(name)
         stack.addArrangedSubview(date)
-        
-        contentView.addSubview(image)
-        contentView.addSubview(stack)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             image.widthAnchor.constraint(equalToConstant: 80),
             image.heightAnchor.constraint(equalToConstant: 80),
