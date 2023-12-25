@@ -127,10 +127,11 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let productVC = ProductViewController()
-        guard let selectedImage = UIImage(named: productName[indexPath.row]) else { return }
-        let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage,caption: productName[indexPath.row],explorationDate: productExplorationDate[indexPath.row])
-
-           productVC.setModel(viewModel)
+        guard let selectedImage = UIImage(named: products[indexPath.row]) else { return }
+        let productNameString = productName[indexPath.row]
+        let productDate = productExplorationDate[indexPath.row]
+        let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+        productVC.setModel(viewModel)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
