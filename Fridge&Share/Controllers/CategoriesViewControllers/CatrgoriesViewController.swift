@@ -116,3 +116,4 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             return 10
         }
     }
+

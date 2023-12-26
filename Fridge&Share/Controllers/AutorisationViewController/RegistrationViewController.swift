@@ -1,0 +1,111 @@
+//
+//  RegistrationViewController.swift
+//  Fridge&Share
+//
+//  Created by User on 26.12.2023.
+//
+
+import UIKit
+
+final class RegistrationViewController: UIViewController {
+    
+    private var logoImageView = UIImageView()
+    private var loginTextField = UITextField()
+    private var passwordTextField = UITextField()
+    private var registerButton = UIButton()
+    
+    private enum Constants {
+        static let logoImageViewTopOffset: CGFloat = 215.0
+        static let logoImageViewScale: CGFloat = 1.3
+
+        static let textFieldsTopOffset: CGFloat = 150.0
+        static let textFieldsSpacing: CGFloat = 20.0
+        static let textFieldsWidthMultiplier: CGFloat = 0.75
+        static let textFieldsHeight: CGFloat = 60.0
+
+        static let registerButtonTopOffset: CGFloat = 30.0
+        static let registerButtonWidth: CGFloat = 210.0
+        static let registerButtonHeight: CGFloat = 50.0
+
+        static let generalSpacing: CGFloat = 10.0
+        
+        static let cornerRadius: CGFloat = 15.0
+        static let borderWidth: CGFloat = 1.0
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .FASBackgroundColor
+        setupUI()
+        setupConstraints()
+    }
+    
+    @objc private func handleRegistration() {
+        let NSViewController = NameSurnameViewController()
+        navigationController?.pushViewController(NSViewController, animated: true)
+    }
+    private func setupUI() {
+        
+        logoImageView = UIImageView(image: UIImage(named: "Logo"))
+        logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
+                
+        loginTextField = UITextField()
+        loginTextField.placeholder = "Логин"
+        loginTextField.textColor = .systemBlue
+        loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
+        loginTextField.layer.borderWidth = Constants.borderWidth
+        loginTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
+        loginTextField.layer.cornerRadius = Constants.cornerRadius
+        loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.generalSpacing, height: 0))
+        loginTextField.leftViewMode = .always
+                
+        passwordTextField = UITextField()
+        passwordTextField.placeholder = "Пароль"
+        passwordTextField.textColor = .systemBlue
+        passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
+        passwordTextField.layer.borderWidth = Constants.borderWidth
+        passwordTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
+        passwordTextField.layer.cornerRadius = Constants.cornerRadius
+        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.generalSpacing, height: 0))
+        passwordTextField.leftViewMode = .always
+                
+        registerButton = UIButton()
+        registerButton.setTitleColor(.white, for: .normal)
+        registerButton.backgroundColor = .systemBlue
+        registerButton.setTitle("Зарегистрироваться", for: .normal)
+        registerButton.layer.cornerRadius = Constants.cornerRadius
+        registerButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+        
+        view.addSubview(logoImageView)
+        view.addSubview(loginTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(registerButton)
+    }
+        private func setupConstraints() {
+            
+            logoImageView.translatesAutoresizingMaskIntoConstraints = false
+            loginTextField.translatesAutoresizingMaskIntoConstraints = false
+            passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+            registerButton.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.logoImageViewTopOffset),
+    
+                loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Constants.textFieldsTopOffset),
+                loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
+                loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
+                                    
+                passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: Constants.textFieldsSpacing),
+                passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
+                passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
+                                    
+                registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
+                registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
+                registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
+            ])
+        }
+}

@@ -24,7 +24,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleIdentifier</key>
-	<string></string>
+	<string>-.Fridge-Share</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please allow access.</string>
 </dict>

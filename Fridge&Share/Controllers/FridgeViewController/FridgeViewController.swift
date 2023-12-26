@@ -40,13 +40,14 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
 
     func setupSearchButton() {
+
         searchButton = UIButton(type: .system)
-        searchButton.setTitle("поиск продуктов по категориям ->", for: .normal)
+        searchButton.setTitle("Добавить продукт", for: .normal)
         searchButton.setTitleColor(.white, for: .normal)
-        searchButton.setTitleColor(.black, for: .normal)
-        searchButton.backgroundColor = .systemGray4
+        searchButton.backgroundColor = UIColor.systemBlue
         searchButton.layer.cornerRadius = 15
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+
         view.addSubview(searchButton)
 
         searchButton.translatesAutoresizingMaskIntoConstraints = false
@@ -60,8 +61,19 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     @objc func searchButtonTapped() {
-    let categoryViewController = CategoriesViewController()
-    self.navigationController?.pushViewController(categoryViewController, animated: true)
+        let productVC = ProductViewController()
+           
+           guard !listOfProducts.isEmpty,
+                 let selectedImage = UIImage(named: listOfProducts[0].image) else {
+               return
+           }
+           let productNameString = listOfProducts[0].name
+           let productDate = listOfProducts[0].explorationDate
+
+           let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+
+           productVC.setModel(viewModel)
+           self.navigationController?.pushViewController(productVC, animated: true)
     }
 
     func setCollectionView() {
@@ -91,7 +103,9 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         let productOwnerImageName = productOwner[indexPath.row % productOwner.count]
         let viewModel = ProductCell.ProductCellModel(productImageName: productImageName, productOwnerImageName: productOwnerImageName)
         cell.setModel(viewModel)
-        
+
+        cell.productOwnerImageView.isHidden = indexPath.row == 0
+
         return cell
     }
     
