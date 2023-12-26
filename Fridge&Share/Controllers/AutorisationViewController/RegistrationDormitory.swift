@@ -10,15 +10,34 @@ import UIKit
 final class RegistrationDormitoryViewController: UIViewController {
     
     
-    private var label: UILabel!
-    private var eduTextField: UITextField!
-    private var dormTextField: UITextField!
-    private var loginButton: UIButton!
-    private var registrationPromptButton: UIButton!
+    private var label = UILabel()
+    private var eduTextField = UITextField()
+    private var dormTextField = UITextField()
+    private var loginButton = UIButton()
+    private var registrationPromptButton = UIButton()
 
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
+        
+        static let labelTopOffset: CGFloat = 215.0
+        static let labelWidth: CGFloat = 270.0
+        static let labelMinimumHeight: CGFloat = 80.0
+        
+        static let textFieldTopOffset: CGFloat = 150.0
+        static let textFieldWidthMultiplier: CGFloat = 0.75
+        static let textFieldHeight: CGFloat = 60.0
+        
+        static let betweenTextFieldsOffset: CGFloat = 20.0
+        
+        static let loginButtonTopOffset: CGFloat = 30.0
+        static let loginButtonSize: CGFloat = 50.0
+        
+        static let registrationPromptButtonTopOffset: CGFloat = 10.0
+        static let registrationPromptButtonWidth: CGFloat = 200.0
+        static let registrationPromptButtonMinimumHeight: CGFloat = 100.0
+        
+        static let leftViewWidth: CGFloat = 10
     }
     
     override func viewDidLoad() {
@@ -55,7 +74,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.layer.borderWidth = Constants.borderWidth
         eduTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         eduTextField.layer.cornerRadius = Constants.cornerRadius
-        eduTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        eduTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         eduTextField.leftViewMode = .always
                 
         dormTextField = UITextField()
@@ -65,7 +84,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         dormTextField.layer.borderWidth = Constants.borderWidth
         dormTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         dormTextField.layer.cornerRadius = Constants.cornerRadius
-        dormTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        dormTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         dormTextField.leftViewMode = .always
                 
         loginButton = UIButton()
@@ -101,29 +120,29 @@ final class RegistrationDormitoryViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 215),
-            label.widthAnchor.constraint(equalToConstant: 270),
-            label.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
-                    
-            eduTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 150),
-            eduTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
+            label.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
+            label.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
+                                
+            eduTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Constants.textFieldTopOffset),
+            eduTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             eduTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            eduTextField.heightAnchor.constraint(equalToConstant: 60),
-                    
-            dormTextField.topAnchor.constraint(equalTo: eduTextField.bottomAnchor, constant: 20),
-            dormTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            eduTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+                                
+            dormTextField.topAnchor.constraint(equalTo: eduTextField.bottomAnchor, constant: Constants.betweenTextFieldsOffset),
+            dormTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             dormTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dormTextField.heightAnchor.constraint(equalToConstant: 60),
-                    
-            loginButton.topAnchor.constraint(equalTo: dormTextField.bottomAnchor, constant: 30),
+            dormTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+                                
+            loginButton.topAnchor.constraint(equalTo: dormTextField.bottomAnchor, constant: Constants.loginButtonTopOffset),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginButton.widthAnchor.constraint(equalToConstant: 50),
-            loginButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
+            loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),
+            loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonSize),
+                        
+            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
             registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registrationPromptButton.widthAnchor.constraint(equalToConstant: 200),
-            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 100)
+            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
+            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
         ])
     }
     

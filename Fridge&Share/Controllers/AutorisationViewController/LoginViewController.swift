@@ -11,15 +11,32 @@ class LoginViewController: UIViewController {
     
     var loginDidSucceed: (() -> Void)?
     
-    private var logoImageView: UIImageView!
-    private var loginTextField: UITextField!
-    private var passwordTextField: UITextField!
-    private var loginButton: UIButton!
-    private var registrationPromptButton: UIButton!
+    private var logoImageView = UIImageView()
+    private var loginTextField = UITextField()
+    private var passwordTextField = UITextField()
+    private var loginButton = UIButton()
+    private var registrationPromptButton = UIButton()
     
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
+        
+        static let logoImageViewScale: CGFloat = 1.3
+        static let textFieldHeight: CGFloat = 60.0
+        static let buttonCornerRadius: CGFloat = 15.0
+        static let leftViewWidth: CGFloat = 10
+        
+        static let loginButtonWidth: CGFloat = 160
+        static let loginButtonHeight: CGFloat = 50
+        
+        static let textFieldWidthMultiplier: CGFloat = 0.75
+        static let registrationButtonWidthMultiplier: CGFloat = 0.9
+        static let registrationButtonMinHeight: CGFloat = 40.0
+        static let textFieldsTopConstraint: CGFloat = 150.0
+        static let textFieldSpacing: CGFloat = 20.0
+        static let buttonTopConstraint: CGFloat = 30.0
+        static let registrationButtonTopConstraint: CGFloat = 20.0
+        static let logoImageCenterYOffset: CGFloat = 215.0
     }
 
     override func viewDidLoad() {
@@ -41,7 +58,7 @@ class LoginViewController: UIViewController {
     private func setupUI() {
         
         logoImageView = UIImageView(image: UIImage(named: "Logo"))
-        logoImageView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
         loginTextField = UITextField()
         loginTextField.placeholder = "Логин"
@@ -50,7 +67,7 @@ class LoginViewController: UIViewController {
         loginTextField.layer.borderWidth = Constants.borderWidth
         loginTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         loginTextField.layer.cornerRadius = Constants.cornerRadius
-        loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         loginTextField.leftViewMode = .always
                 
         passwordTextField = UITextField()
@@ -60,7 +77,7 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.borderWidth = Constants.borderWidth
         passwordTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         passwordTextField.layer.cornerRadius = Constants.cornerRadius
-        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         passwordTextField.leftViewMode = .always
                 
         loginButton = UIButton()
@@ -95,28 +112,28 @@ class LoginViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 215),
+            logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.logoImageCenterYOffset),
                     
-            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 150),
-            loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Constants.textFieldsTopConstraint),
+            loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginTextField.heightAnchor.constraint(equalToConstant: 60),
+            loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
                     
-            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 20),
-            passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: Constants.textFieldSpacing),
+            passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 60),
+            passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
                     
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.buttonTopConstraint),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginButton.widthAnchor.constraint(equalToConstant: 160),
-            loginButton.heightAnchor.constraint(equalToConstant: 50),
+            loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonWidth),
+            loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonHeight),
             
-            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
+            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationButtonTopConstraint),
             registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registrationPromptButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            registrationPromptButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.registrationButtonWidthMultiplier),
 
-            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40)
+            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationButtonMinHeight)
         ])
     }
     

@@ -9,14 +9,30 @@ import UIKit
 
 final class NameSurnameViewController: UIViewController {
     
-    private var label: UILabel!
-    private var nameTextField: UITextField!
-    private var surnameTextField: UITextField!
-    private var registerButton: UIButton!
+    private var label = UILabel()
+    private var nameTextField = UITextField()
+    private var surnameTextField = UITextField()
+    private var registerButton = UIButton()
     
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
+        static let leftViewWidth: CGFloat = 10
+        
+        static let labelTopOffset: CGFloat = 215.0
+        static let labelWidth: CGFloat = 270.0
+        static let labelMinimumHeight: CGFloat = 60.0
+        
+        static let nameTextFieldTopOffset: CGFloat = 150.0
+        
+        static let textFieldWidthMultiplier: CGFloat = 0.75
+        static let textFieldHeight: CGFloat = 60.0
+                
+        static let surnameTextFieldTopOffset: CGFloat = 20.0
+                
+        static let registerButtonTopOffset: CGFloat = 30.0
+        static let registerButtonWidth: CGFloat = 210.0
+        static let registerButtonHeight: CGFloat = 50.0
     }
     
     @objc private func handleRegistration() {
@@ -47,7 +63,7 @@ final class NameSurnameViewController: UIViewController {
         nameTextField.layer.borderWidth = Constants.borderWidth
         nameTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         nameTextField.layer.cornerRadius = Constants.cornerRadius
-        nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         nameTextField.leftViewMode = .always
                 
         surnameTextField = UITextField()
@@ -57,7 +73,7 @@ final class NameSurnameViewController: UIViewController {
         surnameTextField.layer.borderWidth = Constants.borderWidth
         surnameTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         surnameTextField.layer.cornerRadius = Constants.cornerRadius
-        surnameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        surnameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         surnameTextField.leftViewMode = .always
                 
         registerButton = UIButton()
@@ -81,24 +97,24 @@ final class NameSurnameViewController: UIViewController {
             
             NSLayoutConstraint.activate([
                 label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 215),
-                label.widthAnchor.constraint(equalToConstant: 270),
-                label.heightAnchor.constraint(greaterThanOrEqualToConstant: 60),
-                        
-                nameTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 150),
-                nameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+                label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
+                label.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
+                label.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
+                            
+                nameTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Constants.nameTextFieldTopOffset),
+                nameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
                 nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                nameTextField.heightAnchor.constraint(equalToConstant: 60),
-                        
-                surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 20),
-                surnameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+                nameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+                            
+                surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: Constants.surnameTextFieldTopOffset),
+                surnameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
                 surnameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                surnameTextField.heightAnchor.constraint(equalToConstant: 60),
-                        
-                registerButton.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: 30),
+                surnameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+                            
+                registerButton.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
                 registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                registerButton.widthAnchor.constraint(equalToConstant: 210),
-                registerButton.heightAnchor.constraint(equalToConstant: 50)
+                registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
+                registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
             ])
         }
 }

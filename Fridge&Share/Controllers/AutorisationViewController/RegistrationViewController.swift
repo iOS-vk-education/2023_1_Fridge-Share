@@ -9,12 +9,26 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     
-    private var logoImageView: UIImageView!
-    private var loginTextField: UITextField!
-    private var passwordTextField: UITextField!
-    private var registerButton: UIButton!
+    private var logoImageView = UIImageView()
+    private var loginTextField = UITextField()
+    private var passwordTextField = UITextField()
+    private var registerButton = UIButton()
     
     private enum Constants {
+        static let logoImageViewTopOffset: CGFloat = 215.0
+        static let logoImageViewScale: CGFloat = 1.3
+
+        static let textFieldsTopOffset: CGFloat = 150.0
+        static let textFieldsSpacing: CGFloat = 20.0
+        static let textFieldsWidthMultiplier: CGFloat = 0.75
+        static let textFieldsHeight: CGFloat = 60.0
+
+        static let registerButtonTopOffset: CGFloat = 30.0
+        static let registerButtonWidth: CGFloat = 210.0
+        static let registerButtonHeight: CGFloat = 50.0
+
+        static let generalSpacing: CGFloat = 10.0
+        
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
     }
@@ -33,7 +47,7 @@ final class RegistrationViewController: UIViewController {
     private func setupUI() {
         
         logoImageView = UIImageView(image: UIImage(named: "Logo"))
-        logoImageView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
         loginTextField = UITextField()
         loginTextField.placeholder = "Логин"
@@ -42,7 +56,7 @@ final class RegistrationViewController: UIViewController {
         loginTextField.layer.borderWidth = Constants.borderWidth
         loginTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         loginTextField.layer.cornerRadius = Constants.cornerRadius
-        loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.generalSpacing, height: 0))
         loginTextField.leftViewMode = .always
                 
         passwordTextField = UITextField()
@@ -52,7 +66,7 @@ final class RegistrationViewController: UIViewController {
         passwordTextField.layer.borderWidth = Constants.borderWidth
         passwordTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         passwordTextField.layer.cornerRadius = Constants.cornerRadius
-        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.generalSpacing, height: 0))
         passwordTextField.leftViewMode = .always
                 
         registerButton = UIButton()
@@ -76,22 +90,22 @@ final class RegistrationViewController: UIViewController {
             
             NSLayoutConstraint.activate([
                 logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 215),
-                        
-                loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 150),
-                loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+                logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.logoImageViewTopOffset),
+    
+                loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Constants.textFieldsTopOffset),
+                loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
                 loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                loginTextField.heightAnchor.constraint(equalToConstant: 60),
-                        
-                passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 20),
-                passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+                loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
+                                    
+                passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: Constants.textFieldsSpacing),
+                passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
                 passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                passwordTextField.heightAnchor.constraint(equalToConstant: 60),
-                        
-                registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+                passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
+                                    
+                registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
                 registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                registerButton.widthAnchor.constraint(equalToConstant: 210),
-                registerButton.heightAnchor.constraint(equalToConstant: 50)
+                registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
+                registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
             ])
         }
 }
