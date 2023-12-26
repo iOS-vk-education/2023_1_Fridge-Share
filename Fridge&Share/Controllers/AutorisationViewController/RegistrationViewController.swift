@@ -14,6 +14,11 @@ final class RegistrationViewController: UIViewController {
     private var passwordTextField: UITextField!
     private var registerButton: UIButton!
     
+    private enum Constants {
+        static let cornerRadius: CGFloat = 15.0
+        static let borderWidth: CGFloat = 1.0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .FASBackgroundColor
@@ -34,9 +39,9 @@ final class RegistrationViewController: UIViewController {
         loginTextField.placeholder = "Логин"
         loginTextField.textColor = .systemBlue
         loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        loginTextField.layer.borderWidth = 1.0
+        loginTextField.layer.borderWidth = Constants.borderWidth
         loginTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        loginTextField.layer.cornerRadius = 15
+        loginTextField.layer.cornerRadius = Constants.cornerRadius
         loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         loginTextField.leftViewMode = .always
                 
@@ -44,9 +49,9 @@ final class RegistrationViewController: UIViewController {
         passwordTextField.placeholder = "Пароль"
         passwordTextField.textColor = .systemBlue
         passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        passwordTextField.layer.borderWidth = 1.0
+        passwordTextField.layer.borderWidth = Constants.borderWidth
         passwordTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        passwordTextField.layer.cornerRadius = 15
+        passwordTextField.layer.cornerRadius = Constants.cornerRadius
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         passwordTextField.leftViewMode = .always
                 
@@ -54,7 +59,7 @@ final class RegistrationViewController: UIViewController {
         registerButton.setTitleColor(.white, for: .normal)
         registerButton.backgroundColor = .systemBlue
         registerButton.setTitle("Зарегистрироваться", for: .normal)
-        registerButton.layer.cornerRadius = 15
+        registerButton.layer.cornerRadius = Constants.cornerRadius
         registerButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         
         view.addSubview(logoImageView)

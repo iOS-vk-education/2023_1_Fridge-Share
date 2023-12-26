@@ -16,6 +16,11 @@ final class RegistrationDormitoryViewController: UIViewController {
     private var loginButton: UIButton!
     private var registrationPromptButton: UIButton!
 
+    private enum Constants {
+        static let cornerRadius: CGFloat = 15.0
+        static let borderWidth: CGFloat = 1.0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .FASBackgroundColor
@@ -47,9 +52,9 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.placeholder = "Введите название уч. заведения"
         eduTextField.textColor = .systemBlue
         eduTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        eduTextField.layer.borderWidth = 1.0
+        eduTextField.layer.borderWidth = Constants.borderWidth
         eduTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        eduTextField.layer.cornerRadius = 15
+        eduTextField.layer.cornerRadius = Constants.cornerRadius
         eduTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         eduTextField.leftViewMode = .always
                 
@@ -57,9 +62,9 @@ final class RegistrationDormitoryViewController: UIViewController {
         dormTextField.placeholder = "Выберите название общежития"
         dormTextField.textColor = .systemBlue
         dormTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        dormTextField.layer.borderWidth = 1.0
+        dormTextField.layer.borderWidth = Constants.borderWidth
         dormTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        dormTextField.layer.cornerRadius = 15
+        dormTextField.layer.cornerRadius = Constants.cornerRadius
         dormTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         dormTextField.leftViewMode = .always
                 

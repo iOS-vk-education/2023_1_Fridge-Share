@@ -14,6 +14,10 @@ final class NameSurnameViewController: UIViewController {
     private var surnameTextField: UITextField!
     private var registerButton: UIButton!
     
+    private enum Constants {
+        static let cornerRadius: CGFloat = 15.0
+        static let borderWidth: CGFloat = 1.0
+    }
     
     @objc private func handleRegistration() {
         let registrationDormitoryViewController = RegistrationDormitoryViewController()
@@ -40,9 +44,9 @@ final class NameSurnameViewController: UIViewController {
         nameTextField.placeholder = "Имя"
         nameTextField.textColor = .systemBlue
         nameTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        nameTextField.layer.borderWidth = 1.0
+        nameTextField.layer.borderWidth = Constants.borderWidth
         nameTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        nameTextField.layer.cornerRadius = 15
+        nameTextField.layer.cornerRadius = Constants.cornerRadius
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         nameTextField.leftViewMode = .always
                 
@@ -50,9 +54,9 @@ final class NameSurnameViewController: UIViewController {
         surnameTextField.placeholder = "Фамилия"
         surnameTextField.textColor = .systemBlue
         surnameTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        surnameTextField.layer.borderWidth = 1.0
+        surnameTextField.layer.borderWidth = Constants.borderWidth
         surnameTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        surnameTextField.layer.cornerRadius = 15
+        surnameTextField.layer.cornerRadius = Constants.cornerRadius
         surnameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         surnameTextField.leftViewMode = .always
                 
@@ -60,7 +64,7 @@ final class NameSurnameViewController: UIViewController {
         registerButton.setTitleColor(.white, for: .normal)
         registerButton.backgroundColor = .systemBlue
         registerButton.setTitle("Продолжить", for: .normal)
-        registerButton.layer.cornerRadius = 15
+        registerButton.layer.cornerRadius = Constants.cornerRadius
         registerButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         
         view.addSubview(label)

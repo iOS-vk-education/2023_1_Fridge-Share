@@ -16,6 +16,11 @@ class LoginViewController: UIViewController {
     private var passwordTextField: UITextField!
     private var loginButton: UIButton!
     private var registrationPromptButton: UIButton!
+    
+    private enum Constants {
+        static let cornerRadius: CGFloat = 15.0
+        static let borderWidth: CGFloat = 1.0
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +47,9 @@ class LoginViewController: UIViewController {
         loginTextField.placeholder = "Логин"
         loginTextField.textColor = .systemBlue
         loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        loginTextField.layer.borderWidth = 1.0
+        loginTextField.layer.borderWidth = Constants.borderWidth
         loginTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        loginTextField.layer.cornerRadius = 15
+        loginTextField.layer.cornerRadius = Constants.cornerRadius
         loginTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         loginTextField.leftViewMode = .always
                 
@@ -52,9 +57,9 @@ class LoginViewController: UIViewController {
         passwordTextField.placeholder = "Пароль"
         passwordTextField.textColor = .systemBlue
         passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        passwordTextField.layer.borderWidth = 1.0
+        passwordTextField.layer.borderWidth = Constants.borderWidth
         passwordTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        passwordTextField.layer.cornerRadius = 15
+        passwordTextField.layer.cornerRadius = Constants.cornerRadius
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         passwordTextField.leftViewMode = .always
                 
@@ -62,7 +67,7 @@ class LoginViewController: UIViewController {
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.backgroundColor = .systemBlue
         loginButton.setTitle("Войти", for: .normal)
-        loginButton.layer.cornerRadius = 15
+        loginButton.layer.cornerRadius = Constants.cornerRadius
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         
         registrationPromptButton = UIButton(type: .system)
