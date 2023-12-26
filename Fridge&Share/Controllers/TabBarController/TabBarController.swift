@@ -12,8 +12,9 @@ final class TabBarController : UITabBarController {
         static let iconHouse = "house"
         static let iconPerson = "person"
         static let iconGlass = "magnifyingglass"
-        static let titleDormitory = "Dormitory"
-        static let titleProfile = "Profile"
+        static let titleDormitory = "Общежитие"
+        static let titleProfile = "Профиль"
+        static let titleSearch = "Поиск"
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,11 @@ final class TabBarController : UITabBarController {
         dormitoryTabBarItem.title = Constants.titleDormitory
         dormitoryViewController.tabBarItem = dormitoryTabBarItem
         
-        
+        let categoriesViewController = CategoriesViewController()
+        let categoriesTabBarItem = UITabBarItem()
+        categoriesTabBarItem.image = UIImage(systemName: Constants.iconGlass)
+        categoriesTabBarItem.title = Constants.titleSearch
+        categoriesViewController.tabBarItem = categoriesTabBarItem
         
         let profileViewController = ProfileViewController()
         let profileTabBarItem = UITabBarItem()
@@ -35,9 +40,10 @@ final class TabBarController : UITabBarController {
         profileViewController.tabBarItem = profileTabBarItem
         
         let vc1 = UINavigationController(rootViewController: dormitoryViewController)
-        let vc2 = UINavigationController(rootViewController: profileViewController)
+        let vc2 = UINavigationController(rootViewController: categoriesViewController)
+        let vc3 = UINavigationController(rootViewController: profileViewController)
         
-        viewControllers = [vc1, vc2]
+        viewControllers = [vc1, vc2, vc3]
         
     }
 }

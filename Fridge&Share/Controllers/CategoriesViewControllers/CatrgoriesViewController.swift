@@ -19,6 +19,8 @@ final class CategoryCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,7 +41,12 @@ final class CategoryCell: UICollectionViewCell {
     }
 }
 
-class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+            print(text)
+    }
+    
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -63,6 +70,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let search = UISearchController(searchResultsController: nil)
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Type something here to search"
+        navigationItem.searchController = search
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -71,15 +84,15 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
 
         view.addSubview(collectionView)
         
-        let headerLabel = UILabel()
-                headerLabel.translatesAutoresizingMaskIntoConstraints = false
-                headerLabel.text = "Поиск по категориям"
-                headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
-                view.addSubview(headerLabel)
+//        let headerLabel = UILabel()
+//                headerLabel.translatesAutoresizingMaskIntoConstraints = false
+//                headerLabel.text = "Поиск по категориям"
+//                headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
+//                view.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
-            headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
+//            headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),

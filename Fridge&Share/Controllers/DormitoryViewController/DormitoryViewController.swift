@@ -9,7 +9,7 @@ import UIKit
 
 final class DormitoryViewController: UIViewController, UITableViewDelegate {
     private enum Constants {
-        static let title = "Dormitory"
+        static let title = "Общежитие"
         static let tableViewCornerRadius: CGFloat = 16
     }
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -60,7 +60,7 @@ extension DormitoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = "Floor \(indexPath.row + 1)"
+        cell.textLabel?.text = "Этаж \(indexPath.row + 1)"
         
         return cell
     }
@@ -70,7 +70,7 @@ extension DormitoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destination = OneFloorController()
         navigationController?.pushViewController(destination, animated: true)
-        destination.title = "Floor \(indexPath.row + 1)"
+        destination.title = "Этаж \(indexPath.row + 1)"
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

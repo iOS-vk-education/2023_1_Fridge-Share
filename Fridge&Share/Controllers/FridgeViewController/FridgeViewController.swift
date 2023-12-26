@@ -8,6 +8,7 @@
 import UIKit
 
 var listOfProducts : [Product] = [
+    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
     .init(name: "Хлеб", image: "bread", explorationDate: "13.12.23"),
     .init(name: "Огурцы", image: "cucumber", explorationDate: "03.12.23"),
     .init(name: "Пельмени", image: "dumplings", explorationDate: "05.12.23"),
@@ -75,26 +76,30 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
            productVC.setModel(viewModel)
            self.navigationController?.pushViewController(productVC, animated: true)
     }
+    
 
     func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(collectionView)
-
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchButton.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView?.register(for: ProductCell.self)
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
+        collectionView.isScrollEnabled = true
+        collectionView.isUserInteractionEnabled = true
+        collectionView.alwaysBounceVertical = true
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,3 +147,6 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
+
+
+

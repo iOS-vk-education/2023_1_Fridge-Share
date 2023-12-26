@@ -60,4 +60,6 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
             productOwnerImageView.isHidden = true // Скрываем productOwnerImageView, если его нет
         }
     }
+    
 }
+
