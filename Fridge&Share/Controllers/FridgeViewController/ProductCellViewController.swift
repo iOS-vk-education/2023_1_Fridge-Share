@@ -13,7 +13,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
     }
     
     private let productImageView = UIImageView()
-    private let productOwnerImageView = UIImageView()
+    let productOwnerImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

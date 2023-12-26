@@ -8,6 +8,7 @@
 import UIKit
 
 var listOfProducts : [Product] = [
+    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
     .init(name: "Печенье овсяное с шоколадом", image: "product1", explorationDate: "13.12.23"),
     .init(name: "Помидоры", image: "product2", explorationDate: "03.12.23"),
     .init(name: "Огурцы", image: "product3", explorationDate: "05.12.23"),
@@ -24,7 +25,6 @@ var listOfProducts : [Product] = [
     .init(name: "Сыр", image: "product14", explorationDate: "03.12.23"),
     .init(name: "Творог", image: "product15", explorationDate: "30.11.23"),
     .init(name: "Куриное филе", image: "product16", explorationDate: "13.12.23"),
-    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
 ]
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -47,13 +47,14 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
 
     func setupSearchButton() {
+
         searchButton = UIButton(type: .system)
-        searchButton.setTitle("поиск продуктов по категориям ->", for: .normal)
+        searchButton.setTitle("Добавить продукт", for: .normal)
         searchButton.setTitleColor(.white, for: .normal)
-        searchButton.setTitleColor(.black, for: .normal)
-        searchButton.backgroundColor = .systemGray4
+        searchButton.backgroundColor = UIColor.systemBlue
         searchButton.layer.cornerRadius = 15
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+
         view.addSubview(searchButton)
 
         searchButton.translatesAutoresizingMaskIntoConstraints = false
@@ -67,8 +68,19 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     @objc func searchButtonTapped() {
-    let categoryViewController = CategoriesViewController()
-    self.navigationController?.pushViewController(categoryViewController, animated: true)
+        let productVC = ProductViewController()
+           
+           guard !listOfProducts.isEmpty,
+                 let selectedImage = UIImage(named: listOfProducts[0].image) else {
+               return
+           }
+           let productNameString = listOfProducts[0].name
+           let productDate = listOfProducts[0].explorationDate
+
+           let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+
+           productVC.setModel(viewModel)
+           self.navigationController?.pushViewController(productVC, animated: true)
     }
 
     func setCollectionView() {
@@ -98,7 +110,9 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         let productOwnerImageName = productOwner[indexPath.row % productOwner.count]
         let viewModel = ProductCell.ProductCellModel(productImageName: productImageName, productOwnerImageName: productOwnerImageName)
         cell.setModel(viewModel)
-        
+
+        cell.productOwnerImageView.isHidden = indexPath.row == 0
+
         return cell
     }
     

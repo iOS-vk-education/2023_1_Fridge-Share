@@ -44,8 +44,9 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         secondTextField.layer.cornerRadius = Constants.cornerRadius
         secondTextField.font = UIFont.systemFont(ofSize: 22)
         secondTextField.textColor = .green
+        secondTextField.textColor = UIColor.green.withAlphaComponent(0.9)
         secondTextField.layer.borderColor = UIColor.green.cgColor
-        secondTextField.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+        secondTextField.backgroundColor = UIColor.green.withAlphaComponent(0.2)
         secondTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
         secondTextField.layer.masksToBounds = true
         view.addSubview(secondTextField)
