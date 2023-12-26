@@ -8,23 +8,16 @@
 import UIKit
 
 var listOfProducts : [Product] = [
-    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
-    .init(name: "Печенье овсяное с шоколадом", image: "product1", explorationDate: "13.12.23"),
-    .init(name: "Помидоры", image: "product2", explorationDate: "03.12.23"),
-    .init(name: "Огурцы", image: "product3", explorationDate: "05.12.23"),
-    .init(name: "Молоко", image: "product4", explorationDate: "30.11.23"),
-    .init(name: "Яйца", image: "product5", explorationDate: "07.01.24"),
-    .init(name: "Яблочный пирог", image: "product6", explorationDate: "06.12.23"),
-    .init(name: "Бананы", image: "product7", explorationDate: "30.11.23"),
-    .init(name: "Вода", image: "product8", explorationDate: "12.11.24"),
-    .init(name: "Клубника", image: "product9", explorationDate: "03.12.23"),
-    .init(name: "Яблочный пирог", image: "product10", explorationDate: "05.12.23"),
-    .init(name: "Ананас", image: "product11", explorationDate: "07.01.24"),
-    .init(name: "Пицца", image: "product12", explorationDate: "03.12.23"),
-    .init(name: "Вишневый пирог", image: "product13", explorationDate: "05.12.23"),
-    .init(name: "Сыр", image: "product14", explorationDate: "03.12.23"),
-    .init(name: "Творог", image: "product15", explorationDate: "30.11.23"),
-    .init(name: "Куриное филе", image: "product16", explorationDate: "13.12.23"),
+    .init(name: "Хлеб", image: "bread", explorationDate: "13.12.23"),
+    .init(name: "Огурцы", image: "cucumber", explorationDate: "03.12.23"),
+    .init(name: "Пельмени", image: "dumplings", explorationDate: "05.12.23"),
+    .init(name: "Рыба", image: "fish", explorationDate: "30.11.23"),
+    .init(name: "Масло", image: "butter", explorationDate: "07.01.24"),
+    .init(name: "Колбаса", image: "meat", explorationDate: "06.12.23"),
+    .init(name: "Молоко", image: "milk", explorationDate: "30.11.23"),
+    .init(name: "Салат", image: "salad", explorationDate: "12.11.24"),
+    .init(name: "Помидоры", image: "tomato", explorationDate: "03.12.23"),
+    .init(name: "Молоко", image: "milk2", explorationDate: "05.12.23"),
 ]
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
