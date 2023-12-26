@@ -36,7 +36,7 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.hey(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.userDidTapTitle(_:)))
         imageView.addGestureRecognizer(tap)
         imageView.isUserInteractionEnabled = true
         
@@ -90,7 +90,6 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
             
             secondTextField.topAnchor.constraint(equalTo: firstTextField.bottomAnchor, constant: 20),
             secondTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.height*2),
-//            secondTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -285),
             secondTextField.widthAnchor.constraint(equalToConstant: 155),
             secondTextField.heightAnchor.constraint(equalToConstant: Constants.height*2),
             
@@ -113,7 +112,7 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    @objc func hey(_ sender: UITapGestureRecognizer) {
+    @objc func userDidTapTitle(_ sender: UITapGestureRecognizer) {
         if firstTextField.text == "Название продукта" {
             let vc = UIImagePickerController()
             vc.sourceType = .photoLibrary

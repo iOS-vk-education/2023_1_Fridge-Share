@@ -83,16 +83,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.backgroundColor = .FASBackgroundColor
 
         view.addSubview(collectionView)
-        
-//        let headerLabel = UILabel()
-//                headerLabel.translatesAutoresizingMaskIntoConstraints = false
-//                headerLabel.text = "Поиск по категориям"
-//                headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
-//                view.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-//            headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
-//            headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
