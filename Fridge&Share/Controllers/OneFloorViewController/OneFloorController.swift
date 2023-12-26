@@ -41,7 +41,10 @@ extension OneFloorController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.reusableIdentifier, for: indexPath)
+        guard let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.reusableIdentifier, for: indexPath) as? ItemCell else {
+            return UICollectionViewCell()
+        }
+        myCell.label.text = "Холодильник \(indexPath.item)"
         return myCell
     }
 }
@@ -50,7 +53,7 @@ extension OneFloorController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destination = FridgeViewController()
         navigationController?.pushViewController(destination, animated: true)
-        destination.title = "Frige \(indexPath.item + 1)"
+        destination.title = "Холодильник \(indexPath.item + 1)"
     }
     
 }

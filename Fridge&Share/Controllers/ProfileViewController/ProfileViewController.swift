@@ -12,7 +12,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     private enum Constants {
-        static let title = "Profile"
+        static let title = "Профиль"
         static let profileCornerRadius: CGFloat = 35
         static let cornerRadius: CGFloat = 5
         static let borderWidth: CGFloat = 2.0
@@ -62,7 +62,6 @@ final class ProfileViewController: UIViewController {
     }()
     
     @objc func hey() {
-        print("Button is tapped!")
         let vc = UIImagePickerController()
         vc.sourceType = .photoLibrary
         vc.delegate = self
