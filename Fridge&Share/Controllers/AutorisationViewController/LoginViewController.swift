@@ -44,11 +44,14 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .FASBackgroundColor
         setupUI()
         setupConstraints()
+        loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
     }
     
     @objc private func handleLogin() {
+        let categoriesViewController = CategoriesViewController()
+        navigationController?.pushViewController(categoriesViewController, animated: true)
         loginDidSucceed?()
-    }
+        }
     
     @objc private func handleRegistration() {
         let registrationViewController = RegistrationViewController()
@@ -79,6 +82,7 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.cornerRadius = Constants.cornerRadius
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         passwordTextField.leftViewMode = .always
+        passwordTextField.isSecureTextEntry = true
                 
         loginButton = UIButton()
         loginButton.setTitleColor(.white, for: .normal)

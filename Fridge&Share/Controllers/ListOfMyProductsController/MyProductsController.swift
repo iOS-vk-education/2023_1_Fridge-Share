@@ -24,6 +24,8 @@ final class ListOfMyProductsController: UIViewController {
         
         view.backgroundColor = .FASBackgroundColor
         
+        configureButton()
+        
         addButton.setTitle("Добавить продукт", for: .normal)
         addButton.backgroundColor = .systemBlue
         addButton.layer.cornerRadius = Constants.buttonCornerRadius
@@ -38,7 +40,7 @@ final class ListOfMyProductsController: UIViewController {
         view.addSubview(addButton)
         
         NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 37),
+            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 43),
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.widthAnchor.constraint(equalToConstant: 189),
             
@@ -49,6 +51,14 @@ final class ListOfMyProductsController: UIViewController {
         ])
     }
     
+    private func configureButton() {
+            addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        }
+
+        @objc private func addButtonTapped() {
+            let emptyProductViewController = EmptyProductViewController()
+            navigationController?.pushViewController(emptyProductViewController, animated: true)
+        }
     
     private func setTableView() {
         tableView.layer.cornerRadius = Constants.tableViewCornerRadius
@@ -79,15 +89,23 @@ extension ListOfMyProductsController: UITableViewDelegate, UITableViewDataSource
         }
         
         cell.name.text = listOfProducts[indexPath.row].name
-        cell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
+        cell.imageView?.image = UIImage(named: listOfProducts[indexPath.row].image)
         cell.date.text = listOfProducts[indexPath.row].explorationDate
+        cell.adjustFontSize()
 
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+            let product = listOfProducts[indexPath.row]
+        let viewModel = ProductViewController.ProductViewModel(selectedImage: UIImage(named: product.image) ?? UIImage(),
+                                             caption: product.name,
+                                             explorationDate: product.explorationDate)
 
-        tableView.deselectRow(at: indexPath, animated: true)
+            let productViewController = ProductViewController()
+            productViewController.setModel(viewModel)
+            navigationController?.pushViewController(productViewController, animated: true)
+        }
     }
-}
+
