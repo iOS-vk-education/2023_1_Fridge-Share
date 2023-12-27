@@ -47,6 +47,29 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func handleLogin() {
+        guard let email = loginTextField.text, let password = passwordTextField.text else { return }
+        FirebaseAuthManager.shared.signIn(email: email, pass: password) {[weak self] (success) in
+            guard let `self` = self else { return }
+            var message: String = ""
+            if (success) {
+                message = "User was sucessfully logged in."
+                
+                let tabBarController = TabBarController()
+                tabBarController.selectedIndex = 1  // Устанавливаем индекс вкладки, которую вы хотите сделать активной
+                
+                // Выполним переход к TabBarController
+                self.navigationController?.pushViewController(tabBarController, animated: true)
+                
+                
+                
+            } else {
+                message = "There was an error."
+            }
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
         loginDidSucceed?()
     }
     
@@ -61,6 +84,7 @@ class LoginViewController: UIViewController {
         logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
         loginTextField = UITextField()
+        loginTextField.delegate = self
         loginTextField.placeholder = "Логин"
         loginTextField.textColor = .systemBlue
         loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -71,6 +95,7 @@ class LoginViewController: UIViewController {
         loginTextField.leftViewMode = .always
                 
         passwordTextField = UITextField()
+        passwordTextField.delegate = self
         passwordTextField.placeholder = "Пароль"
         passwordTextField.textColor = .systemBlue
         passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -137,4 +162,18 @@ class LoginViewController: UIViewController {
         ])
     }
     
+}
+
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        let email = loginTextField.text as? String ?? ""
+//        let password = passwordTextField.text as? String ?? ""
+//        
+//        if !email.isEmpty && !password.isEmpty {
+//            
+//        }
+        
+        return true
+    }
 }

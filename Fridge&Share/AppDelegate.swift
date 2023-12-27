@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+//        Auth.auth().addStateDidChangeListener { (auth, user) in
+//            if user == nil {
+//                let loginViewController = LoginViewController()
+//                loginViewController.loginDidSucceed = { [weak self] in
+//                    self?.showMainTabBarController()
+//                }
+//            }
+//        }
         return true
     }
 

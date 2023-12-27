@@ -41,12 +41,26 @@ final class CategoryCell: UICollectionViewCell {
     }
 }
 
-class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
             print(text)
     }
     
+//    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+//        <#code#>
+//    }
+    
+//    lazy var searchController: UISearchController = {
+//        let search = UISearchController(searchResultsController: nil)
+//        search.searchResultsUpdater = self
+//        search.obscuresBackgroundDuringPresentation = false
+//        search.searchBar.placeholder = "Type something here to search"
+//        search.searchBar.delegate = self
+//        navigationItem.searchController = search
+//
+//        return search
+//    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -76,14 +90,15 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.placeholder = "Type something here to search"
         navigationItem.searchController = search
-
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
-
+        
+        //        view.addSubview(searchController)
         view.addSubview(collectionView)
-
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),

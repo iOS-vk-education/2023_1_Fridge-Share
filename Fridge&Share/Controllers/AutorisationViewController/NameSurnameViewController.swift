@@ -8,12 +8,16 @@
 import UIKit
 
 final class NameSurnameViewController: UIViewController {
+    private var userId: String = ""
     
     private var label = UILabel()
     private var nameTextField = UITextField()
     private var surnameTextField = UITextField()
     private var registerButton = UIButton()
     
+    func configure(id: String) {
+        userId = id
+    }
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
@@ -36,8 +40,16 @@ final class NameSurnameViewController: UIViewController {
     }
     
     @objc private func handleRegistration() {
-        let registrationDormitoryViewController = RegistrationDormitoryViewController()
-        navigationController?.pushViewController(registrationDormitoryViewController, animated: true)
+        if let name = nameTextField.text, let surname = surnameTextField.text {
+            if let index = listOfUsers.firstIndex(where: { $0.id == userId }) {
+                var user = listOfUsers[index]
+                user.name = name
+                user.surname = surname
+                FireBase.shared.updateUser(documentId: userId, user: user)
+                let registrationDormitoryViewController = RegistrationDormitoryViewController()
+                navigationController?.pushViewController(registrationDormitoryViewController, animated: true)
+            }
+        }
     }
     
     override func viewDidLoad() {

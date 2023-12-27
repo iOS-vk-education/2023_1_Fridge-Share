@@ -7,12 +7,24 @@
 
 import UIKit
 
+protocol AnswerViewControllerDelegate: AnyObject {
+    func reloadDataForTable(documentId: String, newAnswer: answerCase)
+}
+
 final class AnswerCell: UITableViewCell {
     private enum Constants {
         static let iconCheckmark = "checkmark"
         static let iconXmark = "xmark"
         static let imageCornerRadius: CGFloat = 16
         static let nameLabelNumberOfLines = 3
+    }
+    
+    private var documentId: String = ""
+    weak var delegate: AnswerViewControllerDelegate?
+    
+    func configureCell(id: String, delegate: AnswerViewControllerDelegate) {
+        documentId = id
+        self.delegate = delegate
     }
     
     var name = UILabel()
@@ -50,7 +62,7 @@ final class AnswerCell: UITableViewCell {
         name.numberOfLines = Constants.nameLabelNumberOfLines
         name.translatesAutoresizingMaskIntoConstraints = false
         
-        date.textColor = .lightGray
+        date.textColor = .black
         date.font = UIFont.boldSystemFont(ofSize: 13)
         date.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,12 +77,14 @@ final class AnswerCell: UITableViewCell {
         agreeButton.tintColor = .backgroundGreen
         agreeButton.layer.cornerRadius = Constants.imageCornerRadius
         agreeButton.setImage(UIImage(systemName: Constants.iconCheckmark), for: .normal)
+        agreeButton.addTarget(self, action: #selector(agreeButtonTapped), for: .touchUpInside)
         agreeButton.translatesAutoresizingMaskIntoConstraints = false
         
         disagreeButton.backgroundColor = .lightRed
         disagreeButton.tintColor = .backgroundRed
         disagreeButton.layer.cornerRadius = Constants.imageCornerRadius
         disagreeButton.setImage(UIImage(systemName: Constants.iconXmark), for: .normal)
+        disagreeButton.addTarget(self, action: #selector(disagreeButtonTapped), for: .touchUpInside)
         disagreeButton.translatesAutoresizingMaskIntoConstraints = false
         
         buttonStack.axis = .horizontal
@@ -99,6 +113,14 @@ final class AnswerCell: UITableViewCell {
             buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14)
 
         ])
+    }
+    
+    @objc func agreeButtonTapped() {
+        self.delegate?.reloadDataForTable(documentId: documentId, newAnswer: .agree)
+    }
+    
+    @objc func disagreeButtonTapped() {
+        self.delegate?.reloadDataForTable(documentId: documentId, newAnswer: .disagree)
     }
     
     required init?(coder: NSCoder) {

@@ -19,12 +19,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let loginViewController = LoginViewController()
-        loginViewController.loginDidSucceed = { [weak self] in
-            self?.showMainTabBarController()
-        }
+//        loginViewController.loginDidSucceed = { [weak self] in
+//            self?.showMainTabBarController()
+//        }
 
         let navigationController = UINavigationController(rootViewController: loginViewController)
-
+        FireBase.shared.getAllData()
+        
+        FireBase.shared.getAllRequests { listOfRequests in
+            
+        }
+        FireBase.shared.getAllAnswers { listOfAnswers in
+            
+        }
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

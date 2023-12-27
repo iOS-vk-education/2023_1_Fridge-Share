@@ -31,6 +31,7 @@ final class ListOfMyProductsController: UIViewController {
                                                  left: Constants.edgeInsets,
                                                  bottom: Constants.edgeInsets,
                                                  right: Constants.edgeInsets)
+        addButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         setTableView()
@@ -60,6 +61,11 @@ final class ListOfMyProductsController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    @objc func searchButtonTapped() {
+        let newProductVC = AddProducrViewController()
+        self.navigationController?.pushViewController(newProductVC, animated: true)
     }
 }
 
