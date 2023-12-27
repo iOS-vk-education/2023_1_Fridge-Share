@@ -8,7 +8,18 @@
 import UIKit
 
 final class RegistrationDormitoryViewController: UIViewController {
+    var userId: String = ""
+    var username: String = ""
+    var usersurname: String = ""
     
+    func configure(id: String, name: String, surname: String) {
+        userId = id
+        username = name
+        usersurname = surname
+        print(id)
+        print(name)
+        print(surname)
+    }
     
     private var label = UILabel()
     private var eduTextField = UITextField()
@@ -49,26 +60,39 @@ final class RegistrationDormitoryViewController: UIViewController {
     
     
     @objc private func handleRegistration() {
-        let newDormViewController = NewDormitoryViewController()
-        navigationController?.pushViewController(newDormViewController, animated: true)
     }
     
     @objc private func handleLogin() {
-        let yourDormVC = YourDormViewController()
-        navigationController?.pushViewController(yourDormVC, animated: true)
+        if let numberOfFloor = eduTextField.text, let numberOfFrige = dormTextField.text {
+            if let index = listOfUsers.firstIndex(where: { $0.id == userId }) {
+                var user = listOfUsers[index]
+                user.numberOfFloor = Int(numberOfFloor)
+                user.numberOfFrige = Int(numberOfFrige)
+                FireBase.shared.updateUser(documentId: userId, user: user)
+
+                FireBase.shared.getAllUsers{ listOfUsers in
+                    
+                }
+                let alertController = UIAlertController(title: nil, message: "Вы успешно заригистрированы!", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                
+                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+            }
+        }
     }
     
     private func setupUI() {
         
         label = UILabel()
-        label.text = "Добро пожаловать, "
-        label.font = UIFont.boldSystemFont(ofSize: 36)
-        label.numberOfLines = 2
+        label.text = "Добро пожаловать, \(username) \(usersurname)"
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.numberOfLines = 3
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
                 
         eduTextField = UITextField()
-        eduTextField.placeholder = "Введите название уч. заведения"
+        eduTextField.placeholder = "Введите номер этажа"
         eduTextField.textColor = .systemBlue
         eduTextField.layer.borderColor = UIColor.systemBlue.cgColor
         eduTextField.layer.borderWidth = Constants.borderWidth
@@ -78,7 +102,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.leftViewMode = .always
                 
         dormTextField = UITextField()
-        dormTextField.placeholder = "Выберите название общежития"
+        dormTextField.placeholder = "Выберите номер холодильника"
         dormTextField.textColor = .systemBlue
         dormTextField.layer.borderColor = UIColor.systemBlue.cgColor
         dormTextField.layer.borderWidth = Constants.borderWidth
@@ -107,7 +131,6 @@ final class RegistrationDormitoryViewController: UIViewController {
                 view.addSubview(eduTextField)
                 view.addSubview(dormTextField)
                 view.addSubview(loginButton)
-                view.addSubview(registrationPromptButton)
 
             }
     private func setupConstraints() {
@@ -138,11 +161,6 @@ final class RegistrationDormitoryViewController: UIViewController {
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),
             loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonSize),
-                        
-            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
-            registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
-            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
         ])
     }
     

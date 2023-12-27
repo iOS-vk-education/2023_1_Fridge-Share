@@ -43,16 +43,7 @@ final class RegistrationViewController: UIViewController {
         setupUI()
         setupConstraints()
     }
-    
-//    @objc private func handleRegistration() {
-//        if let email = loginTextField.text, let password = passwordTextField.text {
-//            registerUser(email: email, password: password)
-//            let NSViewController = NameSurnameViewController()
-//
-//            NSViewController.configure(id: Auth.auth().currentUser?.uid ?? "")
-//            navigationController?.pushViewController(NSViewController, animated: true)
-//        }
-//    }
+
     @objc private func handleRegistration() {
         if let email = loginTextField.text, let password = passwordTextField.text {
             FirebaseAuthManager.shared.createUser(email: email, password: password) { [weak self] (success) in
@@ -60,10 +51,10 @@ final class RegistrationViewController: UIViewController {
                     // Handle registration failure
                     return
                 }
-
+                listOfUsers.append(User(id: FirebaseAuthManager.shared.userId, email: email, password: password))
                 let NSViewController = NameSurnameViewController()
                 NSViewController.configure(id: FirebaseAuthManager.shared.userId)
-                self.navigationController?.pushViewController(NSViewController, animated: true)
+                self.present(NSViewController, animated: true, completion: nil)
             }
         }
     }
@@ -133,14 +124,6 @@ final class RegistrationViewController: UIViewController {
     }
     
     func registerUser(email: String, password: String) {
-        //        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-        //            var dialogMessage = UIAlertController(title: "Oops!", message: "Что-то пошло не так. Попробуйте позже!", preferredStyle: .alert)
-        //            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-        //                self.dismiss(animated: true, completion: nil)
-        //            })
-        //            dialogMessage.addAction(ok)
-        //            self.present(dialogMessage, animated: true, completion: nil)
-        //        }
         FirebaseAuthManager.shared.createUser(email: email, password: password) {[weak self] (success) in
             guard let `self` = self else { return }
             var message: String = ""

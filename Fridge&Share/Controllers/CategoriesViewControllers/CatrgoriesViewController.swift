@@ -46,21 +46,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         guard let text = searchController.searchBar.text else { return }
             print(text)
     }
-    
-//    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-//        <#code#>
-//    }
-    
-//    lazy var searchController: UISearchController = {
-//        let search = UISearchController(searchResultsController: nil)
-//        search.searchResultsUpdater = self
-//        search.obscuresBackgroundDuringPresentation = false
-//        search.searchBar.placeholder = "Type something here to search"
-//        search.searchBar.delegate = self
-//        navigationItem.searchController = search
-//
-//        return search
-//    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -95,8 +80,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.delegate = self
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
-        
-        //        view.addSubview(searchController)
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([

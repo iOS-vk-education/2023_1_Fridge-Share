@@ -19,6 +19,9 @@ final class ProfileViewController: UIViewController {
         static let tableViewCornerRadius: CGFloat = 16
     }
     
+    
+   
+    
     enum ProfileCellType {
         case fridge
         case products
@@ -57,7 +60,7 @@ final class ProfileViewController: UIViewController {
         button.imageView?.layer.cornerRadius = Constants.profileCornerRadius
         button.imageView?.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(hey), for: .touchUpInside)
+        button.addTarget(ProfileViewController.self, action: #selector(hey), for: .touchUpInside)
         return button
     }()
     
@@ -71,7 +74,7 @@ final class ProfileViewController: UIViewController {
     
     let nameLabel:UILabel = {
         let label = UILabel()
-        label.text = "Tyler Durden"
+        label.text = ""
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +83,7 @@ final class ProfileViewController: UIViewController {
     
     let floorLabel: UILabel = {
         let label = UILabel()
-        label.text = "floor 23"
+        label.text = ""
         label.textColor = .black
         label.font = UIFont(name: "normal", size: 17)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -102,9 +105,18 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         title = Constants.title
-        
         view.backgroundColor = .FASBackgroundColor
         
+        var indexOfUser = listOfUsers.firstIndex(where: { $0.id == FirebaseAuthManager.shared.getUserId() })
+        print(FirebaseAuthManager.shared.getUserId())
+        
+        var firstname = listOfUsers[indexOfUser ?? 0].name ?? ""
+        var secondname = listOfUsers[indexOfUser ?? 0].surname ?? ""
+        var name = "\(String(firstname)) \(String(secondname))"
+        nameLabel.text = String(name)
+        
+        var floor = listOfUsers[indexOfUser ?? 0].numberOfFloor ?? 0
+        floorLabel.text = String("Этаж \(floor)")
         view.addSubview(profileAddPhotoButton)
         view.addSubview(nameLabel)
         view.addSubview(floorLabel)
@@ -180,24 +192,29 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let fullString = NSMutableAttributedString()
-        let textString = NSAttributedString(string: names[indexPath.section])
-        let attachment = NSTextAttachment()
-        if let image = UIImage(systemName: icons[indexPath.section],
-                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 17, weight: .bold))?
-            .withTintColor(.red, renderingMode: .alwaysOriginal) {
-            attachment.image = image
-            fullString.append(NSAttributedString(attachment: attachment))
+        if indexPath.section != 3 {
+            let fullString = NSMutableAttributedString()
+            let textString = NSAttributedString(string: names[indexPath.section])
+            let attachment = NSTextAttachment()
+            if let image = UIImage(systemName: icons[indexPath.section],
+                                   withConfiguration: UIImage.SymbolConfiguration(pointSize: 17, weight: .bold))?
+                .withTintColor(.red, renderingMode: .alwaysOriginal) {
+                attachment.image = image
+                fullString.append(NSAttributedString(attachment: attachment))
+            }
+            
+            fullString.append(textString)
+            cell.textLabel?.attributedText = fullString
+        } else {
+            cell.textLabel?.text = "Выйти"
+            cell.textLabel?.textColor = .systemRed
         }
-        
-        fullString.append(textString)
-        cell.textLabel?.attributedText = fullString
         
         return cell
     }

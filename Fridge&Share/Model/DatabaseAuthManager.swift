@@ -11,22 +11,12 @@ import FirebaseAuth
 
 
 class FirebaseAuthManager {
-//    static let shared = FirebaseAuthManager()
-//    var userId: String = ""
-//    func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
-//        Auth.auth().createUser(withEmail: email, password: password) {(authResult, error) in
-//            if let user = authResult?.user {
-//                let userItem = User(id: user.uid, email: email, password: password)
-//                listOfUsers.append(userItem)
-//                FireBase.shared.addUser(user: userItem, id: user.uid)
-//                completionBlock(true)
-//            } else {
-//                completionBlock(false)
-//            }
-//        }
-//    }
     static let shared = FirebaseAuthManager()
-        var userId: String = ""
+    var userId: String = "" {
+        didSet {
+            print(oldValue, userId)
+        }
+    }
 
     func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] (authResult, error) in
@@ -47,7 +37,7 @@ class FirebaseAuthManager {
     }
     
     func getUserId() -> String {
-        return userId
+        return Auth.auth().currentUser?.uid ?? ""
     }
     
     func setUserId(id: String) {

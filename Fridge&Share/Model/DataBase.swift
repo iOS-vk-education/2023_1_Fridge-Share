@@ -16,10 +16,6 @@ class FireBase {
     
     func uploadProduct(currenrProductId: String, photo: UIImage, completion: (Result<URL, Error>) -> Void) {
         let ref = storage.reference().child("products")
-        
-        
-        
-//        ref.putData(<#T##uploadData: Data##Data#>, completion: <#T##((StorageMetadata?, Error?) -> Void)?##((StorageMetadata?, Error?) -> Void)?##(StorageMetadata?, Error?) -> Void#>)
     }
     
     func addProduct(product: Product) {
@@ -91,6 +87,44 @@ class FireBase {
                 return product
             }
             
+        }
+    }
+    
+    func getAllUsers(completion: @escaping ([User]) -> Void) {
+        database.collection("users").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                completion([])
+                return
+            }
+            
+            let dispatchGroup = DispatchGroup()
+            
+            for queryDocumentSnapshot in documents {
+                let data = queryDocumentSnapshot.data()
+                let id = queryDocumentSnapshot.documentID
+                let productID = data["product ID"] as? String ?? ""
+                
+                dispatchGroup.enter()
+                
+                listOfUsers = documents.map { (queryDocumentSnapshot) -> User in
+                    let data = queryDocumentSnapshot.data()
+                    let id = queryDocumentSnapshot.documentID
+                    let email = data["email"] as? String ?? ""
+                    let password = data["password"] as? String ?? ""
+                    let name = data["name"] as? String ?? ""
+                    let surname = data["surname"] as? String ?? ""
+                    let numberOfFloor = data["numberOfFloor"] as? Int ?? 0
+                    let numberOfFrige = data["numberOfFrige"] as? Int ?? 0
+                    var userItem = User(id: id, email: email, password: password, name: name, surname: surname, numberOfFloor: numberOfFloor, numberOfFrige: numberOfFrige)
+                    return userItem
+                }
+                
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                completion(listOfUsers)
+            }
         }
     }
     

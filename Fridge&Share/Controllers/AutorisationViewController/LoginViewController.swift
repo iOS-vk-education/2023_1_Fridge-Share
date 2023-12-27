@@ -8,6 +8,11 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    var scene: UIWindowScene? = nil
+    
+    func configure(windScene: UIWindowScene) {
+        scene = windScene
+    }
     
     var loginDidSucceed: (() -> Void)?
     
@@ -52,14 +57,9 @@ class LoginViewController: UIViewController {
             guard let `self` = self else { return }
             var message: String = ""
             if (success) {
-                message = "User was sucessfully logged in."
-                
-                let tabBarController = TabBarController()
-                tabBarController.selectedIndex = 1  // Устанавливаем индекс вкладки, которую вы хотите сделать активной
-                
-                // Выполним переход к TabBarController
-                self.navigationController?.pushViewController(tabBarController, animated: true)
-                
+                message = "Вы успешно вошли в учетную запись"
+                dismiss(animated: true, completion: nil)
+                loginDidSucceed?()
                 
                 
             } else {
@@ -75,7 +75,7 @@ class LoginViewController: UIViewController {
     
     @objc private func handleRegistration() {
         let registrationViewController = RegistrationViewController()
-        navigationController?.pushViewController(registrationViewController, animated: true)
+        self.present(registrationViewController, animated: true, completion: nil)
     }
     
     private func setupUI() {
@@ -84,7 +84,6 @@ class LoginViewController: UIViewController {
         logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
         loginTextField = UITextField()
-        loginTextField.delegate = self
         loginTextField.placeholder = "Логин"
         loginTextField.textColor = .systemBlue
         loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -95,7 +94,6 @@ class LoginViewController: UIViewController {
         loginTextField.leftViewMode = .always
                 
         passwordTextField = UITextField()
-        passwordTextField.delegate = self
         passwordTextField.placeholder = "Пароль"
         passwordTextField.textColor = .systemBlue
         passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -164,16 +162,3 @@ class LoginViewController: UIViewController {
     
 }
 
-
-extension LoginViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        let email = loginTextField.text as? String ?? ""
-//        let password = passwordTextField.text as? String ?? ""
-//        
-//        if !email.isEmpty && !password.isEmpty {
-//            
-//        }
-        
-        return true
-    }
-}

@@ -8,17 +8,6 @@
 import UIKit
 
 var listOfProducts : [Product] = [
-//    .init(name: "Название продукта", image: "product17", explorationDate: "дд.мм.гг"),
-//    .init(name: "Хлеб", image: "bread", explorationDate: "13.12.23"),
-//    .init(name: "Огурцы", image: "cucumber", explorationDate: "03.12.23"),
-//    .init(name: "Пельмени", image: "dumplings", explorationDate: "05.12.23"),
-//    .init(name: "Рыба", image: "fish", explorationDate: "30.11.23"),
-//    .init(name: "Масло", image: "butter", explorationDate: "07.01.24"),
-//    .init(name: "Колбаса", image: "meat", explorationDate: "06.12.23"),
-//    .init(name: "Молоко", image: "milk", explorationDate: "30.11.23"),
-//    .init(name: "Салат", image: "salad", explorationDate: "12.11.24"),
-//    .init(name: "Помидоры", image: "tomato", explorationDate: "03.12.23"),
-//    .init(name: "Молоко", image: "milk2", explorationDate: "05.12.23"),
 ]
 
 
