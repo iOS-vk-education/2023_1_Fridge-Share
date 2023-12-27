@@ -57,8 +57,8 @@ final class ListOfMyProductsController: UIViewController {
         }
 
         @objc private func addButtonTapped() {
-            let emptyProductViewController = EmptyProductViewController()
-            navigationController?.pushViewController(emptyProductViewController, animated: true)
+//            let emptyProductViewController = EmptyProductViewController()
+//            navigationController?.pushViewController(emptyProductViewController, animated: true)
         }
     
     private func setTableView() {

@@ -23,6 +23,7 @@ final class OneFloorController: UIViewController {
         
         
         view.backgroundColor = .FASBackgroundColor
+        collectionView?.backgroundColor = .FASBackgroundColor
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView?.register(for: ItemCell.self)
