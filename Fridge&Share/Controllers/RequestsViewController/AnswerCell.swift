@@ -87,6 +87,8 @@ final class AnswerCell: UITableViewCell {
         disagreeButton.addTarget(self, action: #selector(disagreeButtonTapped), for: .touchUpInside)
         disagreeButton.translatesAutoresizingMaskIntoConstraints = false
         
+        buttonStack.spacing = 20
+        buttonStack.distribution = .fillEqually
         buttonStack.axis = .horizontal
         buttonStack.addArrangedSubview(disagreeButton)
         buttonStack.addArrangedSubview(agreeButton)
@@ -106,9 +108,9 @@ final class AnswerCell: UITableViewCell {
             
             buttonStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             buttonStack.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 15),
-            agreeButton.widthAnchor.constraint(equalToConstant: 150),
+            agreeButton.widthAnchor.constraint(equalToConstant: 120),
             agreeButton.heightAnchor.constraint(equalToConstant: 36),
-            disagreeButton.widthAnchor.constraint(equalToConstant: 150),
+            disagreeButton.widthAnchor.constraint(equalToConstant: 120),
             disagreeButton.heightAnchor.constraint(equalToConstant: 36),
             buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14)
 

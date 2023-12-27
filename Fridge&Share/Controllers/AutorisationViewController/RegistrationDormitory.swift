@@ -25,7 +25,6 @@ final class RegistrationDormitoryViewController: UIViewController {
     private var eduTextField = UITextField()
     private var dormTextField = UITextField()
     private var loginButton = UIButton()
-    private var registrationPromptButton = UIButton()
 
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
@@ -43,10 +42,6 @@ final class RegistrationDormitoryViewController: UIViewController {
         
         static let loginButtonTopOffset: CGFloat = 30.0
         static let loginButtonSize: CGFloat = 50.0
-        
-        static let registrationPromptButtonTopOffset: CGFloat = 10.0
-        static let registrationPromptButtonWidth: CGFloat = 200.0
-        static let registrationPromptButtonMinimumHeight: CGFloat = 100.0
         
         static let leftViewWidth: CGFloat = 10
     }
@@ -118,15 +113,6 @@ final class RegistrationDormitoryViewController: UIViewController {
         loginButton.layer.cornerRadius = 25
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         
-        registrationPromptButton = UIButton(type: .system)
-        registrationPromptButton.setTitle("Не нашли общежитие? Создайте!", for: .normal)
-        registrationPromptButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        registrationPromptButton.titleLabel?.numberOfLines = 2
-        registrationPromptButton.titleLabel?.lineBreakMode = .byWordWrapping
-        registrationPromptButton.titleLabel?.textAlignment = .center
-        registrationPromptButton.setTitleColor(.systemBlue, for: .normal)
-        registrationPromptButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
-        
                 view.addSubview(label)
                 view.addSubview(eduTextField)
                 view.addSubview(dormTextField)
@@ -139,8 +125,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.translatesAutoresizingMaskIntoConstraints = false
         dormTextField.translatesAutoresizingMaskIntoConstraints = false
         loginButton.translatesAutoresizingMaskIntoConstraints = false
-        registrationPromptButton.translatesAutoresizingMaskIntoConstraints = false
-        
+    
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
