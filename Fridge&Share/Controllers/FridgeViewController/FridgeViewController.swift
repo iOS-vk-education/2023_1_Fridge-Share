@@ -54,8 +54,19 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     @objc func searchButtonTapped() {
-        let newProductVC = AddProducrViewController()
-        self.navigationController?.pushViewController(newProductVC, animated: true)
+        let productVC = ProductViewController()
+           
+           guard !listOfProducts.isEmpty,
+                 let selectedImage = UIImage(named: listOfProducts[0].image) else {
+               return
+           }
+           let productNameString = listOfProducts[0].name
+           let productDate = listOfProducts[0].explorationDate
+
+           let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+
+           productVC.setModel(viewModel)
+           self.navigationController?.pushViewController(productVC, animated: true)
     }
     
 
