@@ -36,7 +36,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
             productImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             productImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-
+        
         addSubview(productOwnerImageView)
         productOwnerImageView.translatesAutoresizingMaskIntoConstraints = false
         productOwnerImageView.layer.cornerRadius = Constants.ownerImageSize / 2
@@ -62,7 +62,8 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
                 productOwnerImageView.image = nil
                 productOwnerImageView.isHidden = true
             }
+        }
+        
     }
-    
 }
 
