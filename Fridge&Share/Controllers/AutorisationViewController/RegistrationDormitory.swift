@@ -8,12 +8,24 @@
 import UIKit
 
 final class RegistrationDormitoryViewController: UIViewController {
+    var userId: String = ""
+    var username: String = ""
+    var usersurname: String = ""
     
+    func configure(id: String, name: String, surname: String) {
+        userId = id
+        username = name
+        usersurname = surname
+        print(id)
+        print(name)
+        print(surname)
+    }
     
     private var label = UILabel()
     private var eduTextField = UITextField()
     private var dormTextField = UITextField()
     private var loginButton = UIButton()
+    private var registrationPromptButton = UIButton()
 
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
@@ -32,6 +44,10 @@ final class RegistrationDormitoryViewController: UIViewController {
         static let loginButtonTopOffset: CGFloat = 30.0
         static let loginButtonSize: CGFloat = 50.0
         
+        static let registrationPromptButtonTopOffset: CGFloat = 10.0
+        static let registrationPromptButtonWidth: CGFloat = 200.0
+        static let registrationPromptButtonMinimumHeight: CGFloat = 100.0
+        
         static let leftViewWidth: CGFloat = 10
     }
     
@@ -42,22 +58,28 @@ final class RegistrationDormitoryViewController: UIViewController {
         setupConstraints()
     }
     
+    
+    @objc private func handleRegistration() {
+        let newDormViewController = NewDormitoryViewController()
+        navigationController?.pushViewController(newDormViewController, animated: true)
+    }
+    
     @objc private func handleLogin() {
-        let categoriesVC = CategoriesViewController()
-        navigationController?.pushViewController(categoriesVC, animated: true)
+        let yourDormVC = YourDormViewController()
+        navigationController?.pushViewController(yourDormVC, animated: true)
     }
     
     private func setupUI() {
         
         label = UILabel()
-        label.text = "Добро пожаловать"
+        label.text = "Добро пожаловать, "
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
                 
         eduTextField = UITextField()
-        eduTextField.placeholder = "Введите название уч. заведения"
+        eduTextField.placeholder = "Введите номер этажа"
         eduTextField.textColor = .systemBlue
         eduTextField.layer.borderColor = UIColor.systemBlue.cgColor
         eduTextField.layer.borderWidth = Constants.borderWidth
@@ -67,7 +89,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.leftViewMode = .always
                 
         dormTextField = UITextField()
-        dormTextField.placeholder = "Введите название общежития"
+        dormTextField.placeholder = "Выберите название общежития"
         dormTextField.textColor = .systemBlue
         dormTextField.layer.borderColor = UIColor.systemBlue.cgColor
         dormTextField.layer.borderWidth = Constants.borderWidth
@@ -83,10 +105,20 @@ final class RegistrationDormitoryViewController: UIViewController {
         loginButton.layer.cornerRadius = 25
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         
+        registrationPromptButton = UIButton(type: .system)
+        registrationPromptButton.setTitle("Не нашли общежитие? Создайте!", for: .normal)
+        registrationPromptButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        registrationPromptButton.titleLabel?.numberOfLines = 2
+        registrationPromptButton.titleLabel?.lineBreakMode = .byWordWrapping
+        registrationPromptButton.titleLabel?.textAlignment = .center
+        registrationPromptButton.setTitleColor(.systemBlue, for: .normal)
+        registrationPromptButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+        
                 view.addSubview(label)
                 view.addSubview(eduTextField)
                 view.addSubview(dormTextField)
                 view.addSubview(loginButton)
+                view.addSubview(registrationPromptButton)
 
             }
     private func setupConstraints() {
@@ -95,7 +127,8 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.translatesAutoresizingMaskIntoConstraints = false
         dormTextField.translatesAutoresizingMaskIntoConstraints = false
         loginButton.translatesAutoresizingMaskIntoConstraints = false
-    
+        registrationPromptButton.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
@@ -116,6 +149,11 @@ final class RegistrationDormitoryViewController: UIViewController {
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),
             loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonSize),
+                        
+            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
+            registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
+            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
         ])
     }
     

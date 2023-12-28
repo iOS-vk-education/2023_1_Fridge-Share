@@ -8,23 +8,15 @@
 import UIKit
 
 var listOfProducts : [Product] = [
-    .init(name: "Хлеб", image: "bread", explorationDate: "13.12.23"),
-    .init(name: "Огурцы", image: "cucumber", explorationDate: "03.12.23"),
-    .init(name: "Пельмени", image: "dumplings", explorationDate: "05.12.23"),
-    .init(name: "Рыба", image: "fish", explorationDate: "30.11.23"),
-    .init(name: "Масло", image: "butter", explorationDate: "07.01.24"),
-    .init(name: "Колбаса", image: "meat", explorationDate: "06.12.23"),
-    .init(name: "Молоко", image: "milk", explorationDate: "30.11.23"),
-    .init(name: "Салат", image: "salad", explorationDate: "12.11.24"),
-    .init(name: "Помидоры", image: "tomato", explorationDate: "03.12.23"),
-    .init(name: "Молоко", image: "milk2", explorationDate: "05.12.23"),
 ]
+
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    
     let products = [ "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
     
-    let productName = [ "Хлеб", "Огурцы", "Пельмени", "Рыба", "Масло", "Колбаса", "Молоко", "Салат", "Помидоры", "Молоко"]
+    let productName = [ "Хлеб ржаной нарезной", "Огурцы", "Пельмени Цезарь", "Рыба Форель слабосоленая", "Масло 150г", "Колбаса Вязанка", "Молоко Домик в деревне 2,5%", "Салат Цезарь", "Помидоры красные", "Молоко  Parmalat 3,5%"]
     let productExplorationDate = ["26.12.23", "28.12.23", "05.02.24", "30.12.23", "07.01.24", "28.12.23", "30.12.23", "29.12.23", "07.01.24", "03.02.24"]
     let productOwner = ["ava1", "ava2", "ava3", "ava4"]
     var collectionView: UICollectionView!
@@ -32,12 +24,14 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        FireBase.shared.getAllData()
         setupSearchButton()
         setCollectionView()
         setCollectionViewLayout()
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "ProductCell")
-
+        print(listOfRequests)
     }
+    
 
     func setupSearchButton() {
 
@@ -61,8 +55,19 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     @objc func searchButtonTapped() {
-        let emptyProductViewController = EmptyProductViewController()
-        navigationController?.pushViewController(emptyProductViewController, animated: true)
+        let productVC = ProductViewController()
+           
+           guard !listOfProducts.isEmpty,
+                 let selectedImage = UIImage(named: listOfProducts[0].image) else {
+               return
+           }
+           let productNameString = listOfProducts[0].name
+           let productDate = listOfProducts[0].explorationDate
+
+           let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+
+           productVC.setModel(viewModel)
+           self.navigationController?.pushViewController(productVC, animated: true)
     }
     
 
@@ -77,7 +82,7 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
             collectionView.topAnchor.constraint(equalTo: searchButton.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         collectionView.dataSource = self
@@ -92,16 +97,18 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductCell
-        let productImageName = products[indexPath.row]
+        let productImageName = listOfProducts[indexPath.row].image
         let productOwnerImageName = productOwner[indexPath.row % productOwner.count]
         let viewModel = ProductCell.ProductCellModel(productImageName: productImageName, productOwnerImageName: productOwnerImageName)
         cell.setModel(viewModel)
+
+        cell.productOwnerImageView.isHidden = indexPath.row == 0
 
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        return listOfProducts.count
     }
     
     func setCollectionViewLayout() {
@@ -125,9 +132,9 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let productVC = ProductViewController()
-        guard let selectedImage = UIImage(named: products[indexPath.row]) else { return }
-        let productNameString = productName[indexPath.row]
-        let productDate = productExplorationDate[indexPath.row]
+        guard let selectedImage = UIImage(named: listOfProducts[indexPath.row].image) else { return }
+        let productNameString = listOfProducts[indexPath.row].name
+        let productDate = listOfProducts[indexPath.row].explorationDate
         let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
         productVC.setModel(viewModel)
         self.navigationController?.pushViewController(productVC, animated: true)

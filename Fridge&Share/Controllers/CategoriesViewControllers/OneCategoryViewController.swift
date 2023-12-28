@@ -1,10 +1,26 @@
+//
+//  OneCategoryViewController.swift
+//  Fridge&Share
+//
+//  Created by User on 28.12.2023.
+//
+
 import UIKit
+
+let dairyProducts = ["Молоко Домик в деревне 2,5%", "Молоко  Parmalat 3,5%", "Масло 150г"]
+let meatFish = ["Форель слабосоленая", "Колбаса Вязанка"]
+let bakeryProducts = ["Хлеб ржаной нарезной"]
+let beverages = ["Напитки"]
+let sauces = ["Соусы"]
+let sweets = ["Сладости"]
+let fruitsVegetables = ["Помидоры красные", "Огурцы"]
+let readyMeals = ["Салат Цезарь", "Пельмени Цезарь",]
+
 
 final class OneCategoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var categoryName: String?
     var collectionView: UICollectionView!
-    
     var categoryProducts: [Product]?
 
     override func viewDidLoad() {
@@ -43,19 +59,16 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as? ProductCell else {
-            fatalError("Unexpectedly failed to dequeue ProductCell")
-        }
-        
-        let product = categoryProducts![indexPath.item]
-        let viewModel = ProductCell.ProductCellModel(
+           guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as? ProductCell,
+                 let product = categoryProducts?[indexPath.row] else {
+               fatalError("Unexpectedly failed to dequeue ProductCell or product is nil")
+           }
+           
+           let viewModel = ProductCell.ProductCellModel(
             productImageName: product.image,
             productOwnerImageName: nil
-        )
-        
-        cell.setModel(viewModel)
-
-        cell.productOwnerImageView.isHidden = false
+           )
+           cell.setModel(viewModel)
         
         return cell
     }
@@ -73,20 +86,17 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
 
         layout.minimumInteritemSpacing = padding
-        layout.minimumLineSpacing = padding * 4
+        layout.minimumLineSpacing = padding * 3
 
-        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        layout.sectionInset = UIEdgeInsets(top: padding + 20, left: padding*2, bottom: padding, right: padding*2)
 
         collectionView.collectionViewLayout = layout
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let productVC = ProductViewController()
-        //guard let selectedImage = UIImage(named: products[indexPath.row]) else { return }
-        //let productNameString = productName[indexPath.row]
-        //let productDate = productExplorationDate[indexPath.row]
-       // let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
-        //productVC.setModel(viewModel)
+        
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
+

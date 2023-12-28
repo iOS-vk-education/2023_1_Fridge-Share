@@ -7,6 +7,10 @@
 
 import UIKit
 
+var listOfRequests: [RequestItem] = []
+var listOfAnswers: [AnswerItem] = []
+var filteredListOfanswers: [AnswerItem] = []
+
 final class RequestsViewController: UIViewController {
     private enum Constants {
         static let myRequestsLabel = "Мои запросы"
@@ -106,9 +110,12 @@ final class RequestsViewController: UIViewController {
 extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == Constants.requestTableTag {
-            return 10
+            return listOfRequests.count
         } else {
-            return 10
+            let filteredListOfanswers = listOfAnswers.filter { item in
+                return item.answer == .noanswer
+            }
+            return filteredListOfanswers.count
         }
     }
     
@@ -118,14 +125,90 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
                 return UITableViewCell()
             }
-            requestCell.name.text = listOfProducts[indexPath.row].name
-            requestCell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
-            requestCell.date.text = listOfProducts[indexPath.row].explorationDate
+            requestCell.name.text = listOfRequests[indexPath.row].product.name
+            requestCell.image.image = UIImage(named: listOfRequests[indexPath.row].product.image)
+            requestCell.date.text = listOfRequests[indexPath.row].product.explorationDate
             
-            if indexPath.row % 2 != 0 {
+            if listOfRequests[indexPath.row].result == true {
                 requestCell.backgroundColor = .lightGreen
             } else {
                 requestCell.backgroundColor = .lightRed
+            }
+            
+            return requestCell
+        } else {
+            
+            guard let answerCell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerCell.self)", for: indexPath) as? AnswerCell else {
+                return UITableViewCell()
+            }
+            let filteredListOfanswers = listOfAnswers.filter { item in
+                return item.answer == .noanswer
+            }
+            answerCell.name.text = filteredListOfanswers[indexPath.row].product.name
+            answerCell.image.image = UIImage(named: filteredListOfanswers[indexPath.row].product.image)
+            answerCell.date.text = filteredListOfanswers[indexPath.row].product.explorationDate
+            answerCell.configureCell(id: filteredListOfanswers[indexPath.row].id ?? "", delegate: self)
+            
+            return answerCell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let item = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (contextualAction, view, boolValue) in
+            let item = listOfRequests[indexPath.row]
+            FireBase.shared.deleteRequest(documentId: item.id ?? "0")
+            listOfRequests.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        item.image = UIImage(systemName: "trash.fill")
+        item.backgroundColor = .systemRed
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [item])
+        
+        return swipeActions
+    }
+
+}
+
+
+extension RequestsViewController: AnswerViewControllerDelegate {
+    func reloadDataForTable(documentId: String, newAnswer: answerCase) {
+        if let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) {
+            FireBase.shared.updateAnswer(documentId: documentId, productId: listOfAnswers[index].product.id ?? "", answer: newAnswer)
+            var item = listOfAnswers[index]
+            if newAnswer == answerCase.agree {
+                item.makeAnswerAgree()
+            } else {
+                item.makeAnswerDisagree()
+            }
+            FireBase.shared.getAllAnswers {listOfAnswers in }
+            
+            
+            self.answerTableView.reloadData()
+            
+        }
+    }
+}
+extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
+
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView.tag == Constants.requestTableTag {
+            guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
+                return UITableViewCell()
+            }
+            requestCell.name.text = listOfProducts[indexPath.row].name
+            requestCell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
+            requestCell.date.text = listOfProducts[indexPath.row].explorationDate
+            requestCell.backgroundColor = .FASBackgroundColor
+            if indexPath.row % 2 != 0 {
+                requestCell.contentView.backgroundColor = .lightGreen
+            } else {
+                requestCell.contentView.backgroundColor = .lightRed
             }
             
             return requestCell
@@ -136,7 +219,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             answerCell.name.text = listOfProducts[indexPath.row].name
             answerCell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
             answerCell.date.text = listOfProducts[indexPath.row].explorationDate
-            
+            answerCell.backgroundColor = .FASBackgroundColor
             return answerCell
         }
     }
@@ -144,4 +227,27 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        // Создаем футер
+        let footerView = UIView()
+        footerView.backgroundColor = .FASBackgroundColor
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return Constants.cellMargin
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : Constants.cellMargin
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
 }

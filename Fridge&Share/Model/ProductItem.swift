@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct Product {
+struct Product: Codable {
+    @DocumentID var id: String?
     let name: String
     let image: String
     let explorationDate: String

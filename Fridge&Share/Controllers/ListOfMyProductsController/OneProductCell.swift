@@ -71,9 +71,3 @@ final class OneProductCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-extension OneProductCell {
-    func adjustFontSize() {
-        name.font = name.font.withSize(name.font.pointSize + 2)
-        date.font = date.font.withSize(date.font.pointSize + 2)
-    }
-}

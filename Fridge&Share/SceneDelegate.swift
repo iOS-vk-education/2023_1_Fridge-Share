@@ -16,18 +16,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            window?.rootViewController = tabBarController
        }
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let scene = (scene as? UIWindowScene) else { return }
+                
+        window = UIWindow(windowScene: scene)
         
+        let tabBarController = TabBarController()
         let loginViewController = LoginViewController()
-        loginViewController.loginDidSucceed = { [weak self] in
-            self?.showMainTabBarController()
-        }
-
-        let navigationController = UINavigationController(rootViewController: loginViewController)
-
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navigationController
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
+        tabBarController.selectedIndex = 1
+        tabBarController.present(loginViewController, animated: true)
+
+//        let navigationController = UINavigationController(rootViewController: loginViewController)
+        FireBase.shared.getAllData()
+        
+        FireBase.shared.getAllRequests { listOfRequests in
+            
+        }
+        FireBase.shared.getAllAnswers { listOfAnswers in
+            
+        }
+        FireBase.shared.getAllUsers { listOfUsers in
+            
+        }
+//        window = UIWindow(windowScene: windowScene)
+//        window?.rootViewController = navigationController
+//        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

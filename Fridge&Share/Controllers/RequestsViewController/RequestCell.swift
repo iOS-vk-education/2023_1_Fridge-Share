@@ -9,8 +9,9 @@ import UIKit
 
 final class RequestCell: UITableViewCell {
     private enum Constants {
-        static let imageCornerRadius: CGFloat = 16
+        static let imageCornerRadius: CGFloat = 10
         static let nameLabelNumberOfLines = 3
+        static let cellPadding: CGFloat = 8
     }
     var name = UILabel()
     var image = UIImageView(frame: .zero)
@@ -29,10 +30,12 @@ final class RequestCell: UITableViewCell {
         contentView.addSubview(stack)
         
         setupConstraints()
+        
     }
     
     private func setupUI() {
         image.layer.cornerRadius = Constants.imageCornerRadius
+        image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         
         name.textColor = .black
@@ -47,9 +50,10 @@ final class RequestCell: UITableViewCell {
         stack.axis = .vertical
         stack.layer.cornerRadius = Constants.imageCornerRadius
         stack.translatesAutoresizingMaskIntoConstraints = false
-        
         stack.addArrangedSubview(name)
         stack.addArrangedSubview(date)
+        contentView.layer.cornerRadius = Constants.imageCornerRadius
+        contentView.layer.masksToBounds = true
     }
     
     private func setupConstraints() {

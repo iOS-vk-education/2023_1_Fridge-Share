@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+
+var listOfUsers: [User] = []
 
 final class RegistrationViewController: UIViewController {
     
@@ -39,10 +43,20 @@ final class RegistrationViewController: UIViewController {
         setupUI()
         setupConstraints()
     }
-    
+
     @objc private func handleRegistration() {
-        let NSViewController = NameSurnameViewController()
-        navigationController?.pushViewController(NSViewController, animated: true)
+        if let email = loginTextField.text, let password = passwordTextField.text {
+            FirebaseAuthManager.shared.createUser(email: email, password: password) { [weak self] (success) in
+                guard let self = self, success else {
+                    // Handle registration failure
+                    return
+                }
+                listOfUsers.append(User(id: FirebaseAuthManager.shared.userId, email: email, password: password))
+                let NSViewController = NameSurnameViewController()
+                NSViewController.configure(id: FirebaseAuthManager.shared.userId)
+                self.present(NSViewController, animated: true, completion: nil)
+            }
+        }
     }
     private func setupUI() {
         
@@ -50,7 +64,7 @@ final class RegistrationViewController: UIViewController {
         logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
         loginTextField = UITextField()
-        loginTextField.placeholder = "Логин"
+        loginTextField.placeholder = "Email"
         loginTextField.textColor = .systemBlue
         loginTextField.layer.borderColor = UIColor.systemBlue.cgColor
         loginTextField.layer.borderWidth = Constants.borderWidth
@@ -81,31 +95,46 @@ final class RegistrationViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(registerButton)
     }
-        private func setupConstraints() {
+    private func setupConstraints() {
+        
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.logoImageViewTopOffset),
             
-            logoImageView.translatesAutoresizingMaskIntoConstraints = false
-            loginTextField.translatesAutoresizingMaskIntoConstraints = false
-            passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-            registerButton.translatesAutoresizingMaskIntoConstraints = false
+            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Constants.textFieldsTopOffset),
+            loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
+            loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
             
-            NSLayoutConstraint.activate([
-                logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.logoImageViewTopOffset),
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: Constants.textFieldsSpacing),
+            passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
+            passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
+            
+            registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
+            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
+            registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
+        ])
+    }
     
-                loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Constants.textFieldsTopOffset),
-                loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
-                loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-                                    
-                passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: Constants.textFieldsSpacing),
-                passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldsWidthMultiplier),
-                passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-                                    
-                registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
-                registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
-                registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
-            ])
+    func registerUser(email: String, password: String) {
+        FirebaseAuthManager.shared.createUser(email: email, password: password) {[weak self] (success) in
+            guard let `self` = self else { return }
+            var message: String = ""
+            if (success) {
+                message = "User was sucessfully created."
+            } else {
+                message = "There was an error."
+            }
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
         }
+    }
 }

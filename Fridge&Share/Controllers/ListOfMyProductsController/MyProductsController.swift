@@ -24,8 +24,6 @@ final class ListOfMyProductsController: UIViewController {
         
         view.backgroundColor = .FASBackgroundColor
         
-        configureButton()
-        
         addButton.setTitle("Добавить продукт", for: .normal)
         addButton.backgroundColor = .systemBlue
         addButton.layer.cornerRadius = Constants.buttonCornerRadius
@@ -33,6 +31,7 @@ final class ListOfMyProductsController: UIViewController {
                                                  left: Constants.edgeInsets,
                                                  bottom: Constants.edgeInsets,
                                                  right: Constants.edgeInsets)
+        addButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         setTableView()
@@ -40,7 +39,7 @@ final class ListOfMyProductsController: UIViewController {
         view.addSubview(addButton)
         
         NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 43),
+            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 37),
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.widthAnchor.constraint(equalToConstant: 189),
             
@@ -56,8 +55,8 @@ final class ListOfMyProductsController: UIViewController {
         }
 
         @objc private func addButtonTapped() {
-            let emptyProductViewController = EmptyProductViewController()
-            navigationController?.pushViewController(emptyProductViewController, animated: true)
+//            let emptyProductViewController = EmptyProductViewController()
+//            navigationController?.pushViewController(emptyProductViewController, animated: true)
         }
     
     private func setTableView() {
@@ -70,6 +69,11 @@ final class ListOfMyProductsController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    @objc func searchButtonTapped() {
+        let newProductVC = AddProducrViewController()
+        self.navigationController?.pushViewController(newProductVC, animated: true)
     }
 }
 
@@ -89,23 +93,15 @@ extension ListOfMyProductsController: UITableViewDelegate, UITableViewDataSource
         }
         
         cell.name.text = listOfProducts[indexPath.row].name
-        cell.imageView?.image = UIImage(named: listOfProducts[indexPath.row].image)
+        cell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
         cell.date.text = listOfProducts[indexPath.row].explorationDate
-        cell.adjustFontSize()
 
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-            let product = listOfProducts[indexPath.row]
-        let viewModel = ProductViewController.ProductViewModel(selectedImage: UIImage(named: product.image) ?? UIImage(),
-                                             caption: product.name,
-                                             explorationDate: product.explorationDate)
 
-            let productViewController = ProductViewController()
-            productViewController.setModel(viewModel)
-            navigationController?.pushViewController(productViewController, animated: true)
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-
+}
