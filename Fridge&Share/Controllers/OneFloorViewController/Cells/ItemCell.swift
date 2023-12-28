@@ -29,6 +29,7 @@ final class ItemCell: UICollectionViewCell, ReusableCollectionCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        contentView.backgroundColor = .FASBackgroundColor
         fridge.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(fridge)
         

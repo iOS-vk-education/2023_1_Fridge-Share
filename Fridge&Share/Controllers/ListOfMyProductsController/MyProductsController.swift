@@ -50,6 +50,14 @@ final class ListOfMyProductsController: UIViewController {
         ])
     }
     
+    private func configureButton() {
+            addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        }
+
+        @objc private func addButtonTapped() {
+//            let emptyProductViewController = EmptyProductViewController()
+//            navigationController?.pushViewController(emptyProductViewController, animated: true)
+        }
     
     private func setTableView() {
         tableView.layer.cornerRadius = Constants.tableViewCornerRadius

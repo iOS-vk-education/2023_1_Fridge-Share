@@ -60,6 +60,8 @@ final class RegistrationDormitoryViewController: UIViewController {
     
     
     @objc private func handleRegistration() {
+        let newDormViewController = NewDormitoryViewController()
+        navigationController?.pushViewController(newDormViewController, animated: true)
     }
     
     @objc private func handleLogin() {
@@ -83,9 +85,9 @@ final class RegistrationDormitoryViewController: UIViewController {
     private func setupUI() {
         
         label = UILabel()
-        label.text = "Добро пожаловать, \(username) \(usersurname)"
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        label.numberOfLines = 3
+        label.text = "Добро пожаловать, "
+        label.font = UIFont.boldSystemFont(ofSize: 36)
+        label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         
@@ -100,7 +102,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.leftViewMode = .always
         
         dormTextField = UITextField()
-        dormTextField.placeholder = "Выберите номер холодильника"
+        dormTextField.placeholder = "Выберите название общежития"
         dormTextField.textColor = .systemBlue
         dormTextField.layer.borderColor = UIColor.systemBlue.cgColor
         dormTextField.layer.borderWidth = Constants.borderWidth
@@ -159,6 +161,11 @@ final class RegistrationDormitoryViewController: UIViewController {
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),
             loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonSize),
+                        
+            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
+            registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
+            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
         ])
     }
     

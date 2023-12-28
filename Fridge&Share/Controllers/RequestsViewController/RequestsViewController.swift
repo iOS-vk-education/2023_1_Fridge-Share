@@ -194,3 +194,61 @@ extension RequestsViewController: AnswerViewControllerDelegate {
         self.answerTableView.reloadData()
     }
 }
+extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
+
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView.tag == Constants.requestTableTag {
+            guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
+                return UITableViewCell()
+            }
+            requestCell.name.text = listOfProducts[indexPath.row].name
+            requestCell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
+            requestCell.date.text = listOfProducts[indexPath.row].explorationDate
+            requestCell.backgroundColor = .FASBackgroundColor
+            if indexPath.row % 2 != 0 {
+                requestCell.contentView.backgroundColor = .lightGreen
+            } else {
+                requestCell.contentView.backgroundColor = .lightRed
+            }
+            
+            return requestCell
+        } else {
+            guard let answerCell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerCell.self)", for: indexPath) as? AnswerCell else {
+                return UITableViewCell()
+            }
+            answerCell.name.text = listOfProducts[indexPath.row].name
+            answerCell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
+            answerCell.date.text = listOfProducts[indexPath.row].explorationDate
+            answerCell.backgroundColor = .FASBackgroundColor
+            return answerCell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        // Создаем футер
+        let footerView = UIView()
+        footerView.backgroundColor = .FASBackgroundColor
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return Constants.cellMargin
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : Constants.cellMargin
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+}

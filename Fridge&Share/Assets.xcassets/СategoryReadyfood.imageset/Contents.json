@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "image 50CategoryReadyfood.png",
+      "filename" : "CategoryReadyfood.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "image 50CategoryReadyfood-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "image 50CategoryReadyfood-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "milk2.png",
+      "filename" : "milk2.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "milk2-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "milk2-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

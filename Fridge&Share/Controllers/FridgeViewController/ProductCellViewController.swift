@@ -52,13 +52,16 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
     }
     
     func setModel(_ viewModel: ProductCellModel) {
-        productImageView.image = UIImage(named: viewModel.productImageName)
-        if let ownerImageName = viewModel.productOwnerImageName {
-            productOwnerImageView.isHidden = false
-            productOwnerImageView.image = UIImage(named: ownerImageName)
-        } else {
-            productOwnerImageView.isHidden = true // Скрываем productOwnerImageView, если его нет
-        }
+        func setModel(_ viewModel: ProductCellModel) {
+            productImageView.image = UIImage(named: viewModel.productImageName)
+            
+            if let ownerImageName = viewModel.productOwnerImageName, !ownerImageName.isEmpty {
+                productOwnerImageView.image = UIImage(named: ownerImageName)
+                productOwnerImageView.isHidden = false
+            } else {
+                productOwnerImageView.image = nil
+                productOwnerImageView.isHidden = true
+            }
     }
     
 }
