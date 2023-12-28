@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "bread.png",
+      "filename" : "bread.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bread-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "bread-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

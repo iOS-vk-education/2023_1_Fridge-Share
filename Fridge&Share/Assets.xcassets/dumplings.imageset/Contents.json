@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "dumplings.png",
+      "filename" : "dumplings.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "dumplings-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "dumplings-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

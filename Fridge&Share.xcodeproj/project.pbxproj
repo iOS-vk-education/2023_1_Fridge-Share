@@ -11,6 +11,7 @@
 		CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */; };
 		CE52B0A42B3BB23B000015D4 /* OneCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52B0A32B3BB23B000015D4 /* OneCategoryViewController.swift */; };
 		CEC780132B13D7700032ABF9 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC780122B13D7700032ABF9 /* FridgeViewController.swift */; };
+		CED58C062B3D5816000A05BF /* OneCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED58C052B3D5816000A05BF /* OneCategoryViewController.swift */; };
 		CEDE12692B3A52D900669122 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE12682B3A52D900669122 /* LoginViewController.swift */; };
 		CEDE126B2B3A644300669122 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE126A2B3A644300669122 /* RegistrationViewController.swift */; };
 		CEDE126D2B3A72AE00669122 /* NameSurnameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE126C2B3A72AE00669122 /* NameSurnameViewController.swift */; };
@@ -82,6 +83,7 @@
 		CE0E98E12B13EB7500626326 /* ProductViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewContoller.swift; sourceTree = "<group>"; };
 		CE52B0A32B3BB23B000015D4 /* OneCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneCategoryViewController.swift; sourceTree = "<group>"; };
 		CEC780122B13D7700032ABF9 /* FridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FridgeViewController.swift; sourceTree = "<group>"; };
+		CED58C052B3D5816000A05BF /* OneCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneCategoryViewController.swift; sourceTree = "<group>"; };
 		CEDE12682B3A52D900669122 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CEDE126A2B3A644300669122 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		CEDE126C2B3A72AE00669122 /* NameSurnameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSurnameViewController.swift; sourceTree = "<group>"; };
@@ -171,10 +173,19 @@
 			path = FridgeViewController;
 			sourceTree = "<group>";
 		};
+		CED58C042B3D56C2000A05BF /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				CE52B0A32B3BB23B000015D4 /* OneCategoryViewController.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		CEDE12642B3A47C100669122 /* CategoriesViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				CE03A5252B25D59500ACFC01 /* CatrgoriesViewController.swift */,
+				CED58C052B3D5816000A05BF /* OneCategoryViewController.swift */,
 			);
 			path = CategoriesViewControllers;
 			sourceTree = "<group>";
@@ -199,6 +210,7 @@
 				DF58E65D2AE7E55300FE5ED8 /* Fridge&ShareTests */,
 				DF58E6672AE7E55300FE5ED8 /* Fridge&ShareUITests */,
 				DF58E6452AE7E55000FE5ED8 /* Products */,
+				CED58C042B3D56C2000A05BF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -506,6 +518,7 @@
 				CE52B0A42B3BB23B000015D4 /* OneCategoryViewController.swift in Sources */,
 				DFD714982B37846300B55550 /* RequestCell.swift in Sources */,
 				DFD714B72B3BD7D700B55550 /* AnswerItem.swift in Sources */,
+				CED58C062B3D5816000A05BF /* OneCategoryViewController.swift in Sources */,
 				DFD714732B14BE2E00B55550 /* OneFloorC+Extensions.swift in Sources */,
 				DFD7149A2B37847200B55550 /* AnswerCell.swift in Sources */,
 				DFD714962B375B8200B55550 /* OneProductCell.swift in Sources */,

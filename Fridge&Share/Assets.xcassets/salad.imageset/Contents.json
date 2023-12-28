@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "salad.png",
+      "filename" : "salad.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "salad-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "salad-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

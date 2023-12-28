@@ -47,6 +47,16 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             print(text)
     }
     
+    let categoryNames = [
+            "Молочные продукты, яйца",
+            "Мясо, рыба",
+            "Выпечка",
+            "Напитки",
+            "Соусы",
+            "Сладости",
+            "Фрукты, овощи",
+            "Готовые блюда"
+        ]
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -59,7 +69,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
 
     let images: [UIImage] = [
         UIImage(named: "CategoryMilk")!,
-        UIImage(named: "CategoruMeat")!,
+        UIImage(named: "CategoryMeat")!,
         UIImage(named: "CategoryBread")!,
         UIImage(named: "CategoryDrinks")!,
         UIImage(named: "CategorySauce")!,
@@ -76,13 +86,11 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.placeholder = "Type something here to search"
         navigationItem.searchController = search
-        
         collectionView.dataSource = self
         collectionView.delegate = self
         view.backgroundColor = .FASBackgroundColor
         collectionView.backgroundColor = .FASBackgroundColor
         view.addSubview(collectionView)
-        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -120,4 +128,39 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             return 10
         }
     }
+extension CategoriesViewController {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let oneCategoryVC = OneCategoryViewController()
+        
+        let selectedCategory = categoryNames[indexPath.row]
+        oneCategoryVC.categoryName = selectedCategory
+
+        oneCategoryVC.categoryProducts = self.productsForCategory(categoryName: selectedCategory)
+        
+        navigationController?.pushViewController(oneCategoryVC, animated: true)
+    }
+
+    private func productsForCategory(categoryName: String) -> [Product]? {
+        switch categoryName {
+        case "Молочные продукты, яйца":
+            return listOfProducts.filter { $0.name.contains("Масло") || $0.name.contains("Молоко") || $0.name.contains("Яйца")}
+        case "Мясо, рыба":
+            return listOfProducts.filter { $0.name.contains("Рыба") || $0.name.contains("Колбаса") || $0.name.contains("Курица") || $0.name.contains("Говядина") || $0.name.contains("Баранина") || $0.name.contains("Индейка") || $0.name.contains("Свинина")}
+        case "Выпечка":
+            return listOfProducts.filter { $0.name.contains("Хлеб") }
+        case "Напитки":
+            return listOfProducts.filter { $0.name.contains("Вода") || $0.name.contains("Сок") || $0.name.contains("Газировка")}
+        case "Соусы":
+            return listOfProducts.filter { $0.name.contains("Соус") || $0.name.contains("Майонез") || $0.name.contains("Кетчуп") || $0.name.contains("Сметана")}
+        case "Сладости":
+            return listOfProducts.filter {$0.name.contains("Конфеты") }
+        case "Фрукты, овощи":
+            return listOfProducts.filter { $0.name.contains("Помидоры") || $0.name.contains("Огурцы")}
+        case "Готовые блюда":
+            return listOfProducts.filter { $0.name.contains("Салат") || $0.name.contains("Пельмени")}
+        default:
+            return nil
+        }
+    }
+}
 

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "cucmber.png",
+      "filename" : "cucumber.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "cucmber-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "cucmber-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

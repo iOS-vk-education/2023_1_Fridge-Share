@@ -13,10 +13,11 @@ var listOfProducts : [Product] = [
 
 final class FridgeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    let products = ["product17", "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
     
-    let productName = ["Название продукта", "Хлеб", "Огурцы", "Пельмени", "Рыба", "Масло", "Колбаса", "Молоко", "Салат", "Помидоры", "Молоко"]
-    let productExplorationDate = ["дд.мм.гг", "26.12.23", "28.12.23", "05.02.24", "30.12.23", "07.01.24", "28.12.23", "30.12.23", "29.12.23", "07.01.24", "03.02.24"]
+    let products = [ "bread", "cucumber", "dumplings", "fish", "butter", "meat", "milk", "salad", "tomato", "milk2"]
+    
+    let productName = [ "Хлеб ржаной нарезной", "Огурцы", "Пельмени Цезарь", "Рыба Форель слабосоленая", "Масло 150г", "Колбаса Вязанка", "Молоко Домик в деревне 2,5%", "Салат Цезарь", "Помидоры красные", "Молоко  Parmalat 3,5%"]
+    let productExplorationDate = ["26.12.23", "28.12.23", "05.02.24", "30.12.23", "07.01.24", "28.12.23", "30.12.23", "29.12.23", "07.01.24", "03.02.24"]
     let productOwner = ["ava1", "ava2", "ava3", "ava4"]
     var collectionView: UICollectionView!
     var searchButton: UIButton!
