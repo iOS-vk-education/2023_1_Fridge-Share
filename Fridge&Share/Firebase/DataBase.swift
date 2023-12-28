@@ -32,6 +32,33 @@ class FireBase {
         }
     }
     
+    func addRequest(request: RequestItem) {
+        database.collection("requests").addDocument(data: [
+            "product ID" : request.product.id ?? "",
+            "result" : request.result
+        ]) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
+    func addAnswer(answer: AnswerItem) {
+        database.collection("answers").addDocument(data: [
+            "product ID" : answer.product.id ?? "",
+            "answer" : answer.answer.rawValue
+        ]) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+
+    }
+    
     func addUser(user: User, id: String) {
         database.collection("users").document(id).setData([
             "id" : id,
@@ -247,6 +274,17 @@ class FireBase {
         }
     }
 
+    func deleteProduct(documentId: String) {
+        database.collection("products").document(documentId).delete() { error in
+            if let error = error {
+                print("Error deleting request document: \(error)")
+//                completion(false)
+            } else {
+                print("Request document successfully deleted!")
+//                completion(true)
+            }
+        }
+    }
 
     func updateAnswer(documentId: String, productId: String, answer: answerCase) {
         database.collection("answers").document(documentId).setData(["product ID" : productId,

@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
                 
                 
             } else {
-                message = "There was an error."
+                message = "Данные введены неверно!"
             }
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

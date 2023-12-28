@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AnswerViewControllerDelegate: AnyObject {
-    func reloadDataForTable(documentId: String, newAnswer: answerCase)
+    func reloadDataForTable()
 }
 
 final class AnswerCell: UITableViewCell {
@@ -111,17 +111,49 @@ final class AnswerCell: UITableViewCell {
             disagreeButton.widthAnchor.constraint(equalToConstant: 150),
             disagreeButton.heightAnchor.constraint(equalToConstant: 36),
             buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14)
-
+            
         ])
     }
     
+    //    @objc func agreeButtonTapped() {
+    //        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
+    //        let product = listOfAnswers[index].product
+    //        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .agree)
+    //        listOfAnswers.removeAll()
+    //        filteredListOfAnswers.removeAll()
+    //        FireBase.shared.getAllAnswers {listOfAnswers in }
+    //        self.delegate?.reloadDataForTable()
+    //    }
+    //
+    //    @objc func disagreeButtonTapped() {
+    //        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
+    //        let product = listOfAnswers[index].product
+    //        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .disagree)
+    //        listOfAnswers.removeAll()
+    //        filteredListOfAnswers.removeAll()
+    //        FireBase.shared.getAllAnswers {listOfAnswers in }
+    //        self.delegate?.reloadDataForTable()
+    //    }
     @objc func agreeButtonTapped() {
-        self.delegate?.reloadDataForTable(documentId: documentId, newAnswer: .agree)
+        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
+        let product = listOfAnswers[index].product
+        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .agree)
+        // Обновление данных сначала
+        listOfAnswers[index].answer = .agree
+        // Затем вызов reloadData
+        self.delegate?.reloadDataForTable()
     }
     
     @objc func disagreeButtonTapped() {
-        self.delegate?.reloadDataForTable(documentId: documentId, newAnswer: .disagree)
+        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
+        let product = listOfAnswers[index].product
+        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .disagree)
+        // Обновление данных сначала
+        listOfAnswers[index].answer = .disagree
+        // Затем вызов reloadData
+        self.delegate?.reloadDataForTable()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

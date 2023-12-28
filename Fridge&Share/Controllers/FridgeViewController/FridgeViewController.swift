@@ -125,6 +125,7 @@ final class FridgeViewController: UIViewController, UICollectionViewDelegate, UI
         let productDate = listOfProducts[indexPath.row].explorationDate
         let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
         productVC.setModel(viewModel)
+        productVC.configure(id: listOfProducts[indexPath.row].id ?? "")
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }

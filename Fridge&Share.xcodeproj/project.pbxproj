@@ -18,6 +18,8 @@
 		CEDE12732B3A83C400669122 /* YourDormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE12722B3A83C400669122 /* YourDormViewController.swift */; };
 		CEE6F6712B152BBA0005FF39 /* ProductCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */; };
 		CEFAE49B2B2DE04E0007DF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */; };
+		DF4A33752B3CE4DD00A3EC3B /* ResultSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A33742B3CE4DD00A3EC3B /* ResultSearchViewController.swift */; };
+		DF4A33772B3CEC3F00A3EC3B /* ResultTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */; };
 		DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */; };
 		DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */; };
 		DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */; };
@@ -88,6 +90,8 @@
 		CEDE12722B3A83C400669122 /* YourDormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDormViewController.swift; sourceTree = "<group>"; };
 		CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCellViewController.swift; sourceTree = "<group>"; };
 		CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DF4A33742B3CE4DD00A3EC3B /* ResultSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSearchViewController.swift; sourceTree = "<group>"; };
+		DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableCell.swift; sourceTree = "<group>"; };
 		DF58E6442AE7E55000FE5ED8 /* Fridge&Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fridge&Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -173,6 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				CE03A5252B25D59500ACFC01 /* CatrgoriesViewController.swift */,
+				DF4A33742B3CE4DD00A3EC3B /* ResultSearchViewController.swift */,
+				DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */,
 			);
 			path = CategoriesViewControllers;
 			sourceTree = "<group>";
@@ -188,6 +194,15 @@
 				CEDE12722B3A83C400669122 /* YourDormViewController.swift */,
 			);
 			path = AutorisationViewController;
+			sourceTree = "<group>";
+		};
+		DF4A337A2B3CF7EC00A3EC3B /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				DFD714B02B3B8B2A00B55550 /* DataBase.swift */,
+				DFD714BA2B3C70FA00B55550 /* DatabaseAuthManager.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		DF58E63B2AE7E55000FE5ED8 = {
@@ -213,6 +228,7 @@
 		DF58E6462AE7E55000FE5ED8 /* Fridge&Share */ = {
 			isa = PBXGroup;
 			children = (
+				DF4A337A2B3CF7EC00A3EC3B /* Firebase */,
 				CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */,
 				DFD714742B15172000B55550 /* Model */,
 				DFD7146D2B0E9FC200B55550 /* Extensions */,
@@ -309,10 +325,8 @@
 			children = (
 				DFD714752B15173C00B55550 /* ProductItem.swift */,
 				DFD714772B15186200B55550 /* FrigeItem.swift */,
-				DFD714B02B3B8B2A00B55550 /* DataBase.swift */,
 				DFD714B42B3BABBE00B55550 /* RequestItem.swift */,
 				DFD714B62B3BD7D700B55550 /* AnswerItem.swift */,
-				DFD714BA2B3C70FA00B55550 /* DatabaseAuthManager.swift */,
 				DFD714BD2B3C773100B55550 /* UserItem.swift */,
 			);
 			path = Model;
@@ -507,6 +521,7 @@
 				DFD7149A2B37847200B55550 /* AnswerCell.swift in Sources */,
 				DFD714962B375B8200B55550 /* OneProductCell.swift in Sources */,
 				DFD714712B14BC2B00B55550 /* ReusableIdentifier.swift in Sources */,
+				DF4A33752B3CE4DD00A3EC3B /* ResultSearchViewController.swift in Sources */,
 				CEDE126D2B3A72AE00669122 /* NameSurnameViewController.swift in Sources */,
 				DFD7146F2B0EA02600B55550 /* Colors.swift in Sources */,
 				DFD714662B01612400B55550 /* OneFloorController.swift in Sources */,
@@ -525,6 +540,7 @@
 				DFD7147B2B151AC700B55550 /* ProfileViewController.swift in Sources */,
 				DFD714782B15186200B55550 /* FrigeItem.swift in Sources */,
 				DFD714762B15173C00B55550 /* ProductItem.swift in Sources */,
+				DF4A33772B3CEC3F00A3EC3B /* ResultTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

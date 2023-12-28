@@ -93,7 +93,30 @@ extension ListOfMyProductsController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let product = listOfProducts[indexPath.row]
+        let viewModel = ProductViewController.ProductViewModel(selectedImage: UIImage(named: product.image) ?? UIImage(),
+                                                               caption: product.name,
+                                                               explorationDate: product.explorationDate)
+        
+        let productViewController = ProductViewController()
+        productViewController.setModel(viewModel)
+        productViewController.configure(id: product.id ?? "")
+        navigationController?.pushViewController(productViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let item = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (contextualAction, view, boolValue) in
+            let item = listOfProducts[indexPath.row]
+            FireBase.shared.deleteProduct(documentId: item.id ?? "0")
+            listOfProducts.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        item.image = UIImage(systemName: "trash.fill")
+        item.backgroundColor = .systemRed
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [item])
+        
+        return swipeActions
     }
 }

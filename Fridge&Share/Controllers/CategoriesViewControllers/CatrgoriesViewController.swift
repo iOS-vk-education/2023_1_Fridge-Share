@@ -41,12 +41,25 @@ final class CategoryCell: UICollectionViewCell {
     }
 }
 
-class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate {
+class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-            print(text)
+        
+        let vc = searchController.searchResultsController as? ResultViewController
+        
+        // Очистка массива перед добавлением новых результатов
+        vc?.resultProducts.removeAll()
+        
+        listOfProducts.forEach { (product) in
+            if product.name.contains(text) {
+                vc?.resultProducts.append(product)
+            }
+        }
+        vc?.tableView.reloadData()
     }
-
+    
+    var progressView: UIProgressView?
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -55,7 +68,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         return collectionView
     }()
-
+    
     let images: [UIImage] = [
         UIImage(named: "CategoryMilk")!,
         UIImage(named: "CategoruMeat")!,
@@ -66,15 +79,28 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         UIImage(named: "CategoryVegetables")!,
         UIImage(named: "СategoryReadyfood")!
     ]
-
+    
+    let searchController = UISearchController(searchResultsController: ResultViewController())
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search"
-        navigationItem.searchController = search
+        //        let search = UISearchController(searchResultsController: ResultViewController())
+        //        search.searchResultsUpdater = self
+        //        search.obscuresBackgroundDuringPresentation = false
+        //        search.searchBar.placeholder = "Type something here to search"
+        //        navigationItem.searchController = search
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController?.delegate = self
+        definesPresentationContext = true
+//        navigationItem.searchController?.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Type something here to search"
+        navigationItem.searchController?.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        
+//        progressView = UIProgressView(progressViewStyle: .bar)
+//        progressView?.frame = CGRect(x: 10, y: navigationItem.searchController!.searchBar.frame.height, width: 20, height: 20)
+//        navigationItem.searchController?.searchBar.addSubview(progressView!)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -88,6 +114,18 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    var serial_search = DispatchQueue(label: "ser_search")
+    
+    var cancel = false
+    var inProgress = false
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //when search text is changed, we cancel an ongoing search loop
+        if inProgress {
+            self.cancel = true
+        }
     }
 }
     // MARK: - UICollectionViewDataSource

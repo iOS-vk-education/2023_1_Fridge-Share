@@ -128,9 +128,9 @@ final class RegistrationViewController: UIViewController {
             guard let `self` = self else { return }
             var message: String = ""
             if (success) {
-                message = "User was sucessfully created."
+                message = "Пользователь успешно зарегистрирован!"
             } else {
-                message = "There was an error."
+                message = "Ошибка!"
             }
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

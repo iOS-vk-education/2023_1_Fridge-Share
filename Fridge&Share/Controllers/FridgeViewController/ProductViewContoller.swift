@@ -1,6 +1,11 @@
 import UIKit
 
 final class ProductViewController: UIViewController, UITextFieldDelegate {
+    var productId: String = ""
+    
+    func configure(id: String) {
+        productId = id
+    }
     
     private let firstTextField = UILabel()
     private let secondTextField = UITextField()
@@ -36,10 +41,6 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.userDidTapTitle(_:)))
-        imageView.addGestureRecognizer(tap)
-        imageView.isUserInteractionEnabled = true
-        
         firstTextField.font = UIFont.systemFont(ofSize: 26)
         view.addSubview(firstTextField)
         
@@ -66,6 +67,7 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         button.setTitle("Попросить", for: .normal)
         button.backgroundColor = .blue
         button.layer.cornerRadius = Constants.cornerRadius
+        button.addTarget(self, action: #selector(askButtonTapped), for: .touchUpInside)
         view.addSubview(button)
     }
     
@@ -112,14 +114,13 @@ final class ProductViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    @objc func userDidTapTitle(_ sender: UITapGestureRecognizer) {
-        if firstTextField.text == "Название продукта" {
-            let vc = UIImagePickerController()
-            vc.sourceType = .photoLibrary
-            vc.delegate = self
-            vc.allowsEditing = true
-            present(vc, animated: true)
-        }
+    @objc func askButtonTapped() {
+        let index = listOfProducts.firstIndex(where: { $0.id == productId }) ?? 0
+        let product = listOfProducts[index]
+        let answer = AnswerItem(product: product, answer: .noanswer)
+        print(listOfAnswers.count)
+        FireBase.shared.addAnswer(answer: answer)
+        print(listOfAnswers.count)
     }
     
 }
