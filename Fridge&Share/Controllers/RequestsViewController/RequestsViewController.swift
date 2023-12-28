@@ -8,8 +8,11 @@
 import UIKit
 
 var listOfRequests: [RequestItem] = []
-var listOfAnswers: [AnswerItem] = []
-var filteredListOfanswers: [AnswerItem] = []
+var listOfAnswers: [AnswerItem] = [] {
+    didSet {
+        print(listOfAnswers)
+    }
+}
 
 final class RequestsViewController: UIViewController {
     private enum Constants {
@@ -25,7 +28,7 @@ final class RequestsViewController: UIViewController {
     private let answersLabel = UILabel()
     
     private let requestTableView = UITableView()
-    private let answerTableView = UITableView()
+     let answerTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,27 +112,31 @@ final class RequestsViewController: UIViewController {
 
 extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         if tableView.tag == Constants.requestTableTag {
             return listOfRequests.count
         } else {
-            let filteredListOfanswers = listOfAnswers.filter { item in
+            let filteredListOfAnswers = listOfAnswers.filter { item in
                 return item.answer == .noanswer
             }
-            return filteredListOfanswers.count
+            return filteredListOfAnswers.count
+            return listOfAnswers.count
         }
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView.tag == Constants.requestTableTag {
             guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
                 return UITableViewCell()
             }
-            requestCell.name.text = listOfRequests[indexPath.row].product.name
-            requestCell.image.image = UIImage(named: listOfRequests[indexPath.row].product.image)
-            requestCell.date.text = listOfRequests[indexPath.row].product.explorationDate
+            requestCell.name.text = listOfRequests[indexPath.section].product.name
+            requestCell.image.image = UIImage(named: listOfRequests[indexPath.section].product.image)
+            requestCell.date.text = listOfRequests[indexPath.section].product.explorationDate
             
-            if listOfRequests[indexPath.row].result == true {
+            if listOfRequests[indexPath.section].result == true {
                 requestCell.backgroundColor = .lightGreen
             } else {
                 requestCell.backgroundColor = .lightRed
@@ -138,16 +145,19 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             return requestCell
         } else {
             
+            
+            let filteredListOfAnswers = listOfAnswers.filter { item in
+                return item.answer == .noanswer
+            }
+
             guard let answerCell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerCell.self)", for: indexPath) as? AnswerCell else {
                 return UITableViewCell()
             }
-            let filteredListOfanswers = listOfAnswers.filter { item in
-                return item.answer == .noanswer
-            }
-            answerCell.name.text = filteredListOfanswers[indexPath.row].product.name
-            answerCell.image.image = UIImage(named: filteredListOfanswers[indexPath.row].product.image)
-            answerCell.date.text = filteredListOfanswers[indexPath.row].product.explorationDate
-            answerCell.configureCell(id: filteredListOfanswers[indexPath.row].id ?? "", delegate: self)
+            
+            answerCell.name.text = filteredListOfAnswers[indexPath.section].product.name
+            answerCell.image.image = UIImage(named: filteredListOfAnswers[indexPath.section].product.image)
+            answerCell.date.text = filteredListOfAnswers[indexPath.section].product.explorationDate
+            answerCell.configureCell(id: filteredListOfAnswers[indexPath.section].id ?? "", delegate: self)
             
             return answerCell
         }
@@ -159,9 +169,12 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let item = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (contextualAction, view, boolValue) in
-            let item = listOfRequests[indexPath.row]
+            let item = listOfRequests[indexPath.section]
             FireBase.shared.deleteRequest(documentId: item.id ?? "0")
-            listOfRequests.remove(at: indexPath.row)
+            listOfRequests.removeAll()
+            FireBase.shared.getAllRequests { listOfRequests in
+                
+            }
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         item.image = UIImage(systemName: "trash.fill")
@@ -176,21 +189,9 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension RequestsViewController: AnswerViewControllerDelegate {
-    func reloadDataForTable(documentId: String, newAnswer: answerCase) {
-        if let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) {
-            FireBase.shared.updateAnswer(documentId: documentId, productId: listOfAnswers[index].product.id ?? "", answer: newAnswer)
-            var item = listOfAnswers[index]
-            if newAnswer == answerCase.agree {
-                item.makeAnswerAgree()
-            } else {
-                item.makeAnswerDisagree()
-            }
-            FireBase.shared.getAllAnswers {listOfAnswers in }
-            
-            
-            self.answerTableView.reloadData()
-            
-        }
+    func reloadDataForTable() {
+        
+        self.answerTableView.reloadData()
     }
 }
 extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {

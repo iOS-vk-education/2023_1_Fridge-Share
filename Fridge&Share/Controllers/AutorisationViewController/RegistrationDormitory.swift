@@ -26,7 +26,7 @@ final class RegistrationDormitoryViewController: UIViewController {
     private var dormTextField = UITextField()
     private var loginButton = UIButton()
     private var registrationPromptButton = UIButton()
-
+    
     private enum Constants {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
@@ -65,8 +65,21 @@ final class RegistrationDormitoryViewController: UIViewController {
     }
     
     @objc private func handleLogin() {
-        let yourDormVC = YourDormViewController()
-        navigationController?.pushViewController(yourDormVC, animated: true)
+        if let numberOfFloor = eduTextField.text, let numberOfFrige = dormTextField.text {
+            if let index = listOfUsers.firstIndex(where: { $0.id == userId }) {
+                var user = listOfUsers[index]
+                user.numberOfFloor = Int(numberOfFloor)
+                user.numberOfFrige = Int(numberOfFrige)
+                FireBase.shared.updateUser(documentId: userId, user: user)
+                
+                FireBase.shared.getAllUsers{ listOfUsers in
+                    
+                }
+                let alertController = UIAlertController(title: nil, message: "Вы успешно заригистрированы!", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
     
     private func setupUI() {
@@ -77,7 +90,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
-                
+        
         eduTextField = UITextField()
         eduTextField.placeholder = "Введите номер этажа"
         eduTextField.textColor = .systemBlue
@@ -87,7 +100,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         eduTextField.layer.cornerRadius = Constants.cornerRadius
         eduTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         eduTextField.leftViewMode = .always
-                
+        
         dormTextField = UITextField()
         dormTextField.placeholder = "Выберите название общежития"
         dormTextField.textColor = .systemBlue
@@ -97,7 +110,7 @@ final class RegistrationDormitoryViewController: UIViewController {
         dormTextField.layer.cornerRadius = Constants.cornerRadius
         dormTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         dormTextField.leftViewMode = .always
-                
+        
         loginButton = UIButton()
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.backgroundColor = .systemBlue
@@ -114,13 +127,12 @@ final class RegistrationDormitoryViewController: UIViewController {
         registrationPromptButton.setTitleColor(.systemBlue, for: .normal)
         registrationPromptButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         
-                view.addSubview(label)
-                view.addSubview(eduTextField)
-                view.addSubview(dormTextField)
-                view.addSubview(loginButton)
-                view.addSubview(registrationPromptButton)
-
-            }
+        view.addSubview(label)
+        view.addSubview(eduTextField)
+        view.addSubview(dormTextField)
+        view.addSubview(loginButton)
+        
+    }
     private func setupConstraints() {
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -134,17 +146,17 @@ final class RegistrationDormitoryViewController: UIViewController {
             label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
             label.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
             label.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
-                                
+            
             eduTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Constants.textFieldTopOffset),
             eduTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             eduTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             eduTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-                                
+            
             dormTextField.topAnchor.constraint(equalTo: eduTextField.bottomAnchor, constant: Constants.betweenTextFieldsOffset),
             dormTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
             dormTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dormTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-                                
+            
             loginButton.topAnchor.constraint(equalTo: dormTextField.bottomAnchor, constant: Constants.loginButtonTopOffset),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),

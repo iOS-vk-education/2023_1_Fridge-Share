@@ -31,9 +31,9 @@ final class NameSurnameViewController: UIViewController {
         
         static let textFieldWidthMultiplier: CGFloat = 0.75
         static let textFieldHeight: CGFloat = 60.0
-                
+        
         static let surnameTextFieldTopOffset: CGFloat = 20.0
-                
+        
         static let registerButtonTopOffset: CGFloat = 30.0
         static let registerButtonWidth: CGFloat = 210.0
         static let registerButtonHeight: CGFloat = 50.0
@@ -82,7 +82,7 @@ final class NameSurnameViewController: UIViewController {
         nameTextField.layer.cornerRadius = Constants.cornerRadius
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         nameTextField.leftViewMode = .always
-                
+        
         surnameTextField = UITextField()
         surnameTextField.placeholder = "Фамилия"
         surnameTextField.textColor = .systemBlue
@@ -92,7 +92,7 @@ final class NameSurnameViewController: UIViewController {
         surnameTextField.layer.cornerRadius = Constants.cornerRadius
         surnameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.leftViewWidth, height: 0))
         surnameTextField.leftViewMode = .always
-                
+        
         registerButton = UIButton()
         registerButton.setTitleColor(.white, for: .normal)
         registerButton.backgroundColor = .systemBlue
@@ -105,33 +105,33 @@ final class NameSurnameViewController: UIViewController {
         view.addSubview(surnameTextField)
         view.addSubview(registerButton)
     }
-        private func setupConstraints() {
+    private func setupConstraints() {
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        surnameTextField.translatesAutoresizingMaskIntoConstraints = false
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
+            label.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
+            label.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
             
-            label.translatesAutoresizingMaskIntoConstraints = false
-            nameTextField.translatesAutoresizingMaskIntoConstraints = false
-            surnameTextField.translatesAutoresizingMaskIntoConstraints = false
-            registerButton.translatesAutoresizingMaskIntoConstraints = false
+            nameTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Constants.nameTextFieldTopOffset),
+            nameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
+            nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             
-            NSLayoutConstraint.activate([
-                label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                label.centerYAnchor.constraint(equalTo: view.topAnchor, constant: Constants.labelTopOffset),
-                label.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
-                label.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
-                            
-                nameTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Constants.nameTextFieldTopOffset),
-                nameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
-                nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                nameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-                            
-                surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: Constants.surnameTextFieldTopOffset),
-                surnameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
-                surnameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                surnameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-                            
-                registerButton.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
-                registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
-                registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
-            ])
-        }
+            surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: Constants.surnameTextFieldTopOffset),
+            surnameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Constants.textFieldWidthMultiplier),
+            surnameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            surnameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            
+            registerButton.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: Constants.registerButtonTopOffset),
+            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registerButton.widthAnchor.constraint(equalToConstant: Constants.registerButtonWidth),
+            registerButton.heightAnchor.constraint(equalToConstant: Constants.registerButtonHeight)
+        ])
+    }
 }

@@ -11,7 +11,7 @@ final class CategoryCell: UICollectionViewCell {
         static let cornerRadius: CGFloat = 10.0
         
     }
-
+    
     static let identifier = "CategoryCellIdentifier"
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -21,10 +21,10 @@ final class CategoryCell: UICollectionViewCell {
     }()
     
     
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         contentView.addSubview(imageView)
         imageView.layer.cornerRadius = Constants.cornerRadius
         
@@ -35,16 +35,25 @@ final class CategoryCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-            print(text)
+        
+        let vc = searchController.searchResultsController as? ResultViewController
+        vc?.resultProducts.removeAll()
+        
+        listOfProducts.forEach { (product) in
+            if product.name.contains(text) {
+                vc?.resultProducts.append(product)
+            }
+        }
+        vc?.tableView.reloadData()
     }
     
     let categoryNames = [
@@ -66,7 +75,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         return collectionView
     }()
-
+    
     let images: [UIImage] = [
         UIImage(named: "CategoryMilk")!,
         UIImage(named: "CategoryMeat")!,
@@ -77,15 +86,18 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         UIImage(named: "CategoryVegetables")!,
         UIImage(named: "СategoryReadyfood")!
     ]
-
+    
+    let searchController = UISearchController(searchResultsController: ResultViewController())
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController?.delegate = self
+        definesPresentationContext = true
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Type something here to search"
+        navigationItem.searchController?.searchBar.delegate = self
+        navigationItem.searchController = searchController
         
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search"
-        navigationItem.searchController = search
         collectionView.dataSource = self
         collectionView.delegate = self
         view.backgroundColor = .FASBackgroundColor
@@ -97,6 +109,18 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    var serial_search = DispatchQueue(label: "ser_search")
+    
+    var cancel = false
+    var inProgress = false
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //when search text is changed, we cancel an ongoing search loop
+        if inProgress {
+            self.cancel = true
+        }
     }
 }
     // MARK: - UICollectionViewDataSource
@@ -112,22 +136,22 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             return cell
         }
     // MARK: - UICollectionViewDelegateFlowLayout
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let padding: CGFloat = 40
-            let collectionViewSize = collectionView.frame.size.width - padding
-            let cellSize = collectionViewSize / 2
-            return CGSize(width: cellSize, height: cellSize)
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 40
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 10
-        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let padding: CGFloat = 40
+        let collectionViewSize = collectionView.frame.size.width - padding
+        let cellSize = collectionViewSize / 2
+        return CGSize(width: cellSize, height: cellSize)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+}
 extension CategoriesViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let oneCategoryVC = OneCategoryViewController()

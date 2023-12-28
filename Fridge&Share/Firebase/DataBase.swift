@@ -32,6 +32,33 @@ class FireBase {
         }
     }
     
+    func addRequest(request: RequestItem) {
+        database.collection("requests").addDocument(data: [
+            "product ID" : request.product.id ?? "",
+            "result" : request.result
+        ]) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
+    func addAnswer(answer: AnswerItem) {
+        database.collection("answers").addDocument(data: [
+            "product ID" : answer.product.id ?? "",
+            "answer" : answer.answer.rawValue
+        ]) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+
+    }
+    
     func addUser(user: User, id: String) {
         database.collection("users").document(id).setData([
             "id" : id,
@@ -163,13 +190,14 @@ class FireBase {
     }
     
     func getAllAnswers(completion: @escaping ([AnswerItem]) -> Void) {
+        listOfAnswers = []
         database.collection("answers").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
                 completion([])
                 return
             }
-            
+            var newAnswers = [AnswerItem]()
             let dispatchGroup = DispatchGroup()
             
             for queryDocumentSnapshot in documents {
@@ -178,6 +206,7 @@ class FireBase {
                 let productID = data["product ID"] as? String ?? ""
                 
                 dispatchGroup.enter()
+                
                 
                 self.fetchProduct(documentId: productID) { product in
                     let answer = data["answer"] as? String ?? "noanswer"
@@ -189,12 +218,13 @@ class FireBase {
                     default: answerCase = .noanswer
                     }
                     let answerItem = AnswerItem(id: id, product: product, answer: answerCase)
-                    listOfAnswers.append(answerItem)
+                    newAnswers.append(answerItem)
                     dispatchGroup.leave()
                 }
             }
             
             dispatchGroup.notify(queue: .main) {
+                listOfAnswers = newAnswers
                 completion(listOfAnswers)
             }
         }
@@ -227,10 +257,8 @@ class FireBase {
         database.collection("requests").document(documentId).delete() { error in
             if let error = error {
                 print("Error deleting request document: \(error)")
-//                completion(false)
             } else {
                 print("Request document successfully deleted!")
-//                completion(true)
             }
         }
     }
@@ -239,14 +267,21 @@ class FireBase {
         database.collection("answers").document(documentId).delete() { error in
             if let error = error {
                 print("Error deleting request document: \(error)")
-//                completion(false)
             } else {
                 print("Request document successfully deleted!")
-//                completion(true)
             }
         }
     }
 
+    func deleteProduct(documentId: String) {
+        database.collection("products").document(documentId).delete() { error in
+            if let error = error {
+                print("Error deleting request document: \(error)")
+            } else {
+                print("Request document successfully deleted!")
+            }
+        }
+    }
 
     func updateAnswer(documentId: String, productId: String, answer: answerCase) {
         database.collection("answers").document(documentId).setData(["product ID" : productId,

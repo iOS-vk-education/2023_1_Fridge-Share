@@ -48,7 +48,6 @@ final class RegistrationViewController: UIViewController {
         if let email = loginTextField.text, let password = passwordTextField.text {
             FirebaseAuthManager.shared.createUser(email: email, password: password) { [weak self] (success) in
                 guard let self = self, success else {
-                    // Handle registration failure
                     return
                 }
                 listOfUsers.append(User(id: FirebaseAuthManager.shared.userId, email: email, password: password))
@@ -128,9 +127,9 @@ final class RegistrationViewController: UIViewController {
             guard let `self` = self else { return }
             var message: String = ""
             if (success) {
-                message = "User was sucessfully created."
+                message = "Пользователь успешно зарегистрирован!"
             } else {
-                message = "There was an error."
+                message = "Ошибка!"
             }
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

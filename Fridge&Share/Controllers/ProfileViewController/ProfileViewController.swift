@@ -17,6 +17,7 @@ final class ProfileViewController: UIViewController {
         static let cornerRadius: CGFloat = 5
         static let borderWidth: CGFloat = 2.0
         static let tableViewCornerRadius: CGFloat = 16
+        static let exitLabel = "Выйти"
     }
     
     
@@ -60,11 +61,11 @@ final class ProfileViewController: UIViewController {
         button.imageView?.layer.cornerRadius = Constants.profileCornerRadius
         button.imageView?.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(ProfileViewController.self, action: #selector(hey), for: .touchUpInside)
+        button.addTarget(self, action: #selector(photoButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    @objc func hey() {
+    @objc func photoButtonTapped() {
         let vc = UIImagePickerController()
         vc.sourceType = .photoLibrary
         vc.delegate = self
@@ -107,15 +108,15 @@ final class ProfileViewController: UIViewController {
         title = Constants.title
         view.backgroundColor = .FASBackgroundColor
         
-        var indexOfUser = listOfUsers.firstIndex(where: { $0.id == FirebaseAuthManager.shared.getUserId() })
+        let indexOfUser = listOfUsers.firstIndex(where: { $0.id == FirebaseAuthManager.shared.getUserId() })
         print(FirebaseAuthManager.shared.getUserId())
         
-        var firstname = listOfUsers[indexOfUser ?? 0].name ?? ""
-        var secondname = listOfUsers[indexOfUser ?? 0].surname ?? ""
-        var name = "\(String(firstname)) \(String(secondname))"
+        let firstname = listOfUsers[indexOfUser ?? 0].name ?? ""
+        let secondname = listOfUsers[indexOfUser ?? 0].surname ?? ""
+        let name = "\(String(firstname)) \(String(secondname))"
         nameLabel.text = String(name)
         
-        var floor = listOfUsers[indexOfUser ?? 0].numberOfFloor ?? 0
+        let floor = listOfUsers[indexOfUser ?? 0].numberOfFloor ?? 0
         floorLabel.text = String("Этаж \(floor)")
         view.addSubview(profileAddPhotoButton)
         view.addSubview(nameLabel)
@@ -175,6 +176,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationC
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileAddPhotoButton.setBackgroundImage(image, for: .normal)
             profileAddPhotoButton.imageView?.layer.cornerRadius = Constants.profileCornerRadius
+            profileAddPhotoButton.imageView?.contentMode = .scaleAspectFill
+            profileAddPhotoButton.imageView?.clipsToBounds = true
         }
         picker.dismiss(animated: true)
     }
@@ -212,12 +215,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             fullString.append(textString)
             cell.textLabel?.attributedText = fullString
         } else {
-            cell.textLabel?.text = "Выйти"
+            cell.textLabel?.text = Constants.exitLabel
             cell.textLabel?.textColor = .systemRed
+            
         }
         
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -235,6 +240,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             let destination = RequestsViewController()
             navigationController?.pushViewController(destination, animated: true)
             destination.title = ProfileCellType.requests.title
+        case 3:
+            let destination = LoginViewController()
+            navigationController?.tabBarController?.present(destination, animated: true)
         default: print(indexPath.section)
         }
         
