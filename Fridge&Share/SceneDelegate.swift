@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -21,13 +22,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let tabBarController = TabBarController()
-        let loginViewController = LoginViewController()
+        
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         tabBarController.selectedIndex = 1
-        tabBarController.present(loginViewController, animated: true)
+        FirebaseAuthManager.shared.signInWithUserDefaults { [weak self] success in
+            guard !success else { return }
+            let loginViewController = LoginViewController()
+            self?.window?.rootViewController = loginViewController
+            loginViewController.loginDidSucceed = {[weak self] successed in
+                guard successed else {return}
+                self?.window?.rootViewController = tabBarController
+            }
+        }
 
-//        let navigationController = UINavigationController(rootViewController: loginViewController)
         FireBase.shared.getAllData()
         
         FireBase.shared.getAllRequests { listOfRequests in
@@ -39,9 +47,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         FireBase.shared.getAllUsers { listOfUsers in
             
         }
-//        window = UIWindow(windowScene: windowScene)
-//        window?.rootViewController = navigationController
-//        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -48,7 +48,6 @@ final class RegistrationViewController: UIViewController {
         if let email = loginTextField.text, let password = passwordTextField.text {
             FirebaseAuthManager.shared.createUser(email: email, password: password) { [weak self] (success) in
                 guard let self = self, success else {
-                    // Handle registration failure
                     return
                 }
                 listOfUsers.append(User(id: FirebaseAuthManager.shared.userId, email: email, password: password))

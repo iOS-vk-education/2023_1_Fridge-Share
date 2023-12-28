@@ -30,7 +30,7 @@ final class AddProducrViewController: UIViewController, UITextFieldDelegate {
         static let heightImage: CGFloat = 400
         static let icon = "photo.stack"
     }
-
+    
     
     func setModel() {
         firstTextField.placeholder = Constants.placeholderName
@@ -53,13 +53,11 @@ final class AddProducrViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(firstTextField)
         
         secondTextField.layer.borderWidth = Constants.borderWidth
-        secondTextField.layer.borderColor = UIColor.green.cgColor
         secondTextField.layer.cornerRadius = Constants.cornerRadius
         secondTextField.font = UIFont.systemFont(ofSize: 22)
-        secondTextField.textColor = .green
-        secondTextField.textColor = UIColor.green.withAlphaComponent(0.9)
-        secondTextField.layer.borderColor = UIColor.green.cgColor
-        secondTextField.backgroundColor = UIColor.green.withAlphaComponent(0.2)
+        secondTextField.textColor = .backgroundGreen
+        secondTextField.layer.borderColor = CGColor(red: 0.49, green: 0.77, blue: 0.42, alpha: 1.0)
+        secondTextField.backgroundColor = .lightGreen
         secondTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
         
         secondTextField.layer.masksToBounds = true

@@ -87,7 +87,7 @@ extension ListOfMyProductsController: UITableViewDelegate, UITableViewDataSource
         cell.name.text = listOfProducts[indexPath.row].name
         cell.image.image = UIImage(named: listOfProducts[indexPath.row].image)
         cell.date.text = listOfProducts[indexPath.row].explorationDate
-
+        
         
         return cell
     }

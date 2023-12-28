@@ -190,13 +190,14 @@ class FireBase {
     }
     
     func getAllAnswers(completion: @escaping ([AnswerItem]) -> Void) {
+        listOfAnswers = []
         database.collection("answers").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
                 completion([])
                 return
             }
-            
+            var newAnswers = [AnswerItem]()
             let dispatchGroup = DispatchGroup()
             
             for queryDocumentSnapshot in documents {
@@ -205,6 +206,7 @@ class FireBase {
                 let productID = data["product ID"] as? String ?? ""
                 
                 dispatchGroup.enter()
+                
                 
                 self.fetchProduct(documentId: productID) { product in
                     let answer = data["answer"] as? String ?? "noanswer"
@@ -216,12 +218,13 @@ class FireBase {
                     default: answerCase = .noanswer
                     }
                     let answerItem = AnswerItem(id: id, product: product, answer: answerCase)
-                    listOfAnswers.append(answerItem)
+                    newAnswers.append(answerItem)
                     dispatchGroup.leave()
                 }
             }
             
             dispatchGroup.notify(queue: .main) {
+                listOfAnswers = newAnswers
                 completion(listOfAnswers)
             }
         }
@@ -254,10 +257,8 @@ class FireBase {
         database.collection("requests").document(documentId).delete() { error in
             if let error = error {
                 print("Error deleting request document: \(error)")
-//                completion(false)
             } else {
                 print("Request document successfully deleted!")
-//                completion(true)
             }
         }
     }
@@ -266,10 +267,8 @@ class FireBase {
         database.collection("answers").document(documentId).delete() { error in
             if let error = error {
                 print("Error deleting request document: \(error)")
-//                completion(false)
             } else {
                 print("Request document successfully deleted!")
-//                completion(true)
             }
         }
     }
@@ -278,10 +277,8 @@ class FireBase {
         database.collection("products").document(documentId).delete() { error in
             if let error = error {
                 print("Error deleting request document: \(error)")
-//                completion(false)
             } else {
                 print("Request document successfully deleted!")
-//                completion(true)
             }
         }
     }

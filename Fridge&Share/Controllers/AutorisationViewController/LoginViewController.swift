@@ -8,13 +8,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    var scene: UIWindowScene? = nil
-    
-    func configure(windScene: UIWindowScene) {
-        scene = windScene
-    }
-    
-    var loginDidSucceed: (() -> Void)?
+    var loginDidSucceed: ((Bool) -> Void)?
     
     private var logoImageView = UIImageView()
     private var loginTextField = UITextField()
@@ -59,18 +53,18 @@ class LoginViewController: UIViewController {
             if (success) {
                 message = "Вы успешно вошли в учетную запись"
                 dismiss(animated: true, completion: nil)
-                loginDidSucceed?()
+                loginDidSucceed?(true)
                 
                 
             } else {
                 message = "Данные введены неверно!"
+                loginDidSucceed?(false)
             }
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
             
         }
-        loginDidSucceed?()
     }
     
     @objc private func handleRegistration() {

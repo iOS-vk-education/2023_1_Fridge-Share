@@ -115,25 +115,6 @@ final class AnswerCell: UITableViewCell {
         ])
     }
     
-    //    @objc func agreeButtonTapped() {
-    //        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
-    //        let product = listOfAnswers[index].product
-    //        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .agree)
-    //        listOfAnswers.removeAll()
-    //        filteredListOfAnswers.removeAll()
-    //        FireBase.shared.getAllAnswers {listOfAnswers in }
-    //        self.delegate?.reloadDataForTable()
-    //    }
-    //
-    //    @objc func disagreeButtonTapped() {
-    //        let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
-    //        let product = listOfAnswers[index].product
-    //        FireBase.shared.updateAnswer(documentId: documentId, productId: product.id ?? "", answer: .disagree)
-    //        listOfAnswers.removeAll()
-    //        filteredListOfAnswers.removeAll()
-    //        FireBase.shared.getAllAnswers {listOfAnswers in }
-    //        self.delegate?.reloadDataForTable()
-    //    }
     @objc func agreeButtonTapped() {
         let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) ?? 0
         let product = listOfAnswers[index].product

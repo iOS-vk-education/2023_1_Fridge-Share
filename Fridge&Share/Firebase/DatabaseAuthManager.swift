@@ -24,15 +24,30 @@ class FirebaseAuthManager {
                 completionBlock(false)
                 return
             }
-            
-            // Update userId in FirebaseAuthManager
+            UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.set(password, forKey: "password")
             self.userId = user.uid
             
             let userItem = User(id: user.uid, email: email, password: password)
             FireBase.shared.addUser(user: userItem, id: user.uid)
             
-            // Use completion block to indicate success
             self.handleSignInSuccess(completionBlock: completionBlock)
+        }
+    }
+    func signInWithUserDefaults(completion: @escaping (Bool) -> Void) {
+        guard let email = UserDefaults.standard.string(forKey: "email"),
+                let password = UserDefaults.standard.string(forKey: "password")
+        else {
+            completion(false)
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                completion(false)
+            } else {
+                completion(true)
+            }
         }
     }
     
@@ -49,6 +64,8 @@ class FirebaseAuthManager {
             if let error = error {
                 completionBlock(false)
             } else {
+                UserDefaults.standard.set(email, forKey: "email")
+                UserDefaults.standard.set(pass, forKey: "password")
                 completionBlock(true)
             }
         }
