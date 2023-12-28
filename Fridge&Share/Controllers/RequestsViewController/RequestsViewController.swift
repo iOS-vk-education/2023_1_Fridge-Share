@@ -183,35 +183,31 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         
         return swipeActions
     }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        // Создаем футер
-        let footerView = UIView()
-        footerView.backgroundColor = .FASBackgroundColor
-        return footerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 10
-    }
-    
+
 }
 
 
-
-
 extension RequestsViewController: AnswerViewControllerDelegate {
-    func reloadDataForTable() {
-        
-        self.answerTableView.reloadData()
+    func reloadDataForTable(documentId: String, newAnswer: answerCase) {
+        if let index = listOfAnswers.firstIndex(where: { $0.id == documentId }) {
+            FireBase.shared.updateAnswer(documentId: documentId, productId: listOfAnswers[index].product.id ?? "", answer: newAnswer)
+            var item = listOfAnswers[index]
+            if newAnswer == answerCase.agree {
+                item.makeAnswerAgree()
+            } else {
+                item.makeAnswerDisagree()
+            }
+            FireBase.shared.getAllAnswers {listOfAnswers in }
+            
+            
+            self.answerTableView.reloadData()
+            
+        }
     }
 }
 //extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
 //
-//
+//    
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        if tableView.tag == Constants.requestTableTag {
 //            guard let requestCell = tableView.dequeueReusableCell(withIdentifier: "\(RequestCell.self)", for: indexPath) as? RequestCell else {
@@ -226,7 +222,7 @@ extension RequestsViewController: AnswerViewControllerDelegate {
 //            } else {
 //                requestCell.contentView.backgroundColor = .lightRed
 //            }
-//
+//            
 //            return requestCell
 //        } else {
 //            guard let answerCell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerCell.self)", for: indexPath) as? AnswerCell else {
@@ -239,11 +235,11 @@ extension RequestsViewController: AnswerViewControllerDelegate {
 //            return answerCell
 //        }
 //    }
-//
+//    
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        tableView.deselectRow(at: indexPath, animated: true)
 //    }
-//
+//    
 //    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 //        // Создаем футер
 //        let footerView = UIView()
@@ -265,5 +261,5 @@ extension RequestsViewController: AnswerViewControllerDelegate {
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return 1
 //    }
-//
+//    
 //}

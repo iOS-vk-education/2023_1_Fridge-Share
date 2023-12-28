@@ -22,6 +22,8 @@
 		DF4A33772B3CEC3F00A3EC3B /* ResultTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */; };
 		DF4A337C2B3D933600A3EC3B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF4A337B2B3D933600A3EC3B /* GoogleService-Info.plist */; };
 		DF4A337E2B3D958900A3EC3B /* OneCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A337D2B3D958900A3EC3B /* OneCategoryViewController.swift */; };
+		DF4A33802B3D990400A3EC3B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF4A337F2B3D990400A3EC3B /* GoogleService-Info.plist */; };
+		DF4A33822B3D998600A3EC3B /* OneCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4A33812B3D998600A3EC3B /* OneCategoryViewController.swift */; };
 		DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */; };
 		DF58E64A2AE7E55000FE5ED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */; };
 		DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E64B2AE7E55000FE5ED8 /* ViewController.swift */; };
@@ -96,6 +98,8 @@
 		DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableCell.swift; sourceTree = "<group>"; };
 		DF4A337B2B3D933600A3EC3B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF4A337D2B3D958900A3EC3B /* OneCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneCategoryViewController.swift; sourceTree = "<group>"; };
+		DF4A337F2B3D990400A3EC3B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DF4A33812B3D998600A3EC3B /* OneCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneCategoryViewController.swift; sourceTree = "<group>"; };
 		DF58E6442AE7E55000FE5ED8 /* Fridge&Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fridge&Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF58E6492AE7E55000FE5ED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				DF4A337D2B3D958900A3EC3B /* OneCategoryViewController.swift */,
+				DF4A33812B3D998600A3EC3B /* OneCategoryViewController.swift */,
 				CE03A5252B25D59500ACFC01 /* CatrgoriesViewController.swift */,
 				DF4A33742B3CE4DD00A3EC3B /* ResultSearchViewController.swift */,
 				DF4A33762B3CEC3F00A3EC3B /* ResultTableCell.swift */,
@@ -252,7 +257,7 @@
 				DF58E64D2AE7E55000FE5ED8 /* Main.storyboard */,
 				DF58E6522AE7E55300FE5ED8 /* LaunchScreen.storyboard */,
 				DF58E6552AE7E55300FE5ED8 /* Info.plist */,
-				DF4A337B2B3D933600A3EC3B /* GoogleService-Info.plist */,
+				DF4A337F2B3D990400A3EC3B /* GoogleService-Info.plist */,
 			);
 			path = "Fridge&Share";
 			sourceTree = "<group>";
@@ -541,6 +546,7 @@
 				DFD714912B3753A300B55550 /* MyProductsController.swift in Sources */,
 				CE0E98E22B13EB7500626326 /* ProductViewContoller.swift in Sources */,
 				DF58E64C2AE7E55000FE5ED8 /* ViewController.swift in Sources */,
+				DF4A33822B3D998600A3EC3B /* OneCategoryViewController.swift in Sources */,
 				DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */,
 				DFD714BB2B3C70FA00B55550 /* DatabaseAuthManager.swift in Sources */,
 				DFD714682B01773900B55550 /* ItemCell.swift in Sources */,

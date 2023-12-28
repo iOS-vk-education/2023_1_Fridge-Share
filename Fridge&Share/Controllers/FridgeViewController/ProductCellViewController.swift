@@ -5,6 +5,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
         static let cornerRadius: CGFloat = 10.0
         static let ownerImageSize: CGFloat = 40.0
         static let ownerImageOverlap: CGFloat = 20.0
+        static let ownerImageOverlap: CGFloat = 20.0
     }
     
     struct ProductCellModel {
@@ -36,7 +37,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
             productImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             productImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-
+        
         addSubview(productOwnerImageView)
         productOwnerImageView.translatesAutoresizingMaskIntoConstraints = false
         productOwnerImageView.layer.cornerRadius = Constants.ownerImageSize / 2
