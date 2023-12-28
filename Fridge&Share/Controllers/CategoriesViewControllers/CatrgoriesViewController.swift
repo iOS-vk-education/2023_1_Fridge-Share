@@ -11,7 +11,6 @@ final class CategoryCell: UICollectionViewCell {
         static let cornerRadius: CGFloat = 10.0
         
     }
-    
 
     static let identifier = "CategoryCellIdentifier"
     let imageView: UIImageView = {
@@ -42,22 +41,12 @@ final class CategoryCell: UICollectionViewCell {
     }
 }
 
-class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate {
+class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
             print(text)
     }
     
-    let categoryNames = [
-            "Молочные продукты, яйца",
-            "Мясо, рыба",
-            "Хлебобулочные изделия",
-            "Напитки",
-            "Соусы",
-            "Сладости",
-            "Фрукты, овощи",
-            "Готовые блюда"
-        ]
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -131,13 +120,4 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             return 10
         }
     }
-extension CategoriesViewController {
-  
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-               let oneCategoryVC = OneCategoryViewController()
-            
-               oneCategoryVC.categoryName = categoryNames[indexPath.item]
 
-               navigationController?.pushViewController(oneCategoryVC, animated: true)
-       }
-}

@@ -149,7 +149,7 @@ final class ProfileViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 60
+        tableView.rowHeight = UITableView.automaticDimension
     }
 }
 

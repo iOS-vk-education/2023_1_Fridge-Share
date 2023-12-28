@@ -15,6 +15,8 @@
 		CEDE126B2B3A644300669122 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE126A2B3A644300669122 /* RegistrationViewController.swift */; };
 		CEDE126D2B3A72AE00669122 /* NameSurnameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE126C2B3A72AE00669122 /* NameSurnameViewController.swift */; };
 		CEDE126F2B3A777100669122 /* RegistrationDormitory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE126E2B3A777100669122 /* RegistrationDormitory.swift */; };
+		CEDE12712B3A7D9C00669122 /* NewDormitory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE12702B3A7D9C00669122 /* NewDormitory.swift */; };
+		CEDE12732B3A83C400669122 /* YourDormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDE12722B3A83C400669122 /* YourDormViewController.swift */; };
 		CEE6F6712B152BBA0005FF39 /* ProductCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */; };
 		CEFAE49B2B2DE04E0007DF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */; };
 		DF58E6482AE7E55000FE5ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF58E6472AE7E55000FE5ED8 /* AppDelegate.swift */; };
@@ -84,6 +86,8 @@
 		CEDE126A2B3A644300669122 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		CEDE126C2B3A72AE00669122 /* NameSurnameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSurnameViewController.swift; sourceTree = "<group>"; };
 		CEDE126E2B3A777100669122 /* RegistrationDormitory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDormitory.swift; sourceTree = "<group>"; };
+		CEDE12702B3A7D9C00669122 /* NewDormitory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDormitory.swift; sourceTree = "<group>"; };
+		CEDE12722B3A83C400669122 /* YourDormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDormViewController.swift; sourceTree = "<group>"; };
 		CEE6F6702B152BBA0005FF39 /* ProductCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCellViewController.swift; sourceTree = "<group>"; };
 		CEFAE49A2B2DE04E0007DF17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF58E6442AE7E55000FE5ED8 /* Fridge&Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fridge&Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				CE03A5252B25D59500ACFC01 /* CatrgoriesViewController.swift */,
-				CE52B0A32B3BB23B000015D4 /* OneCategoryViewController.swift */,
 			);
 			path = CategoriesViewControllers;
 			sourceTree = "<group>";
@@ -183,6 +186,8 @@
 				CEDE126A2B3A644300669122 /* RegistrationViewController.swift */,
 				CEDE126C2B3A72AE00669122 /* NameSurnameViewController.swift */,
 				CEDE126E2B3A777100669122 /* RegistrationDormitory.swift */,
+				CEDE12702B3A7D9C00669122 /* NewDormitory.swift */,
+				CEDE12722B3A83C400669122 /* YourDormViewController.swift */,
 			);
 			path = AutorisationViewController;
 			sourceTree = "<group>";
@@ -490,6 +495,8 @@
 			files = (
 				DFD714B12B3B8B2A00B55550 /* DataBase.swift in Sources */,
 				DFD714B32B3B989300B55550 /* AddProductViewController.swift in Sources */,
+				CEDE12712B3A7D9C00669122 /* NewDormitory.swift in Sources */,
+				CEDE12732B3A83C400669122 /* YourDormViewController.swift in Sources */,
 				CEDE126F2B3A777100669122 /* RegistrationDormitory.swift in Sources */,
 				DFD714BE2B3C773100B55550 /* UserItem.swift in Sources */,
 				CEDE12692B3A52D900669122 /* LoginViewController.swift in Sources */,
