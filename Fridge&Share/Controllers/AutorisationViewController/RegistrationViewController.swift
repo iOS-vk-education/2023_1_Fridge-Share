@@ -20,7 +20,7 @@ final class RegistrationViewController: UIViewController {
     
     private enum Constants {
         static let logoImageViewTopOffset: CGFloat = 215.0
-        static let logoImageViewScale: CGFloat = 1.3
+        static let logoImageViewScale: CGFloat = 0.45
 
         static let textFieldsTopOffset: CGFloat = 150.0
         static let textFieldsSpacing: CGFloat = 20.0
@@ -58,7 +58,9 @@ final class RegistrationViewController: UIViewController {
         }
     }
     private func setupUI() {
-        
+        let tapElsewhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedNotInKeyboard))
+        tapElsewhereGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapElsewhereGesture)
         logoImageView = UIImageView(image: UIImage(named: "Logo"))
         logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
@@ -94,6 +96,15 @@ final class RegistrationViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(registerButton)
     }
+    
+    @objc func tappedNotInKeyboard() {
+        loginTextField.endEditing(true)
+        loginTextField.resignFirstResponder()
+        
+        passwordTextField.endEditing(true)
+        passwordTextField.resignFirstResponder()
+    }
+
     private func setupConstraints() {
         
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,5 +146,12 @@ final class RegistrationViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+}
+
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 }

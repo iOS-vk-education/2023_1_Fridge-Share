@@ -46,15 +46,22 @@ final class NameSurnameViewController: UIViewController {
                 user.name = name
                 user.surname = surname
                 FireBase.shared.updateUser(documentId: userId, user: user)
-                print(user)
-                let registrationDormitoryViewController = RegistrationDormitoryViewController()
                 FireBase.shared.getAllUsers{ listOfUsers in
                     
                 }
+                let registrationDormitoryViewController = RegistrationDormitoryViewController()
                 registrationDormitoryViewController.configure(id: userId, name: name, surname: surname)
                 self.present(registrationDormitoryViewController, animated: true, completion: nil)
             }
         }
+    }
+    
+    @objc func tappedNotInKeyboard() {
+        nameTextField.endEditing(true)
+        nameTextField.resignFirstResponder()
+        
+        surnameTextField.endEditing(true)
+        surnameTextField.resignFirstResponder()
     }
     
     override func viewDidLoad() {
@@ -65,7 +72,9 @@ final class NameSurnameViewController: UIViewController {
     }
     
     private func setupUI() {
-        
+        let tapElsewhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedNotInKeyboard))
+        tapElsewhereGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapElsewhereGesture)
         label = UILabel()
         label.text = "Давайте познакомимся"
         label.font = UIFont.boldSystemFont(ofSize: 36)

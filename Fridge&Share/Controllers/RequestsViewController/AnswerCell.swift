@@ -1,10 +1,3 @@
-//
-//  RequestCell.swift
-//  Fridge&Share
-//
-//  Created by Елизавета Шерман on 24.12.2023.
-//
-
 import UIKit
 
 protocol AnswerViewControllerDelegate: AnyObject {
@@ -41,7 +34,7 @@ final class AnswerCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = .lightGray
+        contentView.backgroundColor = .lightGray
         translatesAutoresizingMaskIntoConstraints = false
         
         setupUI()

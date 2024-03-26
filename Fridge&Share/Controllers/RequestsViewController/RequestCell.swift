@@ -1,10 +1,3 @@
-//
-//  RequestCell.swift
-//  Fridge&Share
-//
-//  Created by Елизавета Шерман on 24.12.2023.
-//
-
 import UIKit
 
 final class RequestCell: UITableViewCell {

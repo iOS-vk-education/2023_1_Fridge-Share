@@ -34,6 +34,7 @@ final class OneProductCell: UITableViewCell {
     
     private func setupUI() {
         image.layer.cornerRadius = Constants.imageCornerRadius
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         
         name.textColor = .black

@@ -16,9 +16,6 @@ final class RegistrationDormitoryViewController: UIViewController {
         userId = id
         username = name
         usersurname = surname
-        print(id)
-        print(name)
-        print(surname)
     }
     
     private var label = UILabel()
@@ -78,14 +75,20 @@ final class RegistrationDormitoryViewController: UIViewController {
                 let alertController = UIAlertController(title: nil, message: "Вы успешно заригистрированы!", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
+                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
             }
         }
     }
     
     private func setupUI() {
         
+        let tapElsewhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedNotInKeyboard))
+        tapElsewhereGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapElsewhereGesture)
+        
         label = UILabel()
-        label.text = "Добро пожаловать, "
+        
+        label.text = "Добро пожаловать!"
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
@@ -118,20 +121,28 @@ final class RegistrationDormitoryViewController: UIViewController {
         loginButton.layer.cornerRadius = 25
         loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         
-        registrationPromptButton = UIButton(type: .system)
-        registrationPromptButton.setTitle("Не нашли общежитие? Создайте!", for: .normal)
-        registrationPromptButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        registrationPromptButton.titleLabel?.numberOfLines = 2
-        registrationPromptButton.titleLabel?.lineBreakMode = .byWordWrapping
-        registrationPromptButton.titleLabel?.textAlignment = .center
-        registrationPromptButton.setTitleColor(.systemBlue, for: .normal)
-        registrationPromptButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+//        registrationPromptButton = UIButton(type: .system)
+//        registrationPromptButton.setTitle("Не нашли общежитие? Создайте!", for: .normal)
+//        registrationPromptButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+//        registrationPromptButton.titleLabel?.numberOfLines = 2
+//        registrationPromptButton.titleLabel?.lineBreakMode = .byWordWrapping
+//        registrationPromptButton.titleLabel?.textAlignment = .center
+//        registrationPromptButton.setTitleColor(.systemBlue, for: .normal)
+//        registrationPromptButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         
         view.addSubview(label)
         view.addSubview(eduTextField)
         view.addSubview(dormTextField)
         view.addSubview(loginButton)
         
+    }
+    
+    @objc func tappedNotInKeyboard() {
+        eduTextField.endEditing(true)
+        eduTextField.resignFirstResponder()
+        
+        dormTextField.endEditing(true)
+        dormTextField.resignFirstResponder()
     }
     private func setupConstraints() {
         
@@ -162,10 +173,10 @@ final class RegistrationDormitoryViewController: UIViewController {
             loginButton.widthAnchor.constraint(equalToConstant: Constants.loginButtonSize),
             loginButton.heightAnchor.constraint(equalToConstant: Constants.loginButtonSize),
                         
-            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
-            registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
-            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
+//            registrationPromptButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: Constants.registrationPromptButtonTopOffset),
+//            registrationPromptButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            registrationPromptButton.widthAnchor.constraint(equalToConstant: Constants.registrationPromptButtonWidth),
+//            registrationPromptButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.registrationPromptButtonMinimumHeight)
         ])
     }
     

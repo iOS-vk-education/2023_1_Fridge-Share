@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         static let cornerRadius: CGFloat = 15.0
         static let borderWidth: CGFloat = 1.0
         
-        static let logoImageViewScale: CGFloat = 1.3
+        static let logoImageViewScale: CGFloat = 0.45
         static let textFieldHeight: CGFloat = 60.0
         static let buttonCornerRadius: CGFloat = 15.0
         static let leftViewWidth: CGFloat = 10
@@ -31,11 +31,11 @@ class LoginViewController: UIViewController {
         static let textFieldWidthMultiplier: CGFloat = 0.75
         static let registrationButtonWidthMultiplier: CGFloat = 0.9
         static let registrationButtonMinHeight: CGFloat = 40.0
-        static let textFieldsTopConstraint: CGFloat = 150.0
+        static let textFieldsTopConstraint: CGFloat = 70.0
         static let textFieldSpacing: CGFloat = 20.0
         static let buttonTopConstraint: CGFloat = 30.0
         static let registrationButtonTopConstraint: CGFloat = 20.0
-        static let logoImageCenterYOffset: CGFloat = 215.0
+        static let logoImageCenterYOffset: CGFloat = 250.0
     }
 
     override func viewDidLoad() {
@@ -43,6 +43,14 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .FASBackgroundColor
         setupUI()
         setupConstraints()
+    }
+    
+    @objc func tappedNotInKeyboard() {
+        loginTextField.endEditing(true)
+        loginTextField.resignFirstResponder()
+        
+        passwordTextField.endEditing(true)
+        passwordTextField.resignFirstResponder()
     }
     
     @objc private func handleLogin() {
@@ -73,7 +81,9 @@ class LoginViewController: UIViewController {
     }
     
     private func setupUI() {
-        
+        let tapElsewhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedNotInKeyboard))
+        tapElsewhereGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapElsewhereGesture)
         logoImageView = UIImageView(image: UIImage(named: "Logo"))
         logoImageView.transform = CGAffineTransform(scaleX: Constants.logoImageViewScale, y: Constants.logoImageViewScale)
                 
@@ -88,6 +98,7 @@ class LoginViewController: UIViewController {
         loginTextField.leftViewMode = .always
                 
         passwordTextField = UITextField()
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "Пароль"
         passwordTextField.textColor = .systemBlue
         passwordTextField.layer.borderColor = UIColor.systemBlue.cgColor
