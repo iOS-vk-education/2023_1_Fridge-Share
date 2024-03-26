@@ -21,7 +21,6 @@ final class OneFloorController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.backgroundColor = .FASBackgroundColor
         collectionView?.backgroundColor = .FASBackgroundColor
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()

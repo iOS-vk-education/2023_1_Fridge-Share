@@ -7,16 +7,6 @@
 
 import UIKit
 
-let dairyProducts = ["Молоко Домик в деревне 2,5%", "Молоко  Parmalat 3,5%", "Масло 150г"]
-let meatFish = ["Форель слабосоленая", "Колбаса Вязанка"]
-let bakeryProducts = ["Хлеб ржаной нарезной"]
-let beverages = ["Напитки"]
-let sauces = ["Соусы"]
-let sweets = ["Сладости"]
-let fruitsVegetables = ["Помидоры красные", "Огурцы"]
-let readyMeals = ["Салат Цезарь", "Пельмени Цезарь",]
-
-
 final class OneCategoryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var categoryName: String?
@@ -27,13 +17,14 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
         super.viewDidLoad()
         
         self.title = categoryName
+        view.backgroundColor = .FASBackgroundColor
 
         setupCollectionView()
         setCollectionViewLayout()
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "ProductCell")
         if let categoryName = categoryName {
-                    title = categoryName
-                }
+            title = categoryName
+        }
     }
     
     func setupCollectionView() {
@@ -47,7 +38,7 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
         collectionView.dataSource = self
@@ -69,6 +60,7 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
             productOwnerImageName: nil
            )
            cell.setModel(viewModel)
+        
         
         return cell
     }
@@ -95,8 +87,11 @@ final class OneCategoryViewController: UIViewController, UICollectionViewDelegat
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let productVC = ProductViewController()
-        
+        guard let selectedImage = UIImage(named: listOfProducts[indexPath.row].image) else { return }
+        let productNameString = listOfProducts[indexPath.row].name
+        let productDate = listOfProducts[indexPath.row].explorationDate
+        let viewModel = ProductViewController.ProductViewModel(selectedImage: selectedImage, caption: productNameString, explorationDate: productDate)
+        productVC.setModel(viewModel)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 }
-

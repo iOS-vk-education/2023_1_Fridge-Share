@@ -4,7 +4,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
     private enum Constants {
         static let cornerRadius: CGFloat = 10.0
         static let ownerImageSize: CGFloat = 40.0
-        static let ownerImageOverlap: CGFloat = 20.0 
+        static let ownerImageOverlap: CGFloat = 20.0
     }
     
     struct ProductCellModel {
@@ -36,7 +36,7 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
             productImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             productImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
+
         addSubview(productOwnerImageView)
         productOwnerImageView.translatesAutoresizingMaskIntoConstraints = false
         productOwnerImageView.layer.cornerRadius = Constants.ownerImageSize / 2
@@ -52,18 +52,19 @@ final class ProductCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
     }
     
     func setModel(_ viewModel: ProductCellModel) {
-        func setModel(_ viewModel: ProductCellModel) {
-            productImageView.image = UIImage(named: viewModel.productImageName)
-            
-            if let ownerImageName = viewModel.productOwnerImageName, !ownerImageName.isEmpty {
-                productOwnerImageView.image = UIImage(named: ownerImageName)
-                productOwnerImageView.isHidden = false
-            } else {
-                productOwnerImageView.image = nil
-                productOwnerImageView.isHidden = true
-            }
-        }
+        productImageView.image = UIImage(named: viewModel.productImageName)
         
+        if let ownerImageName = viewModel.productOwnerImageName, !ownerImageName.isEmpty {
+            productOwnerImageView.image = UIImage(named: ownerImageName)
+            productOwnerImageView.isHidden = false
+        } else {
+            productOwnerImageView.image = nil
+            productOwnerImageView.isHidden = true
+        }
+
     }
+    
 }
+
+
 

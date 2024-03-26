@@ -8,11 +8,8 @@
 import UIKit
 
 var listOfRequests: [RequestItem] = []
-var listOfAnswers: [AnswerItem] = [] {
-    didSet {
-        print(listOfAnswers)
-    }
-}
+var listOfAnswers: [AnswerItem] = []
+var filteredListOfanswers: [AnswerItem] = []
 
 final class RequestsViewController: UIViewController {
     private enum Constants {
@@ -28,7 +25,7 @@ final class RequestsViewController: UIViewController {
     private let answersLabel = UILabel()
     
     private let requestTableView = UITableView()
-     let answerTableView = UITableView()
+    let answerTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,11 +132,12 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             requestCell.name.text = listOfRequests[indexPath.section].product.name
             requestCell.image.image = UIImage(named: listOfRequests[indexPath.section].product.image)
             requestCell.date.text = listOfRequests[indexPath.section].product.explorationDate
+            requestCell.backgroundColor = .FASBackgroundColor
             
             if listOfRequests[indexPath.section].result == true {
-                requestCell.backgroundColor = .lightGreen
+                requestCell.contentView.backgroundColor = .lightGreen
             } else {
-                requestCell.backgroundColor = .lightRed
+                requestCell.contentView.backgroundColor = .lightRed
             }
             
             return requestCell
@@ -149,7 +147,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             let filteredListOfAnswers = listOfAnswers.filter { item in
                 return item.answer == .noanswer
             }
-
+            
             guard let answerCell = tableView.dequeueReusableCell(withIdentifier: "\(AnswerCell.self)", for: indexPath) as? AnswerCell else {
                 return UITableViewCell()
             }
@@ -157,6 +155,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             answerCell.name.text = filteredListOfAnswers[indexPath.section].product.name
             answerCell.image.image = UIImage(named: filteredListOfAnswers[indexPath.section].product.image)
             answerCell.date.text = filteredListOfAnswers[indexPath.section].product.explorationDate
+            answerCell.backgroundColor = .FASBackgroundColor
             answerCell.configureCell(id: filteredListOfAnswers[indexPath.section].id ?? "", delegate: self)
             
             return answerCell
@@ -166,7 +165,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let item = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (contextualAction, view, boolValue) in
             let item = listOfRequests[indexPath.section]
@@ -175,7 +174,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
             FireBase.shared.getAllRequests { listOfRequests in
                 
             }
-//            tableView.deleteRows(at: [indexPath], with: .fade)
+            //            tableView.deleteRows(at: [indexPath], with: .fade)
         }
         item.image = UIImage(systemName: "trash.fill")
         item.backgroundColor = .systemRed
@@ -184,8 +183,24 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         
         return swipeActions
     }
-
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        // Создаем футер
+        let footerView = UIView()
+        footerView.backgroundColor = .FASBackgroundColor
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 10
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : 10
+    }
+    
 }
+
+
 
 
 extension RequestsViewController: AnswerViewControllerDelegate {

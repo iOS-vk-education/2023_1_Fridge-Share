@@ -9,9 +9,9 @@ import UIKit
 final class CategoryCell: UICollectionViewCell {
     private enum Constants {
         static let cornerRadius: CGFloat = 10.0
-        
+
     }
-    
+
     static let identifier = "CategoryCellIdentifier"
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -19,15 +19,15 @@ final class CategoryCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
-    
-    
+
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         contentView.addSubview(imageView)
         imageView.layer.cornerRadius = Constants.cornerRadius
-        
+
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -35,7 +35,7 @@ final class CategoryCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,10 +44,10 @@ final class CategoryCell: UICollectionViewCell {
 class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        
+
         let vc = searchController.searchResultsController as? ResultViewController
         vc?.resultProducts.removeAll()
-        
+
         listOfProducts.forEach { (product) in
             if product.name.contains(text) {
                 vc?.resultProducts.append(product)
@@ -55,7 +55,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         vc?.tableView.reloadData()
     }
-    
+
     let categoryNames = [
             "Молочные продукты, яйца",
             "Мясо, рыба",
@@ -75,7 +75,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         return collectionView
     }()
-    
+
     let images: [UIImage] = [
         UIImage(named: "CategoryMilk")!,
         UIImage(named: "CategoryMeat")!,
@@ -86,7 +86,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         UIImage(named: "CategoryVegetables")!,
         UIImage(named: "СategoryReadyfood")!
     ]
-    
+
     let searchController = UISearchController(searchResultsController: ResultViewController())
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +97,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
         searchController.searchBar.placeholder = "Type something here to search"
         navigationItem.searchController?.searchBar.delegate = self
         navigationItem.searchController = searchController
-        
+
         collectionView.dataSource = self
         collectionView.delegate = self
         view.backgroundColor = .FASBackgroundColor
@@ -107,15 +107,15 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
+
     var serial_search = DispatchQueue(label: "ser_search")
-    
+
     var cancel = false
     var inProgress = false
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //when search text is changed, we cancel an ongoing search loop
         if inProgress {
@@ -125,16 +125,16 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
 }
     // MARK: - UICollectionViewDataSource
 
-    extension CategoriesViewController: UICollectionViewDataSource {
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return images.count
-        }
-
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as! CategoryCell
-            cell.imageView.image = images[indexPath.item]
-            return cell
-        }
+extension CategoriesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as! CategoryCell
+        cell.imageView.image = images[indexPath.item]
+        return cell
+    }
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -155,12 +155,13 @@ class CategoriesViewController: UIViewController, UICollectionViewDelegate, UICo
 extension CategoriesViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let oneCategoryVC = OneCategoryViewController()
-        
+
         let selectedCategory = categoryNames[indexPath.row]
         oneCategoryVC.categoryName = selectedCategory
 
         oneCategoryVC.categoryProducts = self.productsForCategory(categoryName: selectedCategory)
-        
+
+//        navigationController?.navigationBar.backgroundColor = .FASBackgroundColor
         navigationController?.pushViewController(oneCategoryVC, animated: true)
     }
 

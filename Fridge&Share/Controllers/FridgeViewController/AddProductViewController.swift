@@ -40,7 +40,9 @@ final class AddProducrViewController: UIViewController, UITextFieldDelegate {
     
     private func setupUI(){
         setModel()
-        
+        let tapElsewhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedNotInKeyboard))
+        tapElsewhereGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapElsewhereGesture)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .lightGrey
         view.addSubview(imageView)
@@ -136,6 +138,17 @@ final class AddProducrViewController: UIViewController, UITextFieldDelegate {
         FireBase.shared.addProduct(product: product)
         self.navigationController?.popViewController(animated: true)
         
+    }
+    
+    @objc func tappedNotInKeyboard() {
+        firstTextField.endEditing(true)
+        firstTextField.resignFirstResponder()
+        
+        secondTextField.endEditing(true)
+        secondTextField.resignFirstResponder()
+        
+        commentField.endEditing(true)
+        commentField.resignFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
