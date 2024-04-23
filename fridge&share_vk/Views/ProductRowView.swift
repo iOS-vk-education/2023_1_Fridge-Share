@@ -13,7 +13,7 @@ struct ProductRowView: View {
         static let imageCornerRadius: CGFloat = 12
     }
     
-    let product: ProductData
+    @State var product: ProductData
     var database = FireBase.shared
     
     @State private var productImage: UIImage?

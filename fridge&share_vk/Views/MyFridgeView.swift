@@ -12,7 +12,7 @@ struct MyFridge: View {
         static let naviagtionTitle = "Мой холодильник"
     }
     
-    @EnvironmentObject var user: UserData
+    @StateObject var user: UserData
     
     var database = FireBase.shared
     

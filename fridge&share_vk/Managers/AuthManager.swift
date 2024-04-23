@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-class FireBaseAuthManager {
+class FireBaseAuthManager: ObservableObject {
     private enum Constants {
         static let email = "email"
         static let password = "password"

@@ -17,6 +17,7 @@ struct FridgeView: View {
     
     @StateObject
     var database = FireBase.shared
+    @StateObject
     var authentification = FireBaseAuthManager.shared
     @Environment(\.presentationMode) var presentationMode
     
