@@ -152,8 +152,13 @@ struct OneProductView: View {
             }
         }
         .onAppear {
-            database.uploadProduct(productName: product.image) { image in
-                self.productImage = image
+            if let cachedImage = ImageCache.shared.getImage(for: product.image) {
+                self.productImage = cachedImage
+            } else {
+                database.uploadProduct(productName: product.image) { image in
+                    self.productImage = image
+                    ImageCache.shared.setImage(image, for: product.image)
+                }
             }
         }
     }
