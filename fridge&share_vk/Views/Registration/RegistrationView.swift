@@ -24,6 +24,8 @@ struct RegistrationView: View {
     
     @Binding var rootIsActive : Bool
     
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         VStack {
             Text(Constants.letMeetLabel)
@@ -42,7 +44,7 @@ struct RegistrationView: View {
                 .textFieldStyle(.roundedBorder)
             
             NavigationLink(
-                destination: RegistrateDormitoryView(preRootIsActive: self.$rootIsActive)
+                destination: RegistrateDormitoryView(preRootIsActive: self.$rootIsActive, isLoggedIn: self.$isLoggedIn)
                     .onAppear {
                         userData.name = username
                         userData.email = email

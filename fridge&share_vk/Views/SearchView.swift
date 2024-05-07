@@ -11,7 +11,7 @@ struct SearchView: View {
     private enum Constants {
         static let navigationTitle = "Ищем продукт"
     }
-
+    
     @State private var searchText = ""
     @State private var searchIsActive = false
     
@@ -21,23 +21,22 @@ struct SearchView: View {
     var body: some View {
         if #available(iOS 16.0, *) {
             if #available(iOS 17.0, *) {
-                    NavigationStack {
-                        List {
-                            ForEach(searchResults, id: \.self) { product in
-                                NavigationLink {
-                                    OneProductView(product: product)
-                                } label: {
-                                    ProductRowView(product: product)
-                                }
+                NavigationStack {
+                    List {
+                        ForEach(searchResults, id: \.self) { product in
+                            NavigationLink {
+                                OneProductView(product: product)
+                            } label: {
+                                ProductRowView(product: product)
                             }
                         }
-                        .navigationTitle(Constants.navigationTitle)
-                        
                     }
-                    .searchable(text: $searchText, isPresented: $searchIsActive)
-                    .onAppear {
-                        database.getAllProducts()
-                    }
+                    .navigationTitle(Constants.navigationTitle)
+                }
+                .searchable(text: $searchText, isPresented: $searchIsActive)
+                .onAppear {
+                    database.getAllProducts()
+                }
             } else {
                 
             }

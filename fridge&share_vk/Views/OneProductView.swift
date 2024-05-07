@@ -16,12 +16,13 @@ struct ProductImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: UIScreen.main.bounds.height / 5 * 2)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 5 * 2)
                     .cornerRadius(20)
-                    .ignoresSafeArea()
                     .padding(20)
             } else {
                 ProgressView()
+                    .frame(height: UIScreen.main.bounds.height / 5 * 2)
+                    .padding(20)
             }
         }
     }

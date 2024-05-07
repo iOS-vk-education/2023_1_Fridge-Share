@@ -24,6 +24,8 @@ struct FloorsView: View {
     
     @Binding var twoPreRootIsActive : Bool
     
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         VStack {
             if isLoading {
@@ -31,7 +33,7 @@ struct FloorsView: View {
             } else {
                 List {
                     ForEach(floors, id: \.self) { floor in
-                        NavigationLink(destination: FridgeView(floor: floor, shouldPopToRootView: self.$twoPreRootIsActive)) {
+                        NavigationLink(destination: FridgeView(floor: floor, shouldPopToRootView: self.$twoPreRootIsActive, isLoggedIn: self.$isLoggedIn)) {
                             Text(String(floor.number))
                         }
                         .isDetailLink(false)

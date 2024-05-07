@@ -19,10 +19,12 @@ struct RegistrateDormitoryView: View {
     
     @Binding var preRootIsActive : Bool
     
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         List {
             ForEach(database.dormitories, id: \.self) { dormitory in
-                NavigationLink(destination: FloorsView(dormitory: dormitory, twoPreRootIsActive: self.$preRootIsActive)) {
+                NavigationLink(destination: FloorsView(dormitory: dormitory, twoPreRootIsActive: self.$preRootIsActive, isLoggedIn: self.$isLoggedIn)) {
                     VStack(alignment: .leading) {
                         Text(dormitory.name)
                         Text(dormitory.address)

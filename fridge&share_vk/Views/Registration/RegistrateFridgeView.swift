@@ -32,6 +32,8 @@ struct FridgeView: View {
     
     @Binding var shouldPopToRootView : Bool
     
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         VStack {
             if isLoading {
@@ -46,7 +48,7 @@ struct FridgeView: View {
                                     Button(action: {
                                         userData.fridge = fridge.id
                                         authentification.createUser(userData: userData) {success in
-                                            UserDefaults.standard.set(true, forKey: Constants.isLoggedIn)
+                                            UserDefaults.standard.setValue(true, forKey: Constants.isLoggedIn)
                                         }
                                         showingAlert = true
                                     }, label: {
@@ -54,6 +56,7 @@ struct FridgeView: View {
                                     })
                                     .alert(isPresented: $showingAlert, content: {
                                         Alert(title: Text(Constants.successfulRegistration), dismissButton: .default(Text(Constants.okButton), action: {
+                                            self.isLoggedIn = true
                                             self.shouldPopToRootView = false
                                         }))
                                     })

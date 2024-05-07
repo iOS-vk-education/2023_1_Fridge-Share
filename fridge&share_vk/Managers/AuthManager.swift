@@ -38,13 +38,13 @@ class FireBaseAuthManager: ObservableObject {
                 print("Error creating user:", error)
                 return
             }
-            UserDefaults.standard.set(userData.email, forKey: Constants.email)
-            UserDefaults.standard.set(userData.password, forKey: Constants.password)
+            UserDefaults.standard.setValue(userData.email, forKey: Constants.email)
+            UserDefaults.standard.setValue(userData.password, forKey: Constants.password)
             self.userId = user.uid
             
             let userItem = UserData(id: user.uid, email: userData.email, name: userData.name, dormitory: userData.dormitory, floor: userData.floor, fridge: userData.fridge, password: userData.password)
             database.addUser(user: userItem)
-            UserDefaults.standard.set(userItem.id, forKey: Constants.userId)
+            UserDefaults.standard.setValue(userItem.id, forKey: Constants.userId)
             
             self.handleSignInSuccess(completionBlock: completionBlock)
         }
