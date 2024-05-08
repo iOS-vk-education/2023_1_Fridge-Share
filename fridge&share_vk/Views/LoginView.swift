@@ -51,27 +51,32 @@ struct LoginView: View {
             
             Button(action: {
                 authManager.signIn(email: email, password: password) {(success) in
-                    if (success) {
-                        message = Constants.successfulLogin
-                        loginDidSucceed?(true)
-                        UserDefaults.standard.setValue(true, forKey: Constants.isLoggedIn)
-                        fetchUserProfile()
-                    } else {
-                        message = Constants.failureLogin
-                        UserDefaults.standard.set(false, forKey: Constants.isLoggedIn)
-                        loginDidSucceed?(false)
+                    DispatchQueue.main.async {
+                        if success {
+                            message = Constants.successfulLogin
+                            loginDidSucceed?(true)
+                            UserDefaults.standard.setValue(true, forKey: Constants.isLoggedIn)
+                            fetchUserProfile()
+                        } else {
+                            message = Constants.failureLogin
+                            UserDefaults.standard.setValue(false, forKey: Constants.isLoggedIn)
+                            loginDidSucceed?(false)
+                        }
+                        showingAlert = true
                     }
                 }
-                showingAlert = true
             }, label: {
                 Text(Constants.enterButton)
             })
-            .alert(isPresented: $showingAlert, content: {
-                Alert(title: Text(message), dismissButton: .default(Text(Constants.okButton), action: {
-                    self.updateParentState()
-                    self.shouldPopToRootView = false
-                }))
-            })
+            .alert(isPresented: .constant(message.isEmpty)) {
+                Alert(title: Text("Подождите"), message: Text("Загрузка..."), dismissButton: .none)
+            }
+            .alert(isPresented: .constant(!message.isEmpty)) {
+                Alert(title: Text(message.isEmpty ? "Ошибка!" : "Успех!"), message: Text(message.isEmpty ? Constants.failureLogin : message), dismissButton: .default(Text(Constants.okButton)) {
+                    updateParentState()
+                    shouldPopToRootView = false
+                })
+            }
         }
     }
     

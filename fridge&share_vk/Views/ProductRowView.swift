@@ -17,6 +17,7 @@ struct ProductRowView: View {
     var database = FireBase.shared
     
     @State private var productImage: UIImage?
+    
     var body: some View {
         HStack {
             if let image = productImage {
@@ -36,9 +37,13 @@ struct ProductRowView: View {
             }
         }
         .onAppear {
-            database.uploadProduct(productName: product.image) {
-                image in
-                self.productImage = image
+            if let cachedImage = ImageCache.shared.getImage(for: product.image) {
+                self.productImage = cachedImage
+            } else {
+                database.uploadProduct(productName: product.image) { image in
+                    self.productImage = image
+                    ImageCache.shared.setImage(image, for: product.image)
+                }
             }
         }
     }

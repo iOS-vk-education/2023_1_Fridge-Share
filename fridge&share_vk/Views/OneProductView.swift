@@ -16,12 +16,13 @@ struct ProductImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: UIScreen.main.bounds.height / 5 * 2)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 5 * 2)
                     .cornerRadius(20)
-                    .ignoresSafeArea()
                     .padding(20)
             } else {
                 ProgressView()
+                    .frame(height: UIScreen.main.bounds.height / 5 * 2)
+                    .padding(20)
             }
         }
     }
@@ -152,8 +153,13 @@ struct OneProductView: View {
             }
         }
         .onAppear {
-            database.uploadProduct(productName: product.image) { image in
-                self.productImage = image
+            if let cachedImage = ImageCache.shared.getImage(for: product.image) {
+                self.productImage = cachedImage
+            } else {
+                database.uploadProduct(productName: product.image) { image in
+                    self.productImage = image
+                    ImageCache.shared.setImage(image, for: product.image)
+                }
             }
         }
     }

@@ -17,17 +17,28 @@ struct ProfileView: View {
     @State var floorNumber = 0
     var database = FireBase.shared
     @State private var profileImage: UIImage?
-
+    
+    @State private var showingHelloView = false
+    
     var body: some View {
-        VStack {
-            ProfileHeader(profileImage: $profileImage, userName: user.name, floorNumber: floorNumber, user: user)
-            
-            Spacer()
-            
-            ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, user: user)
+        NavigationView {
+            ScrollView {
+                VStack {
+                    ProfileHeader(profileImage: $profileImage, userName: user.name, floorNumber: floorNumber, user: user)
+                    
+                    Spacer()
+                    
+                    ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, showingHelloView: $showingHelloView, user: user)
+                }
+                .background(Color(UIColor.systemBackground))
+            }
+            .padding()
+            .background(Color(UIColor.systemBackground))
         }
-        .padding()
-        .background(Color(UIColor.systemBackground))
+        .fullScreenCover(isPresented: $showingHelloView, content: {
+            HelloView()
+                .environmentObject(UserData())
+        })
         .onAppear {
             database.uploadAvatar() { image in
                 self.profileImage = image
@@ -51,7 +62,7 @@ struct ProfileHeader: View {
             if let image = profileImage {
                 Image(uiImage: image)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
                     .clipShape(Circle())
                     .padding(.top, 30)
@@ -82,6 +93,7 @@ struct ProfileActions: View {
     @Binding var showingFridge: Bool
     @Binding var showingRequests: Bool
     @Binding var showingLogin: Bool
+    @Binding var showingHelloView: Bool
     
     @StateObject var user: UserData
     
@@ -107,7 +119,7 @@ struct ProfileActions: View {
             })
             .buttonStyle(DefaultButtonStyle())
             NavigationButton(title: Constants.notification, action: { self.showingRequests = true })
-            LogoutButton(showingLogin: $showingLogin)
+            LogoutButton(showingLogin: $showingLogin, showingHelloView: $showingHelloView)
                 .padding(.top, Constants.padding)
         }
     }
@@ -128,12 +140,17 @@ struct NavigationButton: View {
 
 struct LogoutButton: View {
     @Binding var showingLogin: Bool
-    
+    @Binding var showingHelloView: Bool
     var body: some View {
-        Button(action: { self.showingLogin = true }) {
+        Button(action: {
+            UserDefaults.standard.setValue(false, forKey: "isLoggedIn")
+            showingLogin = true
+            showingHelloView = true
+        }) {
             Text("Выйти")
                 .foregroundColor(.white)
         }
+        
         .buttonStyle(RedButtonStyle())
         .padding(.top, 40)
     }

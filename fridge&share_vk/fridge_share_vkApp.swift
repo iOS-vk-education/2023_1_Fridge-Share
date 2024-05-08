@@ -37,7 +37,7 @@ struct dataBaseApp: App {
                 }
             }
             HelloView()
-                .environmentObject(UserData())
+                .environmentObject(userData ?? UserData())
         }
     }
 }

@@ -31,7 +31,7 @@ struct HelloView: View {
                     Text(Constants.helloLabel)
                     
                     NavigationLink(
-                        destination: LoginView(shouldPopToRootView: self.$loginIsActive, updateParentState: { self.isLoggedIn = true }),
+                        destination: LoginView(shouldPopToRootView: self.$loginIsActive, updateParentState: { self.isLoggedIn = UserDefaults.standard.bool(forKey: Constants.isLoggedIn) }),
                         isActive: self.$loginIsActive
                     ) {
                         Text(Constants.signInButton)
@@ -39,7 +39,7 @@ struct HelloView: View {
                         .padding()
                     
                     NavigationLink(
-                        destination: RegistrationView(rootIsActive: self.$registrationIsActive),
+                        destination: RegistrationView(rootIsActive: self.$registrationIsActive, isLoggedIn: self.$isLoggedIn),
                         isActive: self.$registrationIsActive
                     ) {
                         Text(Constants.registrateButton)

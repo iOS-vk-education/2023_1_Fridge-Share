@@ -35,6 +35,7 @@
 		DF3910F22BD009D500477526 /* OneProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F12BD009D500477526 /* OneProductView.swift */; };
 		DF3910F42BD009FC00477526 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F32BD009FC00477526 /* MapView.swift */; };
 		DF3910F82BD00D6E00477526 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF3910F72BD00D6E00477526 /* GoogleService-Info.plist */; };
+		DF3910FA2BEACD8300477526 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F92BEACD8300477526 /* ImageCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		DF3910F12BD009D500477526 /* OneProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneProductView.swift; sourceTree = "<group>"; };
 		DF3910F32BD009FC00477526 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		DF3910F72BD00D6E00477526 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DF3910F92BEACD8300477526 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				DF3910C72BCFFF7200477526 /* Models.swift */,
 				DF3910D32BD0007400477526 /* DatabaseManager.swift */,
 				DF3910D52BD001A000477526 /* AuthManager.swift */,
+				DF3910F92BEACD8300477526 /* ImageCache.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				DF3910F22BD009D500477526 /* OneProductView.swift in Sources */,
 				DF3910E02BD004BD00477526 /* RegistrateFridgeView.swift in Sources */,
 				DF3910DC2BD0041800477526 /* RegistrateDormitoryView.swift in Sources */,
+				DF3910FA2BEACD8300477526 /* ImageCache.swift in Sources */,
 				DF3910DA2BD0033900477526 /* RegistrationView.swift in Sources */,
 				DF3910EC2BD008F700477526 /* AccountView.swift in Sources */,
 				DF3910E82BD0084A00477526 /* SearchView.swift in Sources */,
