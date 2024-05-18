@@ -15,8 +15,7 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchIsActive = false
     
-    @StateObject
-    var database = FireBase.shared
+    @StateObject var database = FireBase.shared
     
     var body: some View {
         if #available(iOS 16.0, *) {
@@ -32,11 +31,11 @@ struct SearchView: View {
                         }
                     }
                     .navigationTitle(Constants.navigationTitle)
+                    .onAppear {
+                        database.getAllProducts()
+                    }
                 }
                 .searchable(text: $searchText, isPresented: $searchIsActive)
-                .onAppear {
-                    database.getAllProducts()
-                }
             } else {
                 
             }

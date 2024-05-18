@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF1BB2E02BF2C1750062B947 /* CreateProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BB2DF2BF2C1750062B947 /* CreateProductView.swift */; };
+		DF1BB2E32BF2E1250062B947 /* LanchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BB2E22BF2E1250062B947 /* LanchScreen.swift */; };
+		DF1BB2E92BF6C5000062B947 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BB2E82BF6C5000062B947 /* NotificationView.swift */; };
 		DF39109D2BCFFEF600477526 /* fridge_share_vkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */; };
 		DF3910A12BCFFEF700477526 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF3910A02BCFFEF700477526 /* Assets.xcassets */; };
 		DF3910A42BCFFEF700477526 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF3910A32BCFFEF700477526 /* Preview Assets.xcassets */; };
@@ -56,6 +59,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DF1BB2DF2BF2C1750062B947 /* CreateProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductView.swift; sourceTree = "<group>"; };
+		DF1BB2E22BF2E1250062B947 /* LanchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanchScreen.swift; sourceTree = "<group>"; };
+		DF1BB2E82BF6C5000062B947 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		DF1BB2EA2BF6D79C0062B947 /* fridge&share_vk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fridge&share_vk.entitlements"; sourceTree = "<group>"; };
 		DF3910992BCFFEF600477526 /* fridge&share_vk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fridge&share_vk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fridge_share_vkApp.swift; sourceTree = "<group>"; };
 		DF3910A02BCFFEF700477526 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -84,6 +91,7 @@
 		DF3910F32BD009FC00477526 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		DF3910F72BD00D6E00477526 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF3910F92BEACD8300477526 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		DF83F3782BF9681F008772A9 /* fridge-share-vk-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "fridge-share-vk-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF1BB2E12BF2C1850062B947 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				DF3910F12BD009D500477526 /* OneProductView.swift */,
+				DF1BB2DF2BF2C1750062B947 /* CreateProductView.swift */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
 		DF3910902BCFFEF600477526 = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +157,9 @@
 		DF39109B2BCFFEF600477526 /* fridge&share_vk */ = {
 			isa = PBXGroup;
 			children = (
+				DF83F3782BF9681F008772A9 /* fridge-share-vk-Info.plist */,
+				DF1BB2EA2BF6D79C0062B947 /* fridge&share_vk.entitlements */,
+				DF1BB2E12BF2C1850062B947 /* Product */,
 				DF3910D72BD002F700477526 /* Views */,
 				DF3910C62BCFFF0000477526 /* Managers */,
 				DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */,
@@ -204,8 +224,9 @@
 				DF3910EB2BD008F700477526 /* AccountView.swift */,
 				DF3910ED2BD0095300477526 /* MyFridgeView.swift */,
 				DF3910EF2BD0099E00477526 /* MyProductsView.swift */,
-				DF3910F12BD009D500477526 /* OneProductView.swift */,
 				DF3910F32BD009FC00477526 /* MapView.swift */,
+				DF1BB2E22BF2E1250062B947 /* LanchScreen.swift */,
+				DF1BB2E82BF6C5000062B947 /* NotificationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,13 +385,16 @@
 				DF3910D42BD0007400477526 /* DatabaseManager.swift in Sources */,
 				DF3910F02BD0099E00477526 /* MyProductsView.swift in Sources */,
 				DF3910C82BCFFF7200477526 /* Models.swift in Sources */,
+				DF1BB2E92BF6C5000062B947 /* NotificationView.swift in Sources */,
 				DF3910E42BD006E700477526 /* HelloView.swift in Sources */,
 				DF3910EA2BD0089100477526 /* ProductRowView.swift in Sources */,
+				DF1BB2E32BF2E1250062B947 /* LanchScreen.swift in Sources */,
 				DF3910DE2BD0047900477526 /* RegistrateFloorView.swift in Sources */,
 				DF3910F22BD009D500477526 /* OneProductView.swift in Sources */,
 				DF3910E02BD004BD00477526 /* RegistrateFridgeView.swift in Sources */,
 				DF3910DC2BD0041800477526 /* RegistrateDormitoryView.swift in Sources */,
 				DF3910FA2BEACD8300477526 /* ImageCache.swift in Sources */,
+				DF1BB2E02BF2C1750062B947 /* CreateProductView.swift in Sources */,
 				DF3910DA2BD0033900477526 /* RegistrationView.swift in Sources */,
 				DF3910EC2BD008F700477526 /* AccountView.swift in Sources */,
 				DF3910E82BD0084A00477526 /* SearchView.swift in Sources */,
@@ -540,17 +564,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "fridge&share_vk/fridge&share_vk.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fridge&share_vk/Preview Content\"";
-				DEVELOPMENT_TEAM = GAMAR9B42Z;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "fridge-share-vk-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,6 +586,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.fridge-share-vk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -569,17 +598,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "fridge&share_vk/fridge&share_vk.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fridge&share_vk/Preview Content\"";
-				DEVELOPMENT_TEAM = GAMAR9B42Z;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "fridge-share-vk-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -587,6 +620,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.fridge-share-vk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -598,6 +632,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GAMAR9B42Z;
@@ -618,6 +653,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GAMAR9B42Z;

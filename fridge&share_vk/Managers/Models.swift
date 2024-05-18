@@ -12,9 +12,9 @@ import FirebaseStorage
 import SwiftUI
 
 enum statusOfProduct: String {
-    case available
-    case waiting
-    case given
+    case available = "доступен"
+    case waiting = "ждет ответа"
+    case given = "отдан"
 }
 
 struct DormitoryData: Codable, Hashable {
@@ -38,7 +38,7 @@ struct FridgeData: Codable, Hashable {
 struct ProductData: Codable, Hashable {
     var id: String
     var name: String
-    var dateExploration: Int // количество суток которое может храниться
+    var dateExploration: Date
     var dateAdded: Date
     var userId: String
     var status: statusOfProduct.RawValue
@@ -53,8 +53,9 @@ class UserData: ObservableObject, Codable {
     @Published var floor: String
     @Published var fridge: String
     @Published var password: String
+    @Published var avatar: String
     
-    init(id: String = "", email: String = "", name: String = "", dormitory: String = "", floor: String = "", fridge: String = "", password: String = "") {
+    init(id: String = "", email: String = "", name: String = "", dormitory: String = "", floor: String = "", fridge: String = "", password: String = "", avatar: String = "") {
         self.id = id
         self.email = email
         self.name = name
@@ -62,11 +63,12 @@ class UserData: ObservableObject, Codable {
         self.floor = floor
         self.fridge = fridge
         self.password = password
+        self.avatar = avatar
     }
     
     
     enum CodingKeys: String, CodingKey {
-        case id, email, name, dormitory, floor, fridge, password
+        case id, email, name, dormitory, floor, fridge, password, avatar
     }
     
     func encode(to encoder: Encoder) throws {
@@ -78,6 +80,7 @@ class UserData: ObservableObject, Codable {
         try container.encode(floor, forKey: .floor)
         try container.encode(fridge, forKey: .fridge)
         try container.encode(password, forKey: .password)
+        try container.encode(avatar, forKey: .avatar)
     }
     
     required init(from decoder: Decoder) throws {
@@ -89,6 +92,18 @@ class UserData: ObservableObject, Codable {
         floor = try container.decode(String.self, forKey: .floor)
         fridge = try container.decode(String.self, forKey: .fridge)
         password = try container.decode(String.self, forKey: .password)
+        avatar = try container.decode(String.self, forKey: .avatar)
+    }
+    
+    func updateData() {
+        FireBase.shared.getUserById(userId: self.id) { userData in
+            if let userData = userData {
+                DispatchQueue.main.async {
+                    self.name = userData.name
+                    self.floor = userData.floor
+                    self.avatar = userData.avatar
+                }
+            }
+        }
     }
 }
-

@@ -22,10 +22,12 @@ struct HelloView: View {
     @State private var loginIsActive = false
     @State private var registrationIsActive = false
     
+    
+    
     var body: some View {
         NavigationView {
             if isLoggedIn {
-                TabBar(user: _userData)
+                TabBar(userData: _userData)
             } else {
                 VStack {
                     Text(Constants.helloLabel)

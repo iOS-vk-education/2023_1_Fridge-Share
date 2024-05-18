@@ -12,10 +12,14 @@ import FirebaseStorage
 
 @main
 struct dataBaseApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+
     private enum Constants {
         static let isLoggedIn = "isLoggedIn"
         static let userId = "userId"
     }
+    
+    @StateObject var fireBase = FireBase.shared
     
     @State var userData: UserData?
     let isLoggedIn = UserDefaults.standard.bool(forKey: Constants.isLoggedIn)
@@ -23,21 +27,24 @@ struct dataBaseApp: App {
 
     init() {
         FirebaseApp.configure()
-        FireBase.shared.getAllDormitories()
-        
+        fireBase.getAllDormitories()
     }
 
     var body: some Scene {
         WindowGroup {
-            if isLoggedIn {
-                if let userId = userId {
-                    let _: ()? = FireBase.shared.getUserById(userId: userId) { user in
-                        userData = user
+            if fireBase.isLoading {
+                LoaderView()
+            } else {
+                if isLoggedIn {
+                    if let userId = userId {
+                        let _: ()? = FireBase.shared.getUserById(userId: userId) { user in
+                            userData = user
+                        }
                     }
                 }
+                HelloView()
+                    .environmentObject(userData ?? UserData())
             }
-            HelloView()
-                .environmentObject(userData ?? UserData())
         }
     }
 }

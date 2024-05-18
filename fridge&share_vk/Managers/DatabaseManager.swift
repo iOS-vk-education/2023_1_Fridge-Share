@@ -19,7 +19,7 @@ class FireBase: ObservableObject {
         static let fridges = "fridges"
         static let avatars = "avatars"
     }
-    
+    @Published var isLoading = false
     static let shared = FireBase()
     let database = Firestore.firestore()
     let storage = Storage.storage()
@@ -50,7 +50,26 @@ class FireBase: ObservableObject {
         }
     }
     
+//    func addProduct(productData: ProductData) {
+//        do {
+//            let documentRef = try database.collection(Constants.products).addDocument(from: productData)
+//            print("Продукт успешно добавлено с идентификатором: \(documentRef.documentID)")
+//        } catch {
+//            print("Ошибка при добавлении продукта: \(error.localizedDescription)")
+//        }
+//    }
+    func addProduct(productData: ProductData) {
+        do {
+            let documentRef = try database.collection(Constants.products).document(productData.id).setData(from: productData)
+            print("Product successfully added with ID: \(productData.id)")
+        } catch {
+            print("Error adding product: \(error.localizedDescription)")
+        }
+    }
+
+    
     func getAllDormitories() {
+        isLoading = true
         dormitories.removeAll()
         database.collection(Constants.dormitories).addSnapshotListener { [weak self] (querySnapshot, error) in
             guard (querySnapshot?.documents) != nil else {
@@ -65,6 +84,7 @@ class FireBase: ObservableObject {
                         self?.floors = floors
                     }
                     self?.dormitories.append(dormitoryData)
+                    self?.isLoading = false
                 } catch {
                     print(error)
                     fatalError("Could not fetch dormitory data")
@@ -73,21 +93,105 @@ class FireBase: ObservableObject {
         }
     }
     
+//    func getAllProducts() {
+//        products.removeAll()
+//        database.collection(Constants.products).addSnapshotListener { [weak self] (querySnapshot, error) in
+//            guard (querySnapshot?.documents) != nil else {
+//                print("No documents")
+//                return
+//            }
+//            
+//            for document in querySnapshot!.documents {
+//                do {
+//                    let productData = try document.data(as: ProductData.self)
+//                    self?.products.append(productData)
+//                } catch {
+//                    print(error)
+//                    fatalError("Could not fetch product data")
+//                }
+//            }
+//        }
+//    }
     func getAllProducts() {
         products.removeAll()
         database.collection(Constants.products).addSnapshotListener { [weak self] (querySnapshot, error) in
-            guard (querySnapshot?.documents) != nil else {
+            guard let documents = querySnapshot?.documents else {
                 print("No documents")
                 return
             }
-            
-            for document in querySnapshot!.documents {
+            for document in documents {
                 do {
                     let productData = try document.data(as: ProductData.self)
-                    self?.products.append(productData)
+                    DispatchQueue.main.async {
+                        self?.products.append(productData)
+                    }
                 } catch {
-                    print(error)
-                    fatalError("Could not fetch product data")
+                    print("Error decoding product data: \(error)")
+                }
+            }
+        }
+    }
+    
+//    func getFridgeById(fridgeId: String, completion: @escaping (FridgeData?) -> Void) {
+//        productsInMyFridge.removeAll()
+//        let docRef = database.collection(Constants.fridges).document(fridgeId)
+//        docRef.getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                do {
+//                    let fridgesData = try document.data(as: FridgeData.self)
+//                    self.getAllProductsInFridge(fridgeProducts: fridgesData.products) { products in
+//                        self.productsInMyFridge = products
+//                    }
+//                    completion(fridgesData)
+//                    
+//                } catch {
+//                    print("Error decoding fridge data:", error)
+//                    completion(nil)
+//                }
+//            } else {
+//                print("Document for fridge ID \(fridgeId) does not exist")
+//                completion(nil)
+//            }
+//        }
+//    }
+    func getFridgeById(fridgeId: String, completion: @escaping (FridgeData?) -> Void) {
+        productsInMyFridge.removeAll()
+        let docRef = database.collection(Constants.fridges).document(fridgeId)
+        docRef.getDocument { [weak self] (document, error) in
+            guard let self = self else { return }
+            if let document = document, document.exists {
+                do {
+                    let fridgesData = try document.data(as: FridgeData.self)
+                    self.getAllProductsInFridge(fridgeProducts: fridgesData.products) { products in
+                        DispatchQueue.main.async {
+                            self.productsInMyFridge = products
+                            completion(fridgesData)
+                        }
+                    }
+                } catch {
+                    print("Error decoding fridge data:", error)
+                    completion(nil)
+                }
+            } else {
+                print("Document for fridge ID \(fridgeId) does not exist")
+                completion(nil)
+            }
+        }
+    }
+
+    
+    func getAllProductsInFridge(fridgeProducts: [String], completion: @escaping ([ProductData]) -> Void) {
+        var products = [ProductData]()
+        var completedCount = 0
+        
+        for productId in fridgeProducts {
+            getProductById(productId: productId) { productData in
+                if let productData = productData {
+                    products.append(productData)
+                }
+                completedCount += 1
+                if completedCount == fridgeProducts.count {
+                    completion(products)
                 }
             }
         }
@@ -115,6 +219,7 @@ class FireBase: ObservableObject {
         }
     }
     
+    
     func getAllFloorsInDormitory(dormitoryFloors: [String], completion: @escaping ([FloorData]) -> Void) {
         var floors = [FloorData]()
         var completedCount = 0
@@ -133,27 +238,54 @@ class FireBase: ObservableObject {
         }
     }
     
-    func getFridgeById(fridgeId: String, completion: @escaping (FridgeData?) -> Void) {
-        let docRef = database.collection(Constants.fridges).document(fridgeId)
-        docRef.getDocument { (document, error) in
+    //    func updateFridgeById(floorId: String, updatedFridgeData: [String: Any], completion: @escaping (Bool) -> Void) {
+    //        let docRef = database.collection(Constants.fridges).document(floorId)
+    //
+    //        docRef.setData(updatedFridgeData, merge: true) { error in
+    //            if let error = error {
+    //                print("Error updating floor data:", error)
+    //                completion(false)
+    //            } else {
+    //                print("Floor data updated successfully")
+    //                completion(true)
+    //            }
+    //        }
+    //    }
+    //
+    
+    func addProductToFridge(fridgeID: String, productID: String) {
+        // Создаем ссылку на документ холодильника в коллекции "fridges"
+        let fridgeRef = database.collection(Constants.fridges).document(fridgeID)
+        
+        // Обновляем данные холодильника
+        fridgeRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                do {
-                    let fridgesData = try document.data(as: FridgeData.self)
-                    self.getAllProductsInFridge(fridgeProducts: fridgesData.products) { products in
-                        self.productsInMyFridge = products
+                var data = document.data() ?? [:]
+                if var productIDs = data["products"] as? [String] {
+                    // Проверяем, есть ли уже этот продукт в массиве
+                    if !productIDs.contains(productID) {
+                        productIDs.append(productID)
+                        data["products"] = productIDs
+                        fridgeRef.setData(data) { error in
+                            if let error = error {
+                                print("Ошибка при добавлении продукта в холодильник: \(error)")
+                            } else {
+                                print("Продукт успешно добавлен в холодильник.")
+                            }
+                        }
+                    } else {
+                        print("Этот продукт уже есть в холодильнике.")
                     }
-                    completion(fridgesData)
-                    
-                } catch {
-                    print("Error decoding fridge data:", error)
-                    completion(nil)
+                } else {
+                    print("Ошибка: массив productIDs не найден в данных холодильника.")
                 }
             } else {
-                print("Document for fridge ID \(fridgeId) does not exist")
-                completion(nil)
+                print("Холодильник с указанным ID не найден.")
             }
         }
     }
+    
+    
     
     func getAllFridgesInFloor(floorFridges: [String], completion: @escaping ([FridgeData]) -> Void) {
         var fridges = [FridgeData]()
@@ -210,23 +342,6 @@ class FireBase: ObservableObject {
         }
     }
     
-    func getAllProductsInFridge(fridgeProducts: [String], completion: @escaping ([ProductData]) -> Void) {
-        var products = [ProductData]()
-        var completedCount = 0
-        
-        for productId in fridgeProducts {
-            getProductById(productId: productId) { productData in
-                if let productData = productData {
-                    products.append(productData)
-                }
-                completedCount += 1
-                if completedCount == fridgeProducts.count {
-                    completion(products)
-                }
-            }
-        }
-    }
-    
     func addUser(user: UserData) {
         do {
             let documentRef: () = try database.collection(Constants.users).document(user.id).setData(from: user)
@@ -249,10 +364,24 @@ class FireBase: ObservableObject {
             }
         }
     }
+
+    func uploadAvatar(avatarFileName: String, completion: @escaping (UIImage?) -> Void) {
+        let ref = self.storage.reference().child(Constants.avatars).child(avatarFileName)
+        ref.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+            if let _error = error {
+                print(_error)
+                completion(nil)
+            } else if let _data = data {
+                let image = UIImage(data: _data)
+                completion(image)
+            }
+        }
+    }
+    
     
     func uploadProduct(productName: String, completion: @escaping (UIImage) -> Void) {
         let ref = storage.reference().child(Constants.products).child(productName)
-        ref.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+        ref.getData(maxSize: (2 * 1024 * 1024)) { (data, error) in
             if let _error = error{
                 print(_error)
             } else {
@@ -264,5 +393,69 @@ class FireBase: ObservableObject {
         }
     }
     
+    func uploadProductImage(productName: String, image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let storageRef = Storage.storage().reference().child("products/\(productName)")
+        print("products/\(productName)")
+        if let imageData = image.jpegData(compressionQuality: 0.4) {
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            
+            storageRef.putData(imageData, metadata: metadata) { metadata, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    storageRef.downloadURL { url, error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else if let url = url {
+                            completion(.success(url))
+                        }
+                    }
+                }
+            }
+        } else {
+            completion(.failure(NSError(domain: "ImageError", code: -2, userInfo: [NSLocalizedDescriptionKey: "Не удалось конвертировать изображение"])))
+        }
+    }
+    
+    
+    func deleteProduct(productID: String) {
+        // Удаляем продукт из таблицы products
+        let productRef = database.collection(Constants.products).document(productID)
+        productRef.delete { error in
+            if let error = error {
+                print("Ошибка при удалении продукта из таблицы products:", error.localizedDescription)
+                return
+            } else {
+                print("Продукт успешно удален из таблицы products")
+            }
+        }
+
+        // Удаляем идентификатор продукта из холодильников в таблице fridges
+        let fridgesRef = database.collection(Constants.fridges)
+        fridgesRef.getDocuments { snapshot, error in
+            if let error = error {
+                print("Ошибка при получении данных из таблицы fridges:", error.localizedDescription)
+                return
+            }
+
+            guard let snapshot = snapshot else {
+                print("Данные из таблицы fridges не найдены")
+                return
+            }
+
+            for document in snapshot.documents {
+                let fridgeRef = document.reference
+                fridgeRef.updateData(["products": FieldValue.arrayRemove([productID])]) { error in
+                    if let error = error {
+                        print("Ошибка при обновлении данных холодильника:", error.localizedDescription)
+                    } else {
+                        print("Идентификатор продукта успешно удален из холодильника")
+                    }
+                }
+            }
+        }
+    }
+
 }
 

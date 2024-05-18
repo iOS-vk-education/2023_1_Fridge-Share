@@ -13,7 +13,7 @@ struct ProfileView: View {
     @State private var showingFridge = false
     @State private var showingRequests = false
     @State private var showingLogin = false
-    @EnvironmentObject var user: UserData
+    @StateObject var userData: UserData
     @State var floorNumber = 0
     var database = FireBase.shared
     @State private var profileImage: UIImage?
@@ -24,11 +24,11 @@ struct ProfileView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    ProfileHeader(profileImage: $profileImage, userName: user.name, floorNumber: floorNumber, user: user)
+                    ProfileHeader(profileImage: $profileImage, userName: $userData.name, floorNumber: floorNumber, user: userData)
                     
                     Spacer()
                     
-                    ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, showingHelloView: $showingHelloView, user: user)
+                    ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, showingHelloView: $showingHelloView, user: userData)
                 }
                 .background(Color(UIColor.systemBackground))
             }
@@ -40,11 +40,30 @@ struct ProfileView: View {
                 .environmentObject(UserData())
         })
         .onAppear {
-            database.uploadAvatar() { image in
+//            userData.updateData()
+            fetchUserProfile()
+            database.uploadAvatar(avatarFileName: userData.avatar) { image in
                 self.profileImage = image
             }
-            database.getFloorById(floorId: user.floor) { floor in
+            database.getFloorById(floorId: userData.floor) { floor in
                 self.floorNumber = floor?.number ?? 0
+            }
+        }
+    }
+    
+    private func fetchUserProfile() {
+        if let userId = UserDefaults.standard.string(forKey: "userId") {
+            FireBase.shared.getUserById(userId: userId) { user in
+                if let user = user {
+                    userData.name = user.name
+                    userData.email = user.email
+                    userData.password = user.password
+                    userData.dormitory = user.dormitory
+                    userData.floor = user.floor
+                    userData.fridge = user.fridge
+                    userData.id = userId
+                    userData.avatar = user.avatar
+                }
             }
         }
     }
@@ -52,9 +71,9 @@ struct ProfileView: View {
 
 struct ProfileHeader: View {
     @Binding var profileImage: UIImage?
-    var userName: String
+    @Binding var userName: String
     var floorNumber: Int
-    
+    var database = FireBase.shared
     @StateObject var user: UserData
     
     var body: some View {
@@ -67,7 +86,13 @@ struct ProfileHeader: View {
                     .clipShape(Circle())
                     .padding(.top, 30)
             } else {
-                ProgressView()
+                Image(systemName: "person.crop.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+//                    .clipShape(Circle())
+                    .padding(.top, 30)
+                    .foregroundColor(.secondary)
             }
             
             Text(userName)
@@ -94,7 +119,7 @@ struct ProfileActions: View {
     @Binding var showingRequests: Bool
     @Binding var showingLogin: Bool
     @Binding var showingHelloView: Bool
-    
+    var database = FireBase.shared
     @StateObject var user: UserData
     
     var body: some View {
@@ -102,9 +127,10 @@ struct ProfileActions: View {
             Button(action: {
                 self.showingListOfMyProducts = true
             }, label: {
-                NavigationLink(destination: MyProducts(),
+                NavigationLink(destination: MyProducts(user: user),
                                label: {
                     Text(Constants.myProducts)
+                        .foregroundColor(.black)
                 })
             })
             .buttonStyle(DefaultButtonStyle())
@@ -115,10 +141,24 @@ struct ProfileActions: View {
                 NavigationLink(destination: MyFridge(user: user),
                                label: {
                     Text(Constants.myFridge)
+                        .foregroundColor(.black)
                 })
             })
             .buttonStyle(DefaultButtonStyle())
-            NavigationButton(title: Constants.notification, action: { self.showingRequests = true })
+
+            Button(action: {
+                self.showingListOfMyProducts = true
+            }, label: {
+                NavigationLink(destination: Notification(),
+                               label: {
+                    Text(Constants.notification)
+                        .foregroundColor(.black)
+                })
+            })
+            .buttonStyle(DefaultButtonStyle())
+            
+             
+           //NavigationButton(title: Constants.notification, action: { self.showingRequests = true })
             LogoutButton(showingLogin: $showingLogin, showingHelloView: $showingHelloView)
                 .padding(.top, Constants.padding)
         }
@@ -174,6 +214,16 @@ struct RedButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.red)
+            .cornerRadius(10)
+    }
+}
+
+struct BlueButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
             .cornerRadius(10)
     }
 }

@@ -17,7 +17,7 @@ struct TabBar: View {
         static let profileIcon = "person.fill"
     }
     
-    @EnvironmentObject var user: UserData
+    @EnvironmentObject var userData: UserData
     var body: some View {
         TabView {
             MapView()
@@ -30,7 +30,7 @@ struct TabBar: View {
                     Label(Constants.search, systemImage: Constants.searchIcon)
                 }
             
-            ProfileView(user: _user)
+            ProfileView(userData: userData)
                 .tabItem {
                     Label(Constants.profile, systemImage: Constants.profileIcon)
                 }
@@ -38,8 +38,8 @@ struct TabBar: View {
     }
 }
 
-#Preview {
-    TabBar()
-        .environmentObject(UserData())
-}
+//#Preview {
+//    TabBar()
+//        .environmentObject(userData)
+//}
 

@@ -12,27 +12,56 @@ struct MyProducts: View {
         static let navigationTitle = "Мои продукты"
     }
     
-    @EnvironmentObject var user: UserData
+    @StateObject var user: UserData
     
-    var database = FireBase.shared
+    @StateObject var database = FireBase.shared
     
     var body: some View {
-        List {
-            ForEach(searchResults, id: \.self) { product in
-                NavigationLink {
-                    OneProductView(product: product)
-                } label: {
-                    ProductRowView(product: product)
+        
+        VStack(alignment: .leading) {
+            
+            ProductAddButton(user: user)
+            
+            List {
+                ForEach(searchResults, id: \.self) { product in
+                    NavigationLink {
+                        OneProductView(product: product)
+                    } label: {
+                        ProductRowView(product: product)
+                    }
                 }
             }
+            .listStyle(.plain)
         }
         .navigationTitle(Constants.navigationTitle)
         .onAppear {
-            database.getAllProducts()
+//            if database.products.isEmpty {
+                database.getAllProducts()
+//            }
         }
     }
     
     var searchResults: [ProductData] {
         return database.products.filter { $0.userId == user.id }
+    }
+}
+
+struct ProductAddButton: View {
+    @State private var addingIsActive = false
+    @StateObject var user: UserData
+    
+    var body: some View {
+        Button(action: {
+
+        }, label: {
+            NavigationLink(destination: CreateProductView(user: user, shouldPopUp: self.$addingIsActive), isActive: self.$addingIsActive,
+                           label: {
+                Text("Добавить продукт")
+                    .foregroundColor(.white)
+            })
+        })
+        .buttonStyle(BlueButtonStyle())
+        .padding(35)
+        .cornerRadius(10)
     }
 }

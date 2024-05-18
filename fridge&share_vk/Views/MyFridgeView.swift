@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import UserNotifications
+
 
 struct MyFridge: View {
     private enum Constants {
@@ -14,23 +16,37 @@ struct MyFridge: View {
     
     @StateObject var user: UserData
     
-    var database = FireBase.shared
+    @StateObject var database = FireBase.shared
+    
+    @State private var isLoading = true
     
     var body: some View {
-        List {
-            ForEach(database.productsInMyFridge, id: \.self) { product in
-                NavigationLink {
-                    OneProductView(product: product)
-                } label: {
-                    ProductRowView(product: product)
+        Group {
+            if isLoading {
+                LoaderView()
+            } else {
+                List {
+                    ForEach(database.productsInMyFridge, id: \.self) { product in
+                        NavigationLink {
+                            OneProductView(product: product)
+                        } label: {
+                            ProductRowView(product: product)
+                        }
+                    }
                 }
+                .listStyle(.plain)
             }
         }
         .navigationTitle(Constants.naviagtionTitle)
         .onAppear {
-            database.getFridgeById(fridgeId: user.fridge) { _ in
-                
-            }
+            loadFridgeData()
+        }
+    }
+    
+    private func loadFridgeData() {
+        isLoading = true
+        database.getFridgeById(fridgeId: user.fridge) { fridge in
+            isLoading = false
         }
     }
 }

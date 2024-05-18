@@ -56,7 +56,6 @@ struct LoginView: View {
                             message = Constants.successfulLogin
                             loginDidSucceed?(true)
                             UserDefaults.standard.setValue(true, forKey: Constants.isLoggedIn)
-                            fetchUserProfile()
                         } else {
                             message = Constants.failureLogin
                             UserDefaults.standard.setValue(false, forKey: Constants.isLoggedIn)
@@ -73,6 +72,7 @@ struct LoginView: View {
             }
             .alert(isPresented: .constant(!message.isEmpty)) {
                 Alert(title: Text(message.isEmpty ? "Ошибка!" : "Успех!"), message: Text(message.isEmpty ? Constants.failureLogin : message), dismissButton: .default(Text(Constants.okButton)) {
+                    fetchUserProfile()
                     updateParentState()
                     shouldPopToRootView = false
                 })
@@ -91,6 +91,7 @@ struct LoginView: View {
                     userData.floor = user.floor
                     userData.fridge = user.fridge
                     userData.id = userId
+                    userData.avatar = user.avatar
                 }
             }
         }
