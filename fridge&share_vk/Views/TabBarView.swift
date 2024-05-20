@@ -20,11 +20,6 @@ struct TabBar: View {
     @EnvironmentObject var userData: UserData
     var body: some View {
         TabView {
-            MapView()
-                .tabItem {
-                    Label(Constants.maps, systemImage: Constants.mapIcon)
-                }
-            
             SearchView()
                 .tabItem {
                     Label(Constants.search, systemImage: Constants.searchIcon)

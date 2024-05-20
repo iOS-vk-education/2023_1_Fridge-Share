@@ -11,7 +11,6 @@
 		DF1BB2E32BF2E1250062B947 /* LanchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BB2E22BF2E1250062B947 /* LanchScreen.swift */; };
 		DF1BB2E92BF6C5000062B947 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BB2E82BF6C5000062B947 /* NotificationView.swift */; };
 		DF39109D2BCFFEF600477526 /* fridge_share_vkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */; };
-		DF3910A12BCFFEF700477526 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF3910A02BCFFEF700477526 /* Assets.xcassets */; };
 		DF3910A42BCFFEF700477526 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF3910A32BCFFEF700477526 /* Preview Assets.xcassets */; };
 		DF3910AE2BCFFEF700477526 /* fridge_share_vkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910AD2BCFFEF700477526 /* fridge_share_vkTests.swift */; };
 		DF3910B82BCFFEF700477526 /* fridge_share_vkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910B72BCFFEF700477526 /* fridge_share_vkUITests.swift */; };
@@ -41,6 +40,7 @@
 		DF3910FA2BEACD8300477526 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F92BEACD8300477526 /* ImageCache.swift */; };
 		DF83F37C2BFA850B008772A9 /* MyRequestRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF83F37B2BFA850B008772A9 /* MyRequestRowView.swift */; };
 		DF83F37E2BFA8B95008772A9 /* MyAnswersRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF83F37D2BFA8B95008772A9 /* MyAnswersRowView.swift */; };
+		DF83F3802BFBD9DF008772A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF83F37F2BFBD9DF008772A9 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +67,6 @@
 		DF1BB2EA2BF6D79C0062B947 /* fridge&share_vk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fridge&share_vk.entitlements"; sourceTree = "<group>"; };
 		DF3910992BCFFEF600477526 /* fridge&share_vk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fridge&share_vk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fridge_share_vkApp.swift; sourceTree = "<group>"; };
-		DF3910A02BCFFEF700477526 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF3910A32BCFFEF700477526 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DF3910A92BCFFEF700477526 /* fridge&share_vkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fridge&share_vkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3910AD2BCFFEF700477526 /* fridge_share_vkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fridge_share_vkTests.swift; sourceTree = "<group>"; };
@@ -96,6 +95,7 @@
 		DF83F3782BF9681F008772A9 /* fridge-share-vk-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "fridge-share-vk-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DF83F37B2BFA850B008772A9 /* MyRequestRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestRowView.swift; sourceTree = "<group>"; };
 		DF83F37D2BFA8B95008772A9 /* MyAnswersRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAnswersRowView.swift; sourceTree = "<group>"; };
+		DF83F37F2BFBD9DF008772A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +166,6 @@
 				DF3910D72BD002F700477526 /* Views */,
 				DF3910C62BCFFF0000477526 /* Managers */,
 				DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */,
-				DF3910A02BCFFEF700477526 /* Assets.xcassets */,
 				DF3910A22BCFFEF700477526 /* Preview Content */,
 			);
 			path = "fridge&share_vk";
@@ -175,6 +174,7 @@
 		DF3910A22BCFFEF700477526 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				DF83F37F2BFBD9DF008772A9 /* Assets.xcassets */,
 				DF3910A32BCFFEF700477526 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -378,7 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF3910A42BCFFEF700477526 /* Preview Assets.xcassets in Resources */,
-				DF3910A12BCFFEF700477526 /* Assets.xcassets in Resources */,
+				DF83F3802BFBD9DF008772A9 /* Assets.xcassets in Resources */,
 				DF3910F82BD00D6E00477526 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
