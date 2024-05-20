@@ -18,6 +18,7 @@ class FireBase: ObservableObject {
         static let users = "users"
         static let fridges = "fridges"
         static let avatars = "avatars"
+        static let requests = "requests"
     }
     @Published var isLoading = false
     static let shared = FireBase()
@@ -40,6 +41,15 @@ class FireBase: ObservableObject {
     
     @Published
     var productsInMyFridge: [ProductData] = []
+    
+    @Published
+    var requests: [RequestData] = []
+    
+    @Published
+    var myAnswers: [RequestData] = []
+    
+    @Published
+    var myRequests: [RequestData] = []
     
     func addDormitory(dormitoryData: DormitoryData) {
         do {
@@ -71,7 +81,7 @@ class FireBase: ObservableObject {
     func getAllDormitories() {
         isLoading = true
         dormitories.removeAll()
-        database.collection(Constants.dormitories).addSnapshotListener { [weak self] (querySnapshot, error) in
+        database.collection(Constants.dormitories).getDocuments { [weak self] (querySnapshot, error) in
             guard (querySnapshot?.documents) != nil else {
                 print("No documents")
                 return
@@ -92,29 +102,10 @@ class FireBase: ObservableObject {
             }
         }
     }
-    
-//    func getAllProducts() {
-//        products.removeAll()
-//        database.collection(Constants.products).addSnapshotListener { [weak self] (querySnapshot, error) in
-//            guard (querySnapshot?.documents) != nil else {
-//                print("No documents")
-//                return
-//            }
-//            
-//            for document in querySnapshot!.documents {
-//                do {
-//                    let productData = try document.data(as: ProductData.self)
-//                    self?.products.append(productData)
-//                } catch {
-//                    print(error)
-//                    fatalError("Could not fetch product data")
-//                }
-//            }
-//        }
-//    }
+
     func getAllProducts() {
         products.removeAll()
-        database.collection(Constants.products).addSnapshotListener { [weak self] (querySnapshot, error) in
+        database.collection(Constants.products).getDocuments { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
                 return
@@ -131,29 +122,7 @@ class FireBase: ObservableObject {
             }
         }
     }
-    
-//    func getFridgeById(fridgeId: String, completion: @escaping (FridgeData?) -> Void) {
-//        productsInMyFridge.removeAll()
-//        let docRef = database.collection(Constants.fridges).document(fridgeId)
-//        docRef.getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                do {
-//                    let fridgesData = try document.data(as: FridgeData.self)
-//                    self.getAllProductsInFridge(fridgeProducts: fridgesData.products) { products in
-//                        self.productsInMyFridge = products
-//                    }
-//                    completion(fridgesData)
-//                    
-//                } catch {
-//                    print("Error decoding fridge data:", error)
-//                    completion(nil)
-//                }
-//            } else {
-//                print("Document for fridge ID \(fridgeId) does not exist")
-//                completion(nil)
-//            }
-//        }
-//    }
+
     func getFridgeById(fridgeId: String, completion: @escaping (FridgeData?) -> Void) {
         productsInMyFridge.removeAll()
         let docRef = database.collection(Constants.fridges).document(fridgeId)
@@ -237,21 +206,6 @@ class FireBase: ObservableObject {
             }
         }
     }
-    
-    //    func updateFridgeById(floorId: String, updatedFridgeData: [String: Any], completion: @escaping (Bool) -> Void) {
-    //        let docRef = database.collection(Constants.fridges).document(floorId)
-    //
-    //        docRef.setData(updatedFridgeData, merge: true) { error in
-    //            if let error = error {
-    //                print("Error updating floor data:", error)
-    //                completion(false)
-    //            } else {
-    //                print("Floor data updated successfully")
-    //                completion(true)
-    //            }
-    //        }
-    //    }
-    //
     
     func addProductToFridge(fridgeID: String, productID: String) {
         // Создаем ссылку на документ холодильника в коллекции "fridges"
@@ -457,5 +411,87 @@ class FireBase: ObservableObject {
         }
     }
 
+    func updateProduct(product: ProductData, completion: @escaping (Result<Void, Error>) -> Void) {
+        let productRef = database.collection(Constants.products).document(product.id)
+        
+        do {
+            try productRef.setData(from: product, merge: true) { error in
+                if let error = error {
+                    print("Ошибка при обновлении продукта: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    print("Продукт успешно обновлен")
+                    completion(.success(()))
+                }
+            }
+        } catch {
+            print("Ошибка при кодировании данных продукта: \(error.localizedDescription)")
+            completion(.failure(error))
+        }
+    }
+
+    func addRequest(requestData: RequestData) {
+        do {
+            let documentRef = try database.collection(Constants.requests).document(requestData.id).setData(from: requestData)
+            print("Request successfully added with ID: \(requestData.id)")
+        } catch {
+            print("Error adding request: \(error.localizedDescription)")
+        }
+    }
+
+    func getAllRequests() {
+        requests.removeAll()
+        database.collection(Constants.requests).getDocuments { [weak self] (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            self?.requests.removeAll() // Убедитесь, что массив очищен перед добавлением новых данных
+            for document in documents {
+                do {
+                    let requestData = try document.data(as: RequestData.self)
+                    DispatchQueue.main.async {
+                        self?.requests.append(requestData)
+                    }
+                } catch {
+                    print("Error decoding request data: \(error)")
+                }
+            }
+        }
+    }
+
+    
+    func updateRequest(request: RequestData, completion: @escaping (Result<Void, Error>) -> Void) {
+        let requestRef = database.collection(Constants.requests).document(request.id)
+        
+        do {
+            try requestRef.setData(from: request, merge: true) { error in
+                if let error = error {
+                    print("Ошибка при обновлении запроса: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    print("Запрос успешно обновлен")
+                    completion(.success(()))
+                }
+            }
+        } catch {
+            print("Ошибка при кодировании данных запроса: \(error.localizedDescription)")
+            completion(.failure(error))
+        }
+    }
+    
+    func getMyAnswers(userId: String) {
+        myAnswers.removeAll()
+        myAnswers = requests.filter({ $0.ownerId == userId && $0.status == statusOfRequest.waiting.rawValue })
+    }
+    
+    func getMyRequests(userId: String) {
+        myRequests.removeAll()
+        myRequests = requests.filter({ $0.customerId == userId })
+    }
 }
 

@@ -39,6 +39,8 @@
 		DF3910F42BD009FC00477526 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F32BD009FC00477526 /* MapView.swift */; };
 		DF3910F82BD00D6E00477526 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF3910F72BD00D6E00477526 /* GoogleService-Info.plist */; };
 		DF3910FA2BEACD8300477526 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3910F92BEACD8300477526 /* ImageCache.swift */; };
+		DF83F37C2BFA850B008772A9 /* MyRequestRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF83F37B2BFA850B008772A9 /* MyRequestRowView.swift */; };
+		DF83F37E2BFA8B95008772A9 /* MyAnswersRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF83F37D2BFA8B95008772A9 /* MyAnswersRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,8 @@
 		DF3910F72BD00D6E00477526 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF3910F92BEACD8300477526 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		DF83F3782BF9681F008772A9 /* fridge-share-vk-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "fridge-share-vk-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DF83F37B2BFA850B008772A9 /* MyRequestRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestRowView.swift; sourceTree = "<group>"; };
+		DF83F37D2BFA8B95008772A9 /* MyAnswersRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAnswersRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +163,6 @@
 			children = (
 				DF83F3782BF9681F008772A9 /* fridge-share-vk-Info.plist */,
 				DF1BB2EA2BF6D79C0062B947 /* fridge&share_vk.entitlements */,
-				DF1BB2E12BF2C1850062B947 /* Product */,
 				DF3910D72BD002F700477526 /* Views */,
 				DF3910C62BCFFF0000477526 /* Managers */,
 				DF39109C2BCFFEF600477526 /* fridge_share_vkApp.swift */,
@@ -215,18 +218,16 @@
 		DF3910D72BD002F700477526 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DF83F37A2BFA84D6008772A9 /* Rows */,
+				DF83F3792BFA849B008772A9 /* Profile */,
+				DF1BB2E12BF2C1850062B947 /* Product */,
 				DF3910D82BD0030400477526 /* Registration */,
 				DF3910E12BD0056D00477526 /* LoginView.swift */,
 				DF3910E32BD006E700477526 /* HelloView.swift */,
 				DF3910E52BD007A000477526 /* TabBarView.swift */,
 				DF3910E72BD0084A00477526 /* SearchView.swift */,
-				DF3910E92BD0089100477526 /* ProductRowView.swift */,
-				DF3910EB2BD008F700477526 /* AccountView.swift */,
-				DF3910ED2BD0095300477526 /* MyFridgeView.swift */,
-				DF3910EF2BD0099E00477526 /* MyProductsView.swift */,
 				DF3910F32BD009FC00477526 /* MapView.swift */,
 				DF1BB2E22BF2E1250062B947 /* LanchScreen.swift */,
-				DF1BB2E82BF6C5000062B947 /* NotificationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +241,27 @@
 				DF3910DF2BD004BD00477526 /* RegistrateFridgeView.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		DF83F3792BFA849B008772A9 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				DF3910EB2BD008F700477526 /* AccountView.swift */,
+				DF3910EF2BD0099E00477526 /* MyProductsView.swift */,
+				DF1BB2E82BF6C5000062B947 /* NotificationView.swift */,
+				DF3910ED2BD0095300477526 /* MyFridgeView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		DF83F37A2BFA84D6008772A9 /* Rows */ = {
+			isa = PBXGroup;
+			children = (
+				DF3910E92BD0089100477526 /* ProductRowView.swift */,
+				DF83F37B2BFA850B008772A9 /* MyRequestRowView.swift */,
+				DF83F37D2BFA8B95008772A9 /* MyAnswersRowView.swift */,
+			);
+			path = Rows;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,8 +406,10 @@
 			files = (
 				DF3910D42BD0007400477526 /* DatabaseManager.swift in Sources */,
 				DF3910F02BD0099E00477526 /* MyProductsView.swift in Sources */,
+				DF83F37C2BFA850B008772A9 /* MyRequestRowView.swift in Sources */,
 				DF3910C82BCFFF7200477526 /* Models.swift in Sources */,
 				DF1BB2E92BF6C5000062B947 /* NotificationView.swift in Sources */,
+				DF83F37E2BFA8B95008772A9 /* MyAnswersRowView.swift in Sources */,
 				DF3910E42BD006E700477526 /* HelloView.swift in Sources */,
 				DF3910EA2BD0089100477526 /* ProductRowView.swift in Sources */,
 				DF1BB2E32BF2E1250062B947 /* LanchScreen.swift in Sources */,

@@ -42,8 +42,15 @@ struct ProfileView: View {
         .onAppear {
 //            userData.updateData()
             fetchUserProfile()
-            database.uploadAvatar(avatarFileName: userData.avatar) { image in
-                self.profileImage = image
+//            database.uploadAvatar(avatarFileName: userData.avatar) { image in
+//                self.profileImage = image
+//            }
+            if let cachedImage = ImageCache.shared.getImage(for: userData.avatar) {
+                self.profileImage = cachedImage
+            } else {
+                database.uploadAvatar(avatarFileName: userData.avatar) { image in
+                    self.profileImage = image
+                }
             }
             database.getFloorById(floorId: userData.floor) { floor in
                 self.floorNumber = floor?.number ?? 0
@@ -119,6 +126,10 @@ struct ProfileActions: View {
     @Binding var showingRequests: Bool
     @Binding var showingLogin: Bool
     @Binding var showingHelloView: Bool
+    
+//    @State var isShowingImagePicker = false
+//    @State var selectedImage: UIImage?
+    
     var database = FireBase.shared
     @StateObject var user: UserData
     
@@ -157,7 +168,18 @@ struct ProfileActions: View {
             })
             .buttonStyle(DefaultButtonStyle())
             
-             
+//            Button(action: {
+//                self.isShowingImagePicker = true
+//            }, label: {
+//                Text("Изменить фото профиля")
+//                    .foregroundColor(.black)
+//                
+//            })
+//            .buttonStyle(DefaultButtonStyle())
+//            
+//            .sheet(isPresented: $isShowingImagePicker) {
+//                ImagePicker(selectedImage: self.$selectedImage)
+//            }
            //NavigationButton(title: Constants.notification, action: { self.showingRequests = true })
             LogoutButton(showingLogin: $showingLogin, showingHelloView: $showingHelloView)
                 .padding(.top, Constants.padding)
@@ -224,6 +246,16 @@ struct BlueButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.blue)
+            .cornerRadius(10)
+    }
+}
+
+struct BlueDisabledButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.secondary)
             .cornerRadius(10)
     }
 }

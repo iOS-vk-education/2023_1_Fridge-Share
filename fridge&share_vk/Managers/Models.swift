@@ -17,6 +17,22 @@ enum statusOfProduct: String {
     case given = "отдан"
 }
 
+enum statusOfRequest: String {
+    case waiting = "ждет ответа"
+    case allowed = "одобрено"
+    case denied = "отказано"
+}
+
+enum CategoriesOfProducts: String {
+    case milkAndEggs = "Молоко и яйца"
+    case sweets = "Сладкое"
+    case meatAndFish = "Мясо и рыба"
+    case fruitsAndVegs = "Фрукты и овощи"
+    case sauces = "Соусы"
+    case doneFood = "Готовая еда"
+    case drinks = "Напитки"
+}
+
 struct DormitoryData: Codable, Hashable {
     var name: String
     var address: String
@@ -43,6 +59,15 @@ struct ProductData: Codable, Hashable {
     var userId: String
     var status: statusOfProduct.RawValue
     var image: String
+    var category: CategoriesOfProducts.RawValue
+}
+
+struct RequestData: Codable, Hashable {
+    var id: String
+    var customerId: String
+    var ownerId: String
+    var productId: String
+    var status: statusOfRequest.RawValue
 }
 
 class UserData: ObservableObject, Codable {

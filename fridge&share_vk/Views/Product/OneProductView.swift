@@ -159,24 +159,112 @@ struct ProductDeleteButton: View {
 }
 
 struct ProductAskButton: View {
+    @Binding var status: String
+    @State var product: ProductData
+    @State var customerId: String
+    @State private var showingAlert = false
+    
+    @StateObject private var database = FireBase.shared
+    
     var body: some View {
-        Button(action: {}) {
-            Text("Попросить")
-                .foregroundColor(.white)
+        if status == statusOfProduct.available.rawValue {
+            Button(action: {
+                if status == statusOfProduct.available.rawValue {
+                    status = statusOfProduct.waiting.rawValue
+                    product.status = statusOfProduct.waiting.rawValue
+                    database.updateProduct(product: product) {_ in 
+                        
+                    }
+                    
+                    let request = RequestData(id: UUID().uuidString, customerId: customerId, ownerId: product.userId, productId: product.id, status: statusOfRequest.waiting.rawValue)
+                    
+                    database.addRequest(requestData: request)
+                    
+                    showingAlert = true
+                }
+            }) {
+                Text("Попросить")
+                    .foregroundColor(.white)
+            }
+            .buttonStyle(BlueButtonStyle())
+            .padding(35)
+            .cornerRadius(10)
+            .disabled(false)
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Запрос отправлен!"), dismissButton: .default(Text("OK")))
+            }
+        } else {
+            Button(action: {}) {
+                Text("Попросить")
+                    .foregroundColor(.white)
+            }
+            .buttonStyle(BlueDisabledButtonStyle())
+            .padding(35)
+            .cornerRadius(10)
+            .disabled(true)
         }
-        .buttonStyle(BlueButtonStyle())
-        .padding(35)
-        .cornerRadius(10)
     }
 }
 
+struct SimilarProductsView: View {
+    @StateObject var database = FireBase.shared
+    @State var product: ProductData
+    var body: some View {
+        VStack {
+            Divider()
+            
+            Text("Похожие продукты")
+                .font(.title)
+                .padding(20)
+            
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(similarProducts, id: \.id) { similarProduct in
+                        ProductSimilarImageView(product: similarProduct, imageName: similarProduct.image)
+                    }
+                }
+            }
+        }
+        
+        var similarProducts: [ProductData] {
+            return database.products.filter({ $0.category ==  product.category && $0.id != product.id })
+        }
+    }
+}
+
+struct ProductSimilarImageView: View {
+    @State private var productImage: UIImage?
+    @StateObject var database = FireBase.shared
+    @State var product: ProductData
+    let imageName: String
+    
+    var body: some View {
+        if let productImage = productImage {
+            NavigationLink(destination: OneProductView(product: product), label: {
+                Image(uiImage: productImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            })
+        } else {
+            ProgressView()
+                .frame(width: 150, height: 150)
+                .onAppear {
+                    database.uploadProduct(productName: imageName) { image in
+                        self.productImage = image
+                    }
+                }
+        }
+    }
+}
 
 struct OneProductView: View {
     @State var product: ProductData
     @State private var productImage: UIImage?
     @State private var profileImage: UIImage?
     @State private var username: String?
-    var database = FireBase.shared
+    @StateObject var database = FireBase.shared
     
     let userId = UserDefaults.standard.string(forKey: "userId")
     @State var owner = UserData()
@@ -197,8 +285,10 @@ struct OneProductView: View {
                     
                     ProductDeleteButton(product: product)
                 } else {
-                    ProductAskButton()
+                    ProductAskButton(status: $product.status, product: product, customerId: userId ?? "")
                 }
+                
+                SimilarProductsView(product: product)
        
             }
         }
@@ -206,8 +296,15 @@ struct OneProductView: View {
             FireBase.shared.getUserById(userId: product.userId) { user in
                 if let user = user {
                     owner = user
-                    FireBase.shared.uploadAvatar(avatarFileName: owner.avatar) { image in
-                        self.profileImage = image
+//                    FireBase.shared.uploadAvatar(avatarFileName: owner.avatar) { image in
+//                        self.profileImage = image
+//                    }
+                    if let cachedImage = ImageCache.shared.getImage(for: owner.avatar) {
+                        self.profileImage = cachedImage
+                    } else {
+                        database.uploadAvatar(avatarFileName: owner.avatar) { image in
+                            self.profileImage = image
+                        }
                     }
                     self.username = owner.name
                 } else {

@@ -1,22 +1,13 @@
-//
-//  NotificationView.swift
-//  fridge&share_vk
-//
-//  Created by Елизавета Шерман on 17.05.2024.
-//
-
 import SwiftUI
 import FirebaseFirestore
 import UserNotifications
 
 struct Notification: View {
-    @State private var listOfRequests: [RequestItem] = []
-    @State private var listOfAnswers: [AnswerItem] = []
-    @State private var filteredListOfAnswers: [AnswerItem] = []
     @State private var products: [ProductData] = []
-    private var db = Firestore.firestore()
     private let userId = UserDefaults.standard.string(forKey: "userId") ?? "defaultUserId"
 
+    @StateObject private var database = FireBase.shared
+    
     var body: some View {
         VStack {
             Text("Мои запросы")
@@ -24,13 +15,15 @@ struct Notification: View {
                 .padding(.top, 20)
 
             List {
-                ForEach(listOfRequests, id: \.id) { request in
-                    RequestRow(request: request)
+                ForEach(myRequests, id: \.id) { request in
+                    MyRequestRowView(request: request)
                 }
-                .onDelete(perform: deleteRequest)
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal, 10)
+//            .onAppear {
+//                database.getMyRequests(userId: userId)
+//            }
 
             Divider()
 
@@ -39,21 +32,30 @@ struct Notification: View {
                 .padding(.top, 20)
 
             List {
-                ForEach(filteredListOfAnswers, id: \.id) { answer in
-                    AnswerRow(answer: answer)
-                        .onTapGesture {
-                            self.answerTapped(answer: answer)
-                        }
+                ForEach(myAnswers, id: \.id) { answer in
+                    MyAnswersRowView(request: answer)
                 }
-                .onDelete(perform: deleteAnswer)
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal, 10)
+//            .onAppear {
+//                database.getMyAnswers(userId: userId)
+//            }
         }
         .onAppear {
+            database.getAllRequests()
         }
     }
 
+    var myRequests: [RequestData] {
+        return database.requests.filter({ $0.customerId == userId })
+//        return database.myRequests
+    }
+    
+    var myAnswers: [RequestData] {
+        return database.requests.filter({ $0.ownerId == userId && $0.status == statusOfRequest.waiting.rawValue })
+//        return database.myAnswers
+    }
     
     private func deleteRequest(at offsets: IndexSet) {
         // Your delete logic here
@@ -63,92 +65,17 @@ struct Notification: View {
         // Your delete logic here
     }
 
-    private func answerTapped(answer: AnswerItem) {
-        // Your answer tap logic here
+//    private func answerTapped(answer: AnswerItem) {
+//        // Your answer tap logic here
+//    }
+    
+    private func loadRequests() {
+        guard database.requests.isEmpty else { return }
+        
+        database.getAllRequests()
     }
 }
 
-// Дополнительные структуры для представлений и моделей
-struct RequestRow: View {
-    let request: RequestItem
-
-    var body: some View {
-        HStack {
-            Image(request.product.image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-
-            Text(request.product.name)
-                .font(.body)
-
-            Text(DateFormatter.localizedString(from: request.product.dateExploration, dateStyle: .short, timeStyle: .none))
-                .font(.subheadline)
-
-            if request.result {
-                Rectangle()
-                    .fill(Color.green)
-                    .frame(width: 10, height: 10)
-            } else {
-                Rectangle()
-                    .fill(Color.red)
-                    .frame(width: 10, height: 10)
-            }
-        }
-    }
-}
-
-struct AnswerRow: View {
-    let answer: AnswerItem
-
-    var body: some View {
-        HStack {
-            Image(answer.product.image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-
-            Text(answer.product.name)
-                .font(.body)
-
-            Text(DateFormatter.localizedString(from: answer.product.dateExploration, dateStyle: .short, timeStyle: .none))
-                .font(.subheadline)
-        }
-    }
-}
-
-// Модели запросов и ответов
-struct RequestItem: Identifiable {
-    var id: String
-    let product: ProductData
-    let result: Bool
-
-    init(product: ProductData, result: Bool) {
-        self.id = UUID().uuidString
-        self.product = product
-        self.result = result
-    }
-}
-
-struct AnswerItem: Identifiable {
-    var id: String
-    let product: ProductData
-    var answer: AnswerCase
-
-    init(id: String? = nil, product: ProductData, answer: AnswerCase = .noanswer) {
-        self.id = id ?? UUID().uuidString
-        self.product = product
-        self.answer = answer
-    }
-
-    mutating func makeAnswerAgree() {
-        answer = .agree
-    }
-
-    mutating func makeAnswerDisagree() {
-        answer = .disagree
-    }
-}
 
 enum AnswerCase: String, Codable {
     case agree = "agree"
@@ -200,3 +127,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         completionHandler()
     }
 }
+

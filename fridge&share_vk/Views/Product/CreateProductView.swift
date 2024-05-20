@@ -57,7 +57,7 @@ struct CreateProductView: View {
                     
                     Button(action: {
                         let id = UUID().uuidString
-                        let product = ProductData(id: id, name: productName, dateExploration: expirationDate, dateAdded: Date.now, userId: userId ?? "", status: statusOfProduct.available.rawValue, image: "\(id).jpeg")
+                        let product = ProductData(id: id, name: productName, dateExploration: expirationDate, dateAdded: Date.now, userId: userId ?? "", status: statusOfProduct.available.rawValue, image: "\(id).jpeg", category: categories[selectedCategoryIndex ?? 0])
                         
                         database.uploadProductImage(productName: product.image, image: selectedImage ?? UIImage()) {_ in
                             
