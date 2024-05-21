@@ -304,20 +304,6 @@ class FireBase: ObservableObject {
             print("Ошибка при добавлении пользователь: \(error.localizedDescription)")
         }
     }
-    
-    func uploadAvatar(completion: @escaping (UIImage) -> Void) {
-        let ref = storage.reference().child(Constants.avatars).child("acc9b03f77ce79cfae5f2f28e313ab7f.jpg")
-        ref.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-            if let _error = error{
-                print(_error)
-            } else {
-                if let _data  = data {
-                    let myImage:UIImage! = UIImage(data: _data)
-                    completion(myImage)
-                }
-            }
-        }
-    }
 
     func uploadAvatar(avatarFileName: String, completion: @escaping (UIImage?) -> Void) {
         let ref = self.storage.reference().child(Constants.avatars).child(avatarFileName)
@@ -372,6 +358,29 @@ class FireBase: ObservableObject {
         }
     }
     
+    func uploadAvatarImage(avatarName: String, image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let storageRef = Storage.storage().reference().child("avatars/\(avatarName)")
+        if let imageData = image.jpegData(compressionQuality: 0.4) {
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            
+            storageRef.putData(imageData, metadata: metadata) { metadata, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    storageRef.downloadURL { url, error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else if let url = url {
+                            completion(.success(url))
+                        }
+                    }
+                }
+            }
+        } else {
+            completion(.failure(NSError(domain: "ImageError", code: -2, userInfo: [NSLocalizedDescriptionKey: "Не удалось конвертировать изображение"])))
+        }
+    }
     
     func deleteProduct(productID: String) {
         // Удаляем продукт из таблицы products

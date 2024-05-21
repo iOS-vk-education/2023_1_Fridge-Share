@@ -21,7 +21,7 @@ struct LoaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 150, height: 150)
                     .rotationEffect(.degrees(rotationAngle))
-                    .animation(Animation.linear(duration: 5).repeatForever(autoreverses: false))
+                    .animation(Animation.linear(duration: 10).repeatForever(autoreverses: false))
                     .onAppear() {
                         self.rotationAngle = 360
                     }

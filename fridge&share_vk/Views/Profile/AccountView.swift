@@ -40,11 +40,7 @@ struct ProfileView: View {
                 .environmentObject(UserData())
         })
         .onAppear {
-//            userData.updateData()
             fetchUserProfile()
-//            database.uploadAvatar(avatarFileName: userData.avatar) { image in
-//                self.profileImage = image
-//            }
             if let cachedImage = ImageCache.shared.getImage(for: userData.avatar) {
                 self.profileImage = cachedImage
             } else {
@@ -76,6 +72,70 @@ struct ProfileView: View {
     }
 }
 
+//struct ProfileHeader: View {
+//    @Binding var profileImage: UIImage?
+//    @Binding var userName: String
+//    var floorNumber: Int
+//    var database = FireBase.shared
+//    @StateObject var user: UserData
+//    
+//    @State var isShowingImagePicker = false
+//    @State var selectedImage: UIImage?
+//    
+//    var body: some View {
+//        VStack {
+//            if let image = profileImage {
+//                Button(action: {
+//                    self.isShowingImagePicker = true
+//                }, label: {
+//                    Image(uiImage: image)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+//                        .clipShape(Circle())
+//                        .padding(.top, 30)
+//                })
+//                    .sheet(isPresented: $isShowingImagePicker) {
+//                        ImagePicker(selectedImage: self.$selectedImage)
+//                            .onDisappear {
+//                                // Сохраните изображение в базе данных
+//                                if let image = selectedImage {
+//                                    database.uploadAvatarImage(avatarName: user.avatar, image: image) { error in
+//                                        if error == nil {
+//                                            // Обновите изображение профиля после успешной загрузки
+//                                            self.profileImage = image
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                    }
+//            } else {
+//                Button(action: {
+//                    self.isShowingImagePicker = true
+//                }, label: {
+//                    Image(systemName: "person.crop.circle")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+//                        .padding(.top, 30)
+//                        .foregroundColor(.secondary)
+//                })
+//                    .sheet(isPresented: $isShowingImagePicker) {
+//                        ImagePicker(selectedImage: self.$selectedImage)
+//                    }
+//            }
+//            
+//            Text(userName)
+//                .font(.title)
+//                .padding(.top, 10)
+//            
+//            Text("Этаж №\(floorNumber)")
+//                .font(.headline)
+//                .padding(.top, 5)
+//        }
+//    }
+//}
+
 struct ProfileHeader: View {
     @Binding var profileImage: UIImage?
     @Binding var userName: String
@@ -83,6 +143,8 @@ struct ProfileHeader: View {
     var database = FireBase.shared
     @StateObject var user: UserData
     
+    @State private var isShowingImagePicker = false
+
     var body: some View {
         VStack {
             if let image = profileImage {
@@ -92,12 +154,12 @@ struct ProfileHeader: View {
                     .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
                     .clipShape(Circle())
                     .padding(.top, 30)
+                
             } else {
                 Image(systemName: "person.crop.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-//                    .clipShape(Circle())
                     .padding(.top, 30)
                     .foregroundColor(.secondary)
             }
@@ -112,6 +174,8 @@ struct ProfileHeader: View {
         }
     }
 }
+
+
 
 struct ProfileActions: View {
     private enum Constants {
@@ -259,3 +323,14 @@ struct BlueDisabledButtonStyle: ButtonStyle {
             .cornerRadius(10)
     }
 }
+
+
+class ImageLoader: ObservableObject {
+    @Published var image: UIImage?
+    
+    init(image: UIImage?) {
+        self.image = image
+    }
+}
+
+

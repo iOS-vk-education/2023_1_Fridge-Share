@@ -41,11 +41,15 @@ struct LoginView: View {
         VStack {
             Text(Constants.enterLabel)
             
-            TextField(Constants.email, text: $email)
+            TextField(Constants.email, text: $email) {
+                UIApplication.shared.endEditing()
+            }
                 .frame(width: Constants.fieldWidth, height: Constants.fieldHeight, alignment: .center)
                 .textFieldStyle(.roundedBorder)
             
-            SecureField(Constants.password, text: $password)
+            SecureField(Constants.password, text: $password) {
+                UIApplication.shared.endEditing()
+            }
                 .frame(width: Constants.fieldWidth, height: Constants.fieldHeight, alignment: .center)
                 .textFieldStyle(.roundedBorder)
             
@@ -78,6 +82,7 @@ struct LoginView: View {
                 })
             }
         }
+        .dismissKeyboardOnTap()
     }
     
     private func fetchUserProfile() {

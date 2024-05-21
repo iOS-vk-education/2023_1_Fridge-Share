@@ -8,6 +8,10 @@ struct Notification: View {
 
     @StateObject private var database = FireBase.shared
     
+    init() {
+            loadProducts()
+        }
+    
     var body: some View {
         VStack {
             Text("Мои запросы")
@@ -44,30 +48,50 @@ struct Notification: View {
         }
         .onAppear {
             database.getAllRequests()
+            loadProducts()
+
         }
     }
+    
+    private func loadProducts() {
+                self.scheduleNotificationsForProducts()
+        }
+        
+        private func scheduleNotificationsForProducts() {
+            for product in products {
+                scheduleNotification(for: product)
+            }
+        }
+        
+        private func scheduleNotification(for product: ProductData) {
+            print("Scheduling notification for product: \(product.name)")
 
+            let content = UNMutableNotificationContent()
+            content.title = "Срок годности истекает"
+            content.body = "Срок годности продукта \(product.name) истекает через 2 дня."
+            content.sound = UNNotificationSound.default
+
+            let calendar = Calendar.current
+            let triggerDate = calendar.date(byAdding: .day, value: -2, to: product.dateExploration) ?? Date()
+            let triggerComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: triggerDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerComponents, repeats: false)
+
+            let request = UNNotificationRequest(identifier: product.id, content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error adding notification: \(error.localizedDescription)")
+                }
+            }
+        }
+    
     var myRequests: [RequestData] {
         return database.requests.filter({ $0.customerId == userId })
-//        return database.myRequests
     }
     
     var myAnswers: [RequestData] {
         return database.requests.filter({ $0.ownerId == userId && $0.status == statusOfRequest.waiting.rawValue })
-//        return database.myAnswers
     }
-    
-    private func deleteRequest(at offsets: IndexSet) {
-        // Your delete logic here
-    }
-
-    private func deleteAnswer(at offsets: IndexSet) {
-        // Your delete logic here
-    }
-
-//    private func answerTapped(answer: AnswerItem) {
-//        // Your answer tap logic here
-//    }
     
     private func loadRequests() {
         guard database.requests.isEmpty else { return }
@@ -93,7 +117,7 @@ func requestNotificationAuthorization() {
         guard granted else { return }
     }
 }
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if granted {
@@ -102,29 +126,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             } else {
                 print("User denied permission for notifications")
             }
+            UNUserNotificationCenter.current().delegate = self
+
         }
         application.registerForRemoteNotifications()
         return true
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("Device token:", token)
-        // Send this device token to your server
-    }
-
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for remote notifications:", error.localizedDescription)
-    }
-
+}
+extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Handle notification when app is in foreground
-        completionHandler([.banner, .sound, .badge])
-    }
-
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // Handle user's response to the notification
-        completionHandler()
+        completionHandler([.alert, .sound])
     }
 }
 

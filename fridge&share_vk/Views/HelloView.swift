@@ -28,6 +28,7 @@ struct HelloView: View {
         NavigationView {
             if isLoggedIn {
                 TabBar(userData: _userData)
+                    .environmentObject(userData)
             } else {
                 VStack {
                     Text(Constants.helloLabel)
@@ -41,7 +42,8 @@ struct HelloView: View {
                         .padding()
                     
                     NavigationLink(
-                        destination: RegistrationView(rootIsActive: self.$registrationIsActive, isLoggedIn: self.$isLoggedIn),
+                        destination: RegistrationView(rootIsActive: self.$registrationIsActive, isLoggedIn: self.$isLoggedIn)
+,
                         isActive: self.$registrationIsActive
                     ) {
                         Text(Constants.registrateButton)

@@ -20,13 +20,14 @@ struct dataBaseApp: App {
     }
     
     @StateObject var fireBase = FireBase.shared
+    @State var userData: UserData? // User data
+    @State var userId = UserDefaults.standard.string(forKey: Constants.userId)
     
-    @State var userData: UserData?
-    let isLoggedIn = UserDefaults.standard.bool(forKey: Constants.isLoggedIn)
-    let userId = UserDefaults.standard.string(forKey: Constants.userId)
-
     init() {
         FirebaseApp.configure()
+        
+        userId = UserDefaults.standard.string(forKey: Constants.userId)
+
         fireBase.getAllDormitories()
     }
 
@@ -34,14 +35,14 @@ struct dataBaseApp: App {
         WindowGroup {
             if fireBase.isLoading {
                 LoaderView()
-            } else {
-                if isLoggedIn {
-                    if let userId = userId {
-                        let _: ()? = FireBase.shared.getUserById(userId: userId) { user in
-                            userData = user
+                    .onAppear {
+                        if let userId = userId {
+                            FireBase.shared.getUserById(userId: userId) { user in
+                                self.userData = user
+                            }
                         }
                     }
-                }
+            } else {
                 HelloView()
                     .environmentObject(userData ?? UserData())
             }
@@ -50,3 +51,8 @@ struct dataBaseApp: App {
 }
 
 
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}

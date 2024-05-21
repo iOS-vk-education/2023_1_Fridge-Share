@@ -1,61 +1,5 @@
-////
-////  SearchView.swift
-////  fridge&share_vk
-////
-////  Created by Елизавета Шерман on 17.04.2024.
-////
-//
 import SwiftUI
-//
-//struct SearchView: View {
-//    private enum Constants {
-//        static let navigationTitle = "Ищем продукт"
-//    }
-//    
-//    @State private var searchText = ""
-//    @State private var searchIsActive = false
-//    
-//    @StateObject var database = FireBase.shared
-//    
-//    var body: some View {
-//        if #available(iOS 16.0, *) {
-//            if #available(iOS 17.0, *) {
-//                NavigationStack {
-//                    List {
-//                        ForEach(searchResults, id: \.self) { product in
-//                            NavigationLink {
-//                                OneProductView(product: product)
-//                            } label: {
-//                                ProductRowView(product: product)
-//                            }
-//                        }
-//                    }
-//                    .navigationTitle(Constants.navigationTitle)
-//                    .onAppear {
-//                        database.getAllProducts()
-//                    }
-//                }
-//                .searchable(text: $searchText, isPresented: $searchIsActive)
-//            } else {
-//                
-//            }
-//        } else {
-//            
-//        }
-//    }
-//    
-//    var searchResults: [ProductData] {
-//        if searchText.isEmpty {
-//            return database.products
-//        } else {
-//            return database.products.filter { $0.name.contains(searchText) }
-//        }
-//    }
-//}
-//
-//#Preview {
-//    SearchView()
-//}
+
 struct SearchView: View {
     private enum Constants {
         static let navigationTitle = "Ищем продукт"
@@ -68,56 +12,60 @@ struct SearchView: View {
     @StateObject var database = FireBase.shared
     
     var body: some View {
-        if #available(iOS 16.0, *) {
-            if #available(iOS 17.0, *) {
-                NavigationStack {
-                    VStack {
-                        HStack {
-                            SearchFilterBar(text: $searchText, isShowingCategories: $isShowingCategories)
-                            Button(action: {
-                                isShowingCategories.toggle()
-                            }) {
-                                Image(systemName: "square.grid.2x2")
-                            }
+        
+        NavigationStack {
+            VStack {
+                SearchFilterBar(text: $searchText, isShowingCategories: $isShowingCategories)
+                
+                if isShowingCategories {
+                    CategoriesFilterView(selectedCategory: $selectedCategory)
+                }
+                
+                Spacer()
+                
+                List {
+                    ForEach(searchResults, id: \.self) { product in
+                        NavigationLink {
+                            OneProductView(product: product)
+                        } label: {
+                            ProductRowView(product: product)
                         }
-                        
-                        if isShowingCategories {
-                            CategoriesFilterView(selectedCategory: $selectedCategory)
-                        }
-                        
-                        Spacer()
-                        
-                        List {
-                            ForEach(searchResults, id: \.self) { product in
-                                NavigationLink {
-                                    OneProductView(product: product)
-                                } label: {
-                                    ProductRowView(product: product)
-                                }
-                            }
-                        }
-                    }
-                    .navigationTitle(Constants.navigationTitle)
-                    .onAppear {
-                        database.getAllProducts()
                     }
                 }
-                .searchable(text: $searchText)
-            } else {
-                
+                .listStyle(.plain)
             }
-        } else {
-            
+            .navigationTitle(Constants.navigationTitle)
+            .onAppear {
+                database.getAllProducts()
+            }
         }
+        
+        
     }
     
     var searchResults: [ProductData] {
         if searchText.isEmpty {
-            return database.products
+            if let selectedCategory = selectedCategory {
+                if selectedCategory == "Сбросить фильтры" {
+                    return database.products
+                }
+                return database.products.filter { $0.category == selectedCategory }
+            } else {
+                return database.products
+            }
         } else {
-            return database.products.filter { $0.name.contains(searchText) }
+            if let selectedCategory = selectedCategory {
+                if selectedCategory == "Сбросить фильтры" {
+                    return database.products.filter { $0.name.contains(searchText) }
+                }
+                return database.products.filter { $0.name.contains(searchText) && $0.category == selectedCategory }
+            } else {
+                return database.products.filter { $0.name.contains(searchText) }
+            }
         }
     }
+
+
 }
 
 struct SearchFilterBar: View {
@@ -126,7 +74,10 @@ struct SearchFilterBar: View {
 
     var body: some View {
         HStack {
-            TextField("что хотите найти?", text: $text)
+            TextField("что хотите найти?", text: $text) {
+                UIApplication.shared.endEditing()
+            }
+                .dismissKeyboardOnTap()
                 .padding(8)
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
@@ -156,7 +107,8 @@ struct SearchFilterBar: View {
 struct CategoriesFilterView: View {
     let categories = [
         "Молоко и яйца", "Сладкое", "Мясо и рыба",
-        "Фрукты и овощи", "Соусы", "Готовая еда", "Напитки"
+        "Фрукты и овощи", "Соусы", "Готовая еда", "Напитки",
+        "Сбросить фильтры"
     ]
     
     @Binding var selectedCategory: String?
@@ -193,5 +145,25 @@ struct CategoriesFilterView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView()
+    }
+}
+
+
+struct DismissKeyboardModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .onTapGesture {
+                self.dismissKeyboard()
+            }
+    }
+    
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+extension View {
+    func dismissKeyboardOnTap() -> some View {
+        self.modifier(DismissKeyboardModifier())
     }
 }
