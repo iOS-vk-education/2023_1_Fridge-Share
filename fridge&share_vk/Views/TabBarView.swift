@@ -11,9 +11,9 @@ struct TabBar: View {
     private enum Constants {
         static let maps = "Maps"
         static let mapIcon = "map.fill"
-        static let search = "Search"
+        static let search = "Поиск"
         static let searchIcon = "magnifyingglass"
-        static let profile = "Profile"
+        static let profile = "Профиль"
         static let profileIcon = "person.fill"
     }
     
@@ -32,9 +32,4 @@ struct TabBar: View {
         }
     }
 }
-
-//#Preview {
-//    TabBar()
-//        .environmentObject(userData)
-//}
 

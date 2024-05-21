@@ -1,10 +1,6 @@
 import SwiftUI
 
 struct SearchView: View {
-    private enum Constants {
-        static let navigationTitle = "Ищем продукт"
-    }
-    
     @State private var searchText = ""
     @State private var isShowingCategories = false
     @State var selectedCategory: String?
@@ -34,38 +30,30 @@ struct SearchView: View {
                 }
                 .listStyle(.plain)
             }
-            .navigationTitle(Constants.navigationTitle)
+            .navigationTitle("Ищем продукт")
             .onAppear {
                 database.getAllProducts()
             }
         }
-        
-        
     }
     
     var searchResults: [ProductData] {
+        let lowercasedSearchText = searchText.lowercased()
+        
         if searchText.isEmpty {
             if let selectedCategory = selectedCategory {
-                if selectedCategory == "Сбросить фильтры" {
-                    return database.products
-                }
                 return database.products.filter { $0.category == selectedCategory }
             } else {
                 return database.products
             }
         } else {
             if let selectedCategory = selectedCategory {
-                if selectedCategory == "Сбросить фильтры" {
-                    return database.products.filter { $0.name.contains(searchText) }
-                }
-                return database.products.filter { $0.name.contains(searchText) && $0.category == selectedCategory }
+                return database.products.filter { $0.name.lowercased().contains(lowercasedSearchText) && $0.category == selectedCategory }
             } else {
-                return database.products.filter { $0.name.contains(searchText) }
+                return database.products.filter { $0.name.lowercased().contains(lowercasedSearchText) }
             }
         }
     }
-
-
 }
 
 struct SearchFilterBar: View {
@@ -81,10 +69,6 @@ struct SearchFilterBar: View {
                 .padding(8)
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.secondary, lineWidth: 1)
-                )
                 .onTapGesture {
                     if text == "что хотите найти?" {
                         text = ""
@@ -107,8 +91,7 @@ struct SearchFilterBar: View {
 struct CategoriesFilterView: View {
     let categories = [
         "Молоко и яйца", "Сладкое", "Мясо и рыба",
-        "Фрукты и овощи", "Соусы", "Готовая еда", "Напитки",
-        "Сбросить фильтры"
+        "Фрукты и овощи", "Готовая еда", "Соусы", "Напитки"
     ]
     
     @Binding var selectedCategory: String?
@@ -119,9 +102,11 @@ struct CategoriesFilterView: View {
                 .font(.headline)
                 .padding(.horizontal)
                 .padding(.top)
+                .padding(.bottom)
+            
             
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 5)], spacing: 10) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 145), spacing: 5)], spacing: 10) {
                     ForEach(categories, id: \.self) { category in
                         Text(category)
                             .padding(.vertical, 10)
@@ -130,11 +115,14 @@ struct CategoriesFilterView: View {
                             .foregroundColor(selectedCategory == category ? .white : .primary)
                             .cornerRadius(20)
                             .onTapGesture {
-                                selectedCategory = category
+                                if selectedCategory == category {
+                                    selectedCategory = nil // Сбрасываем фильтр при повторном нажатии на выбранную категорию
+                                } else {
+                                    selectedCategory = category
+                                }
                             }
                     }
                 }
-                .padding(.horizontal)
             }
         }
         .background(Color(.systemBackground))
@@ -147,7 +135,6 @@ struct ContentView_Previews: PreviewProvider {
         SearchView()
     }
 }
-
 
 struct DismissKeyboardModifier: ViewModifier {
     func body(content: Content) -> some View {

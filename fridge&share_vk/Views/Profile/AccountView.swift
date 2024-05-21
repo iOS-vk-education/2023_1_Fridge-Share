@@ -19,7 +19,8 @@ struct ProfileView: View {
     @State private var profileImage: UIImage?
     
     @State private var showingHelloView = false
-    
+    @State private var isDarkMode = false // Переменная для хранения текущей темы
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -28,31 +29,43 @@ struct ProfileView: View {
                     
                     Spacer()
                     
-                    ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, showingHelloView: $showingHelloView, user: userData)
+                    ProfileActions(showingListOfMyProducts: $showingListOfMyProducts, showingFridge: $showingFridge, showingRequests: $showingRequests, showingLogin: $showingLogin, showingHelloView: $showingHelloView, isDarkMode: $isDarkMode, user: userData)
                 }
                 .background(Color(UIColor.systemBackground))
             }
             .padding()
             .background(Color(UIColor.systemBackground))
-        }
-        .fullScreenCover(isPresented: $showingHelloView, content: {
-            HelloView()
-                .environmentObject(UserData())
-        })
-        .onAppear {
-            fetchUserProfile()
-            if let cachedImage = ImageCache.shared.getImage(for: userData.avatar) {
-                self.profileImage = cachedImage
-            } else {
-                database.uploadAvatar(avatarFileName: userData.avatar) { image in
-                    self.profileImage = image
+            .navigationBarItems(trailing:
+                Button(action: {
+                    isDarkMode.toggle() // Переключение темы
+                }) {
+                    Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill")
+                        .foregroundColor(isDarkMode ? .white : .black) // Цвет иконки
+                        .font(.title)
+                }
+            )
+            .fullScreenCover(isPresented: $showingHelloView, content: {
+                HelloView()
+                    .environmentObject(UserData())
+            })
+            .onAppear {
+                fetchUserProfile()
+                if let cachedImage = ImageCache.shared.getImage(for: userData.avatar) {
+                    self.profileImage = cachedImage
+                } else {
+                    database.uploadAvatar(avatarFileName: userData.avatar) { image in
+                        self.profileImage = image
+                    }
+                }
+                database.getFloorById(floorId: userData.floor) { floor in
+                    self.floorNumber = floor?.number ?? 0
                 }
             }
-            database.getFloorById(floorId: userData.floor) { floor in
-                self.floorNumber = floor?.number ?? 0
-            }
+            .preferredColorScheme(isDarkMode ? .dark : .light) // Применение текущей темы
         }
     }
+
+
     
     private func fetchUserProfile() {
         if let userId = UserDefaults.standard.string(forKey: "userId") {
@@ -72,69 +85,6 @@ struct ProfileView: View {
     }
 }
 
-//struct ProfileHeader: View {
-//    @Binding var profileImage: UIImage?
-//    @Binding var userName: String
-//    var floorNumber: Int
-//    var database = FireBase.shared
-//    @StateObject var user: UserData
-//    
-//    @State var isShowingImagePicker = false
-//    @State var selectedImage: UIImage?
-//    
-//    var body: some View {
-//        VStack {
-//            if let image = profileImage {
-//                Button(action: {
-//                    self.isShowingImagePicker = true
-//                }, label: {
-//                    Image(uiImage: image)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-//                        .clipShape(Circle())
-//                        .padding(.top, 30)
-//                })
-//                    .sheet(isPresented: $isShowingImagePicker) {
-//                        ImagePicker(selectedImage: self.$selectedImage)
-//                            .onDisappear {
-//                                // Сохраните изображение в базе данных
-//                                if let image = selectedImage {
-//                                    database.uploadAvatarImage(avatarName: user.avatar, image: image) { error in
-//                                        if error == nil {
-//                                            // Обновите изображение профиля после успешной загрузки
-//                                            self.profileImage = image
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                    }
-//            } else {
-//                Button(action: {
-//                    self.isShowingImagePicker = true
-//                }, label: {
-//                    Image(systemName: "person.crop.circle")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-//                        .padding(.top, 30)
-//                        .foregroundColor(.secondary)
-//                })
-//                    .sheet(isPresented: $isShowingImagePicker) {
-//                        ImagePicker(selectedImage: self.$selectedImage)
-//                    }
-//            }
-//            
-//            Text(userName)
-//                .font(.title)
-//                .padding(.top, 10)
-//            
-//            Text("Этаж №\(floorNumber)")
-//                .font(.headline)
-//                .padding(.top, 5)
-//        }
-//    }
-//}
 
 struct ProfileHeader: View {
     @Binding var profileImage: UIImage?
@@ -190,9 +140,8 @@ struct ProfileActions: View {
     @Binding var showingRequests: Bool
     @Binding var showingLogin: Bool
     @Binding var showingHelloView: Bool
-    
-//    @State var isShowingImagePicker = false
-//    @State var selectedImage: UIImage?
+    @Binding var isDarkMode: Bool
+
     
     var database = FireBase.shared
     @StateObject var user: UserData
@@ -205,7 +154,7 @@ struct ProfileActions: View {
                 NavigationLink(destination: MyProducts(user: user),
                                label: {
                     Text(Constants.myProducts)
-                        .foregroundColor(.black)
+                        .foregroundColor(isDarkMode ? .white : .black) // Цвет текста в зависимости от темы
                 })
             })
             .buttonStyle(DefaultButtonStyle())
@@ -216,7 +165,7 @@ struct ProfileActions: View {
                 NavigationLink(destination: MyFridge(user: user),
                                label: {
                     Text(Constants.myFridge)
-                        .foregroundColor(.black)
+                        .foregroundColor(isDarkMode ? .white : .black) // Цвет текста в зависимости от темы
                 })
             })
             .buttonStyle(DefaultButtonStyle())
@@ -227,29 +176,18 @@ struct ProfileActions: View {
                 NavigationLink(destination: Notification(),
                                label: {
                     Text(Constants.notification)
-                        .foregroundColor(.black)
+                        .foregroundColor(isDarkMode ? .white : .black) // Цвет текста в зависимости от темы
                 })
             })
             .buttonStyle(DefaultButtonStyle())
+            .foregroundColor(isDarkMode ? .white : .black) // Цвет текста в зависимости от темы
             
-//            Button(action: {
-//                self.isShowingImagePicker = true
-//            }, label: {
-//                Text("Изменить фото профиля")
-//                    .foregroundColor(.black)
-//                
-//            })
-//            .buttonStyle(DefaultButtonStyle())
-//            
-//            .sheet(isPresented: $isShowingImagePicker) {
-//                ImagePicker(selectedImage: self.$selectedImage)
-//            }
-           //NavigationButton(title: Constants.notification, action: { self.showingRequests = true })
             LogoutButton(showingLogin: $showingLogin, showingHelloView: $showingHelloView)
                 .padding(.top, Constants.padding)
         }
     }
 }
+
 
 struct NavigationButton: View {
     let title: String

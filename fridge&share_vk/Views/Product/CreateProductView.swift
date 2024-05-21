@@ -121,13 +121,6 @@ struct CategoriesView: View {
     }
 }
 
-
-//struct AddProductView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateProductView()
-//    }
-//}
-
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Environment(\.presentationMode) var presentationMode

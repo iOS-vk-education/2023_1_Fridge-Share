@@ -59,15 +59,7 @@ class FireBase: ObservableObject {
             print("Ошибка при добавлении общежития: \(error.localizedDescription)")
         }
     }
-    
-//    func addProduct(productData: ProductData) {
-//        do {
-//            let documentRef = try database.collection(Constants.products).addDocument(from: productData)
-//            print("Продукт успешно добавлено с идентификатором: \(documentRef.documentID)")
-//        } catch {
-//            print("Ошибка при добавлении продукта: \(error.localizedDescription)")
-//        }
-//    }
+
     func addProduct(productData: ProductData) {
         do {
             let documentRef = try database.collection(Constants.products).document(productData.id).setData(from: productData)

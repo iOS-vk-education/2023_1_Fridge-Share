@@ -8,10 +8,6 @@ struct Notification: View {
 
     @StateObject private var database = FireBase.shared
     
-    init() {
-            loadProducts()
-        }
-    
     var body: some View {
         VStack {
             Text("Мои запросы")
@@ -25,9 +21,6 @@ struct Notification: View {
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal, 10)
-//            .onAppear {
-//                database.getMyRequests(userId: userId)
-//            }
 
             Divider()
 
@@ -42,48 +35,12 @@ struct Notification: View {
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal, 10)
-//            .onAppear {
-//                database.getMyAnswers(userId: userId)
-//            }
         }
         .onAppear {
             database.getAllRequests()
-            loadProducts()
-
+            scheduleRegularNotifications()
         }
     }
-    
-    private func loadProducts() {
-                self.scheduleNotificationsForProducts()
-        }
-        
-        private func scheduleNotificationsForProducts() {
-            for product in products {
-                scheduleNotification(for: product)
-            }
-        }
-        
-        private func scheduleNotification(for product: ProductData) {
-            print("Scheduling notification for product: \(product.name)")
-
-            let content = UNMutableNotificationContent()
-            content.title = "Срок годности истекает"
-            content.body = "Срок годности продукта \(product.name) истекает через 2 дня."
-            content.sound = UNNotificationSound.default
-
-            let calendar = Calendar.current
-            let triggerDate = calendar.date(byAdding: .day, value: -2, to: product.dateExploration) ?? Date()
-            let triggerComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: triggerDate)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerComponents, repeats: false)
-
-            let request = UNNotificationRequest(identifier: product.id, content: content, trigger: trigger)
-
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error = error {
-                    print("Error adding notification: \(error.localizedDescription)")
-                }
-            }
-        }
     
     var myRequests: [RequestData] {
         return database.requests.filter({ $0.customerId == userId })
@@ -98,8 +55,24 @@ struct Notification: View {
         
         database.getAllRequests()
     }
-}
+    
+    private func scheduleRegularNotifications() {
+            let content = UNMutableNotificationContent()
+            content.title = "Напоминание"
+            content.body = "Проверьте сроки годности продуктов."
+            content.sound = UNNotificationSound.default
 
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60 * 3, repeats: true)
+
+            let request = UNNotificationRequest(identifier: "regularCheck", content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error adding regular notification: \(error.localizedDescription)")
+                }
+            }
+        }
+}
 
 enum AnswerCase: String, Codable {
     case agree = "agree"
@@ -108,7 +81,6 @@ enum AnswerCase: String, Codable {
 }
 
 func requestNotificationAuthorization() {
-    
     let nc = UNUserNotificationCenter.current()
     let options: UNAuthorizationOptions = [.alert, .sound, .badge]
     
@@ -117,6 +89,7 @@ func requestNotificationAuthorization() {
         guard granted else { return }
     }
 }
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -127,16 +100,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("User denied permission for notifications")
             }
             UNUserNotificationCenter.current().delegate = self
-
         }
         application.registerForRemoteNotifications()
         return true
     }
-
 }
+
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
     }
 }
-
